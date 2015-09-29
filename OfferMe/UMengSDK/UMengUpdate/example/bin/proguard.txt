@@ -1,0 +1,23 @@
+# view res/layout/activity_navigation_drawer_empty.xml #generated:25
+# view res/layout/umeng_example_update_main.xml #generated:19
+-keep class android.support.v4.widget.DrawerLayout { <init>(...); }
+
+# view res/layout/activity_navigation_drawer_empty.xml #generated:22
+# view res/layout/activity_singlepane_empty.xml #generated:23
+-keep class com.markupartist.android.widget.ActionBar { <init>(...); }
+
+# view res/layout/actionbar.xml #generated:97
+-keep class com.markupartist.android.widget.ScrollingTextView { <init>(...); }
+
+# view AndroidManifest.xml #generated:15
+-keep class com.umeng.example.update.UpdateHome { <init>(...); }
+
+# view res/layout/umeng_example_home_dashboard_fragment.xml #generated:1
+-keep class com.umeng.ui.widget.DashboardLayout { <init>(...); }
+
+# view AndroidManifest.xml #generated:26
+-keep class com.umeng.update.UpdateDialogActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:43
+-keep class com.umeng.update.net.DownloadingService { <init>(...); }
+

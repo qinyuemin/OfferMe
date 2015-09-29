@@ -1,0 +1,338 @@
+package com.offerme.client.activity;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalDataBase;
+import com.offerme.client.localdata.LocalPersonInfo;
+import com.offerme.client.service.SendMessageSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.chat.ChatFriend;
+import com.offerme.client.service.chat.ChatMessage;
+
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+
+public class ChatActivity extends ActionBarActivity {
+
+	public static final String FRIEND = "FRIEND";
+
+	private ChatFriend friend;
+
+	private LocalPersonInfo personInfo = LocalPersonInfo.getInstance(this);
+	private SendMessageSrvc sendMessageSrvc = SendMessageSrvc.getInstance();
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+
+	private static boolean isActive = false;
+
+	private Handler handler;
+
+	private TextView friendName;
+	private EditText content;
+	// 聊天内容的适配器
+	private ChatMsgViewAdapter mAdapter;
+	private ListView mListView;
+	// 聊天的内容
+	private List<ChatMessage> chatMessageList = new ArrayList<ChatMessage>();
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		Log.v("Debug", "YYYYYYYYYYYYYYYYYYYYYYYYY");
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_chat);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(R.layout.activity_chat_actionbar);
+		getSupportActionBar().setBackgroundDrawable(
+				new ColorDrawable(Color.parseColor("#1e90d2")));
+		initView();
+		initData();
+
+		this.handler = new MyHandler(this, friend);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		isActive = true;
+		new RefreshChatMessage(this.handler).start();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		isActive = false;
+	}
+
+	@Override
+	protected void onDestroy() {
+		// Remove all Runnable and Message.
+		this.handler.removeCallbacksAndMessages(null);
+		super.onDestroy();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		// getMenuInflater().inflate(R.menu.chat, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		utilSrvc.gotoLoggedInFromChat(this);
+		return;
+	}
+	
+	// 初始化视图
+	private void initView() {
+		mListView = (ListView) findViewById(R.id.chat_message_list);
+		friendName = (TextView) findViewById(R.id.chat_bar_title);
+		content = (EditText) findViewById(R.id.chat_sendmessage);
+	}
+
+	// 初始化要显示的数据
+	private void initData() {
+
+		// init friend info
+		Intent intent = this.getIntent();
+		friend = (ChatFriend) intent.getSerializableExtra(FRIEND);
+		if (friend != null) {
+			Log.v("Debug","WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW: "+friend.getName());
+			friendName.setText(friend.getName());
+			/*
+			 * 此处历史消息不能写死啊！
+			 */
+			/*
+			  ChatMessage historyMessage = new ChatMessage();
+			  historyMessage.setName(friend.getName());
+			  historyMessage.setComMsg(true);
+			  historyMessage.setText("hello!!");
+			  historyMessage.setDate("2014-03-01 12:32");
+			  chatMessageList.add(historyMessage); historyMessage = new
+			  ChatMessage();
+			  historyMessage.setName(personInfo.getValue(LocalPersonInfo
+			  .USERID)); historyMessage.setComMsg(false);
+			  historyMessage.setText("hello");
+			  historyMessage.setDate("2014-03-01 12:34");
+			  chatMessageList.add(historyMessage);
+			 */
+		}
+		mAdapter = new ChatMsgViewAdapter(this, chatMessageList);
+		mListView.setAdapter(mAdapter);
+	}
+
+	public void updateChatList(List<ChatMessage> chatMessages) {
+		if (chatMessages != null && !chatMessages.isEmpty()) {
+			chatMessageList.addAll(chatMessages);
+			mAdapter.notifyDataSetChanged();
+			mListView.setSelection(mListView.getCount() - 1);
+		}
+	}
+
+	public void sendMessage(View view) {
+		String contString = content.getText().toString();
+		if (contString.length() > 0 && friend != null) {
+			ChatMessage chatMessage = new ChatMessage();
+			chatMessage.setDate(getDate());
+			chatMessage.setLocalUserId(Integer.parseInt(personInfo
+					.getValue(LocalPersonInfo.USERID)));
+			chatMessage.setUserId(friend.getFriendId());
+			chatMessage.setName("");
+			chatMessage.setComMsg(false);
+			chatMessage.setText(contString);
+			chatMessageList.add(chatMessage);
+			mAdapter.notifyDataSetChanged();
+			content.setText("");
+			mListView.setSelection(mListView.getCount() - 1);
+			// send message to server
+			if (utilSrvc.isNetworkConnected(this)) {
+				sendMessageSrvc.sendMessage(this, chatMessage);
+			} else {
+				utilSrvc.showConnectDialog(this);
+			}
+			// chatSrvc.sendMessage(chatMessage, this);
+		}
+	}
+
+	public static boolean isChatActivityActive() {
+		return isActive;
+	}
+
+	public void backToFriendList(View view) {
+		Log.v("Debug","IIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+		utilSrvc.gotoLoggedInFromChat(this);
+	}
+
+	private String getDate() {
+		Calendar c = Calendar.getInstance();
+		String year = String.valueOf(c.get(Calendar.YEAR));
+		String month = String.valueOf(c.get(Calendar.MONTH));
+		String day = String.valueOf(c.get(Calendar.DAY_OF_MONTH) + 1);
+		String hour = String.valueOf(c.get(Calendar.HOUR_OF_DAY));
+		String mins = String.valueOf(c.get(Calendar.MINUTE));
+		StringBuffer sbBuffer = new StringBuffer();
+		sbBuffer.append(year + "-" + month + "-" + day + " " + hour + ":"
+				+ mins);
+		return sbBuffer.toString();
+	}
+
+	private class ChatMsgViewAdapter extends BaseAdapter {
+
+		int IMVT_COM_MSG = 0;
+		int IMVT_TO_MSG = 1;
+
+		private List<ChatMessage> data;
+		private LayoutInflater mInflater;
+
+		public TextView tvSendTime;
+		public TextView tvUserName;
+		public TextView tvContent;
+
+		public ChatMsgViewAdapter(Context context, List<ChatMessage> data) {
+			this.data = data;
+			mInflater = LayoutInflater.from(context);
+		}
+
+		// 获取ListView的项个数
+		public int getCount() {
+			return data.size();
+		}
+
+		// 获取项
+		public Object getItem(int position) {
+			return data.get(position);
+		}
+
+		// 获取项的ID
+		public long getItemId(int position) {
+			return position;
+		}
+
+		// 获取项的类型
+		public int getItemViewType(int position) {
+			ChatMessage entity = data.get(position);
+			if (entity.isComMsg()) {
+				return IMVT_COM_MSG;
+			} else {
+				return IMVT_TO_MSG;
+			}
+		}
+
+		// 获取项的类型数
+		public int getViewTypeCount() {
+			return 2;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+
+			ChatMessage entity = data.get(position);
+			boolean isComMsg = entity.isComMsg();
+			if (isComMsg) {
+				convertView = mInflater.inflate(R.layout.activity_chat_left,
+						null);
+			} else {
+				convertView = mInflater.inflate(R.layout.activity_chat_right,
+						null);
+			}
+
+			tvSendTime = (TextView) convertView.findViewById(R.id.tv_sendtime);
+			tvUserName = (TextView) convertView.findViewById(R.id.tv_username);
+			tvContent = (TextView) convertView
+					.findViewById(R.id.tv_chatcontent);
+
+			tvSendTime.setText(entity.getDate());
+			tvUserName.setText(entity.getName());
+			tvContent.setText(entity.getText());
+
+			return convertView;
+		}
+
+	}
+
+	static class MyHandler extends Handler {
+		// WeakReference to the outer class's instance.
+		private WeakReference<ChatActivity> mOuter;
+		private ChatFriend friendHandler;
+
+		public MyHandler(ChatActivity activity, ChatFriend friend) {
+			mOuter = new WeakReference<ChatActivity>(activity);
+			friendHandler = friend;
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			ChatActivity outer = mOuter.get();
+			if (outer != null) {
+				switch (msg.what) {
+				case 1:
+					if (friendHandler != null) {
+						List<ChatMessage> chatMessages = LocalDataBase
+								.getInstance(outer).findChatMessageBySender(
+										friendHandler.getFriendId(), true);
+						outer.updateChatList(chatMessages);
+					}
+					break;
+				}
+				super.handleMessage(msg);
+			}
+		}
+	}
+
+	private class RefreshChatMessage extends Thread {
+		private Handler handler;
+
+		public RefreshChatMessage(Handler handler) {
+			this.handler = handler;
+		}
+
+		@Override
+		public void run() {
+
+			while (isActive) {
+				try {
+					sleep(5 * 1000);
+					Message message = new Message();
+					message.what = 1;// Magic number is not good!
+					handler.sendMessage(message);
+				} catch (InterruptedException e) {
+
+				}
+			}
+		}
+	}
+
+}

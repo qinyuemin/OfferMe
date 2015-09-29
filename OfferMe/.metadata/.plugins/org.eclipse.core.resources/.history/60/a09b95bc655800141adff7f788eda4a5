@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border"
+        android:onClick="gotoChatSystemPage"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp" >
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp" >
+
+                <ImageView
+                    android:id="@+id/chat_list_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/chat_list_system"
+                    android:padding="5dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/message" />
+
+                <ImageView
+                    android:id="@+id/chat_new_system_message"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/redpoint"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/chat_list_system_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:textColor="#393939"
+                        android:textSize="15sp"
+                        android:text="@string/chat_list_system" />
+
+                    <TextView
+                        android:id="@+id/chat_list_system_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:textColor="#999999"
+                        android:textSize="12sp"
+                        android:text="@string/chat_list_system" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/chat_list_system_arrow"
+                    android:layout_width="15dp"
+                    android:layout_height="30dp"
+                    android:contentDescription="@string/chat_list_system"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/datailarrow" />
+
+            </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:textColor="#000000" />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border"
+        android:onClick="gotoReceivedCvPage"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp" >
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp" >
+
+                <ImageView
+                    android:id="@+id/chat_list_cv_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/chat_list_cv"
+                    android:padding="5dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/cv" />
+
+                <ImageView
+                    android:id="@+id/chat_new_cv"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/redpoint"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/chat_list_cv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:textColor="#393939"
+                        android:textSize="15sp"
+                        android:text="@string/chat_list_cv" />
+
+                    <TextView
+                        android:id="@+id/chat_list_cv_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:textColor="#999999"
+                        android:textSize="12sp"
+                        android:text="@string/chat_list_cv" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/chat_list_cv_arrow"
+                    android:layout_width="15dp"
+                    android:layout_height="30dp"
+                    android:contentDescription="@string/chat_list_cv"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/datailarrow" />
+
+            </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:textColor="#000000" />
+    
+    <ListView
+        android:id="@+id/chat_friend_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="5dp">
+    </ListView>
+
+</LinearLayout>

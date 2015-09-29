@@ -1,0 +1,255 @@
+package com.offerme.server.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.offerme.server.database.dao.ApplyInfoDao;
+import com.offerme.server.database.dao.CVDao;
+import com.offerme.server.database.dao.OfferDao;
+import com.offerme.server.database.dao.OfferUserDao;
+import com.offerme.server.database.dao.UserDao;
+import com.offerme.server.database.dao.proxy.DaoImplManage;
+import com.offerme.server.database.model.Offer;
+import com.offerme.server.database.model.User;
+import com.offerme.server.database.model.CV;
+import com.offerme.server.service.bean.LoginResponse;
+import com.offerme.server.service.bean.OfferInfo;
+import com.offerme.server.service.bean.PersonalCV;
+import com.offerme.server.service.bean.PersonalWorkInfo;
+import com.offerme.server.service.bean.PublisherInfo;
+import com.offerme.server.util.EncoderUtil;
+
+public class LoginSrvc {
+	private UserDao userdao = DaoImplManage.getUserDaoInstance();
+	private CVDao cvdao = DaoImplManage.getCVDaoInstance();
+	private OfferDao offerdao = DaoImplManage.getOfferDaoInstance();
+	private ApplyInfoDao applydao = DaoImplManage.getApplyInfoDaoInstance();
+	private OfferUserDao favoritedao = DaoImplManage.getOfferUserDaoInstance();
+	private List<Offer> publishOffer;
+	private List<Integer> favoriteOffer;
+	private List<Offer> applyOffer;
+	private User user;
+	private CV cv;
+	private PersonalCV personCV = new PersonalCV();
+
+	public LoginResponse login(String email, String password) throws Exception {
+
+		LoginResponse res = new LoginResponse();
+		user = userdao.getUserByEmailAndPassword(email, password);
+		// user = userdao.getUserByEmailAndPassword(email,
+		// EncoderUtil.encryptMD5(password));
+
+		if (user != null && user.getUserId() > 0) {
+			cv = cvdao.getCV(user.getUserId());
+			publishOffer = offerdao.getPublishOfferListByUserId(user
+					.getUserId());
+			favoriteOffer = favoritedao
+					.getOfferListIdByUserId(user.getUserId());
+			applyOffer = applydao.getPersonApplyOffer(user.getUserId());
+			ArrayList<OfferInfo> userPublish = res.getPublishOffer();
+			ArrayList<OfferInfo> userFavorite = res.getFavoriteOffer();
+			ArrayList<OfferInfo> userApply = res.getApplyOffer();
+			setPublishOffer(userPublish);
+			setFavoriteOffer(userFavorite);
+			setApplyOffer(userApply);
+			setPersonCV();
+			setResponseInfo(user, res);
+			res.setFavoriteOffer(userFavorite);
+			res.setPublishOffer(userPublish);
+			res.setApplyOffer(userApply);
+			res.setCv(personCV);
+			res.setMailPublic(isPublic(user.getEmailPublic()));
+			res.setPhonePublic(isPublic(user.getPhonePublic()));
+		} else {
+			res.setResponseCode(-2);
+		}
+		if(res==null)
+		{
+			System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXX");
+		}
+		return res;
+	}
+
+	private boolean isPublic(int value) {
+		if (value == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private void setResponseInfo(User user, LoginResponse res) {
+		res.setUserId(user.getUserId());
+		res.setName(user.getNameFamily() + user.getName());
+		res.setAge(String.valueOf(user.getAge()));
+		res.setCity(user.getCity());
+		res.setEnterprise(user.getCompany());
+		res.setEmail(user.getEmail());
+		res.setPhoneNumber(user.getPhone());
+		res.setProfile(user.getPortrait());
+		res.setPost(user.getPost());
+		res.setWorkyear(String.valueOf(user.getWorkyear()));
+		res.setResponseCode(0);
+	}
+
+	private Offer getOfferByOfferID(int offerID) throws Exception {
+		Offer offer = offerdao.getOffer(offerID);
+		return offer;
+	}
+
+	private void setFavoriteOffer(ArrayList<OfferInfo> userFavorite)
+			throws Exception {
+		for (int count = 0; count < favoriteOffer.size(); count++) {
+			Offer favorite = getOfferByOfferID(favoriteOffer.get(count)
+					.intValue());
+			OfferInfo offerInfo = new OfferInfo();
+			if (favorite != null) {
+				offerInfo.setCity(favorite.getCity());
+				offerInfo.setDate(favorite.getDate());
+				offerInfo.setEntreprise(favorite.getCompany());
+				offerInfo.setPost(favorite.getTitle());
+				offerInfo.setSalary(favorite.getSalary());
+				offerInfo.setMailbox(favorite.getOfferMail());
+				offerInfo.setDescription(favorite.getContent());
+				offerInfo.setDomain(favorite.getTrade());
+				offerInfo.setOfferID(String.valueOf(favorite.getOfferId()));
+				offerInfo.setUserID(String.valueOf(user.getUserId()));
+				offerInfo.setOfferOwnerID(String.valueOf(favorite.getUserId()));
+				offerInfo.setPublisherInfo(getPublisherInfo(favorite));
+				offerInfo.setFavorite(true);
+				offerInfo.setApplied(isApplied(favorite.getOfferId()));
+				offerInfo.setWorkyear(favorite.getWorkyear());
+				offerInfo.setEducation(favorite.getEducation());
+				userFavorite.add(offerInfo);
+			}
+		}
+	}
+
+	private void setPublishOffer(ArrayList<OfferInfo> userPublish) {
+		for (int count = 0; count < publishOffer.size(); count++) {
+			OfferInfo offer = new OfferInfo();
+			offer.setCity(publishOffer.get(count).getCity());
+			offer.setDate(publishOffer.get(count).getDate());
+			offer.setEntreprise(publishOffer.get(count).getCompany());
+			offer.setPost(publishOffer.get(count).getTitle());
+			offer.setSalary(publishOffer.get(count).getSalary());
+			offer.setDescription(publishOffer.get(count).getContent());
+			offer.setDomain(publishOffer.get(count).getTrade());
+			offer.setFavorite(false);
+			offer.setApplied(false);
+			offer.setOfferID(String.valueOf(publishOffer.get(count)
+					.getOfferId()));
+			offer.setOfferOwnerID(String.valueOf(user.getUserId()));
+			offer.setUserID(String.valueOf(user.getUserId()));
+			offer.setWorkyear(publishOffer.get(count).getWorkyear());
+			offer.setEducation(publishOffer.get(count).getEducation());
+			userPublish.add(offer);
+		}
+	}
+
+	private void setApplyOffer(ArrayList<OfferInfo> userApply) {
+		for (int count = 0; count < applyOffer.size(); count++) {
+			OfferInfo offer = new OfferInfo();
+			offer.setCity(applyOffer.get(count).getCity());
+			offer.setDate(applyOffer.get(count).getDate());
+			offer.setEntreprise(applyOffer.get(count).getCompany());
+			offer.setPost(applyOffer.get(count).getTitle());
+			offer.setSalary(applyOffer.get(count).getSalary());
+			offer.setDescription(applyOffer.get(count).getContent());
+			offer.setDomain(applyOffer.get(count).getTrade());
+			offer.setUserID(String.valueOf(user.getUserId()));
+			offer.setPublisherInfo(getPublisherInfo(applyOffer.get(count)));
+			offer.setApplied(true);
+			offer.setFavorite(isFavorite(applyOffer.get(count).getOfferId()));
+			offer.setOfferOwnerID(String.valueOf(applyOffer.get(count)
+					.getUserId()));
+			offer.setOfferID(String.valueOf(applyOffer.get(count).getOfferId()));
+			offer.setWorkyear(applyOffer.get(count).getWorkyear());
+			offer.setEducation(applyOffer.get(count).getEducation());
+			userApply.add(offer);
+		}
+	}
+
+	private void setPersonCV() {
+		if (cv == null) {
+			initCV();
+		}
+		personCV.setColleage(cv.getSchool());
+		personCV.setEducation(cv.getDiploma());
+		personCV.setEntreprise(cv.getCurrentCompany());
+		personCV.setName(user.getName());
+		personCV.setPost(cv.getCurrentPost());
+		personCV.setAge(String.valueOf(user.getAge()));
+		personCV.setUserID(String.valueOf(user.getUserId()));
+		personCV.setWorkyear(String.valueOf(user.getWorkyear()));
+		personCV.setWorkInfo(getWorkInfo());
+	}
+
+	private void initCV() {
+		cv = new CV();
+		cv.setCurrentCompany(user.getCompany());
+		cv.setCurrentPost(user.getPost());
+	}
+
+	private boolean isFavorite(int offerID) {
+		for (int count = 0; count < favoriteOffer.size(); count++) {
+			if (favoriteOffer.get(count) == offerID) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isApplied(int offerID) {
+		for (int count = 0; count < applyOffer.size(); count++) {
+			if (applyOffer.get(count).getOfferId() == offerID) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private PersonalWorkInfo getWorkInfo() {
+		PersonalWorkInfo workinfo = new PersonalWorkInfo();
+		ArrayList<String> worklist = new ArrayList<String>();
+		if (cv.getJobCompany01() != null) {
+			worklist.add(cv.getJobCompany01());
+			worklist.add(String.valueOf(cv.getJobYear01()));
+		} else if (cv.getJobCompany02() != null) {
+			worklist.add(cv.getJobCompany02());
+			worklist.add(String.valueOf(cv.getJobYear02()));
+		} else if (cv.getJobCompany03() != null) {
+			worklist.add(cv.getJobCompany03());
+			worklist.add(String.valueOf(cv.getJobYear03()));
+		}
+		workinfo.setWorks(worklist);
+		return workinfo;
+	}
+
+	private PublisherInfo getPublisherInfo(Offer offer) {
+		PublisherInfo info = new PublisherInfo();
+		boolean isPublic = false;
+		try {
+			User user = userdao.getUser(offer.getUserId());
+			System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX: "+offer.getUserId());
+			info.setEmail(user.getEmail());
+			info.setProfile(user.getPortrait());
+			info.setTelephone(user.getPhone());
+			info.setUserID(user.getUserId());
+			info.setCity(user.getCity());
+			info.setEntreprise(user.getCompany());
+			info.setName(user.getNameFamily() + user.getName());
+			info.setProfile(user.getPortrait());
+			if (user.getPhonePublic() == 1) {
+				isPublic = true;
+			} else {
+				isPublic = false;
+			}
+			info.setPhonePublished(isPublic);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+}

@@ -1,0 +1,70 @@
+package com.offerme.client.service.util;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
+import android.os.SystemClock;
+
+public class PollingUtils {
+
+	/**
+	 * Start polling service
+	 * 
+	 * @param context
+	 * @param seconds
+	 * @param cls 
+	 * 		activity witch need polling
+	 * @param action
+	 */ 
+	public static void startPollingService(Context context, int seconds, Class<?> cls,String action) {
+		AlarmManager manager = (AlarmManager) context
+				.getSystemService(Context.ALARM_SERVICE);
+		Intent intent = new Intent(context, cls);
+		intent.setAction(action);
+		context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+		PendingIntent pendingIntent = PendingIntent.getService(context, 0,
+				intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		long triggerAtTime = SystemClock.elapsedRealtime();
+		manager.setRepeating(AlarmManager.ELAPSED_REALTIME, triggerAtTime,
+				seconds * 1000, pendingIntent);
+	}
+
+	/**
+	 * Stop polling service
+	 * 
+	 * @param context
+	 * @param cls
+	 * 		activity witch need polling
+	 * @param action
+	 */
+	public static void stopPollingService(Context context, Class<?> cls,String action) {
+		AlarmManager manager = (AlarmManager) context
+				.getSystemService(Context.ALARM_SERVICE);
+		Intent intent = new Intent(context, cls);
+		intent.setAction(action);
+		PendingIntent pendingIntent = PendingIntent.getService(context, 0,
+				intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		manager.cancel(pendingIntent);
+	}
+	
+	private static ServiceConnection serviceConnection=new ServiceConnection()
+	{
+
+		@Override
+		public void onServiceConnected(ComponentName arg0, IBinder arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	};
+}

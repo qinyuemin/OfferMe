@@ -1,0 +1,428 @@
+package com.offerme.client.activity;
+
+import java.util.ArrayList;
+
+import com.offerme.R;
+import com.offerme.client.service.DeleteOfferSrvc;
+import com.offerme.client.service.MessageSrvc;
+import com.offerme.client.service.PersonalSettingSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.personalsetting.PersonalSetting;
+import com.offerme.client.service.publishoffer.OfferInfo;
+import com.offerme.client.service.publishoffer.PublisherInfo;
+import com.offerme.client.service.search.SearchResulatItem;
+
+import android.support.v4.app.Fragment;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
+import android.widget.TextView;
+
+public class PersonalSettingActivity extends Fragment {
+
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private MessageSrvc messageSrvc = MessageSrvc.getInstance();
+	private DeleteOfferSrvc deleteOffer = DeleteOfferSrvc.getInstance();
+	private PersonalSettingSrvc personalSettingSrvc = PersonalSettingSrvc
+			.getInstance();
+	private PersonalSetting data;
+	private Context context;
+	private TabHost offerTab;
+	private int[] tabs = { R.id.personal_setting_offer_favorite,
+			R.id.personal_setting_offer_published };
+	private ImageView profileImg;
+	private Button deleteButton;
+	private TextView name;
+	private TextView city;
+	private TextView enterprise;
+	private TextView email;
+	private ListView favoriteOfferList;
+	private ListView publishedOfferList;
+	private BaseAdapter favoriteAdapter;
+	private BaseAdapter publishedAdapter;
+	private ArrayList<OfferInfo> favoriteInDataBase = new ArrayList<OfferInfo>();
+	private ArrayList<OfferInfo> publishedInDataBase = new ArrayList<OfferInfo>();
+	private int activeColor = Color.parseColor("#FFFFFF");
+	private int inactiveColor = Color.parseColor("#b1b1b1");
+	private float downPosition;
+	private float upPosition;
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.activity_personal_setting, container,
+				false);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		context = this.getActivity();
+		initWidget();
+		loadData();
+	}
+
+	@Override
+	public void onDestroy() {
+		Log.v("Debug", "PersonalSettingActivity->onDestroy:XXXXXXXXXXXXXXXXXXX");
+		super.onDestroy();
+	}
+
+	public void onWindowFocusChanged(boolean hasFocus) {
+		this.getActivity().onWindowFocusChanged(hasFocus);
+	}
+
+	private void initWidget() {
+		profileImg = (ImageView) getActivity().findViewById(R.id.ps_profile);
+		name = (TextView) getActivity().findViewById(R.id.ps_Name);
+		city = (TextView) getActivity().findViewById(R.id.ps_city);
+		enterprise = (TextView) getActivity().findViewById(R.id.ps_enterprise);
+		email = (TextView) getActivity().findViewById(R.id.ps_email);
+		offerTab = (TabHost) getActivity().findViewById(R.id.tabhost);
+		favoriteOfferList = (ListView) getActivity().findViewById(
+				R.id.personal_setting_offerList_favorite);
+		publishedOfferList = (ListView) getActivity().findViewById(
+				R.id.personal_setting_offerList_published);
+		offerTab.setup();
+		offerTab.addTab(offerTab.newTabSpec("OfferFavorite")
+				.setIndicator("收藏的内推").setContent(tabs[0]));
+		offerTab.addTab(offerTab.newTabSpec("OfferPublished")
+				.setIndicator("发出的内推").setContent(tabs[1]));
+		offerTab.setCurrentTab(0);
+		offerTab.getTabWidget().getChildAt(0).setBackgroundColor(activeColor);
+		offerTab.getTabWidget().getChildAt(1).setBackgroundColor(inactiveColor);
+		TextView tv0 = (TextView) offerTab.getTabWidget().getChildAt(0)
+				.findViewById(android.R.id.title);
+		TextView tv1 = (TextView) offerTab.getTabWidget().getChildAt(1)
+				.findViewById(android.R.id.title);
+		tv0.setTextColor(inactiveColor);
+		tv1.setTextColor(activeColor);
+		offerTab.setOnTabChangedListener(new tabchangeListener());
+		favoriteOfferList.setAdapter(new favoriteListListener());
+		publishedOfferList.setAdapter(new publishedListListener());
+		favoriteAdapter = (BaseAdapter) favoriteOfferList.getAdapter();
+		publishedAdapter = (BaseAdapter) publishedOfferList.getAdapter();
+	}
+
+	private void loadData() {
+		data = personalSettingSrvc.loadLocalPersonalSetting(getActivity());
+		name.setText(data.getName());
+		city.setText(data.getCity());
+		enterprise.setText(data.getEnterprise());
+		email.setText(data.getEmail());
+		if (data.getProfile() != null) {
+			Bitmap imageBitmap = BitmapFactory.decodeByteArray(
+					data.getProfile(), 0, data.getProfile().length);
+			imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 80, 80, true);
+			profileImg.setImageBitmap(imageBitmap);
+		}
+		favoriteInDataBase = data.getFavoriteList();
+		publishedInDataBase = data.getPublishList();
+	}
+
+	public void checkMessages(View view) {
+		if (utilSrvc.isNetworkConnected(getActivity())) {
+			messageSrvc.getMessageListFromServer(getActivity());
+		} else {
+			utilSrvc.showConnectDialog(getActivity());
+		}
+	}
+
+	private void doAnimation(Context context, View view, int animId) {
+		Animation animation = AnimationUtils.loadAnimation(context, animId);
+		view.startAnimation(animation);
+	}
+
+	private class tabchangeListener implements OnTabChangeListener {
+
+		@Override
+		public void onTabChanged(String tabID) {
+
+			for (int i = 0; i < tabs.length; i++) {
+				offerTab.getTabWidget().getChildAt(i)
+						.setBackgroundColor(inactiveColor);
+				TextView tv = (TextView) offerTab.getTabWidget().getChildAt(i)
+						.findViewById(android.R.id.title);
+				tv.setTextColor(activeColor);
+			}
+			offerTab.getTabWidget().getChildAt(offerTab.getCurrentTab())
+					.setBackgroundColor(activeColor);
+			TextView tv = (TextView) offerTab.getTabWidget()
+					.getChildAt(offerTab.getCurrentTab())
+					.findViewById(android.R.id.title);
+			tv.setTextColor(inactiveColor);
+
+		}
+
+	}
+
+	private class favoriteListListener extends BaseAdapter {
+
+		@Override
+		public int getCount() {
+			return favoriteInDataBase.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return favoriteInDataBase.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			OfferInfo offer = (OfferInfo) this.getItem(position);
+			if (convertView == null) {
+				LayoutInflater layoutInflater = (LayoutInflater) context
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = layoutInflater.inflate(
+						R.layout.activity_personal_setting_favorite_list, null);
+			}
+			TextView title = (TextView) convertView
+					.findViewById(R.id.personal_setting_offer_favorite_title);
+			TextView date = (TextView) convertView
+					.findViewById(R.id.personal_setting_offer_favorite_date);
+			TextView city = (TextView) convertView
+					.findViewById(R.id.personal_setting_offer_favorite_city);
+			TextView entreprise = (TextView) convertView
+					.findViewById(R.id.personal_setting_offer_favorite_entreprise);
+			TextView domain = (TextView) convertView
+					.findViewById(R.id.personal_setting_offer_favorite_domain);
+			TextView salary = (TextView) convertView
+					.findViewById(R.id.personal_setting_offer_favorite_salary);
+			Button delete = (Button) convertView
+					.findViewById(R.id.personal_setting_offer_favorite_delete);
+			title.setText(offer.getPost());
+			date.setText(offer.getDate());
+			city.setText(offer.getCity());
+			entreprise.setText(offer.getEntreprise());
+			domain.setText(offer.getDomain());
+			salary.setText(offer.getSalary());
+			convertView.setOnTouchListener(new offerDelete(delete, position,
+					true));
+			delete.setOnClickListener(new deleteClick(offer, String
+					.valueOf(offer.getUserID()), favoriteAdapter));
+			return convertView;
+		}
+
+	}
+
+	private class publishedListListener extends BaseAdapter {
+
+		@Override
+		public int getCount() {
+			return publishedInDataBase.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return publishedInDataBase.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			OfferInfo offer = (OfferInfo) this.getItem(position);
+			if (convertView == null) {
+				LayoutInflater layoutInflater = (LayoutInflater) context
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = layoutInflater.inflate(
+						R.layout.activity_personal_setting_offer_list, null);
+			}
+			TextView title = (TextView) convertView
+					.findViewById(R.id.personal_setting_offer_publish_title);
+			TextView date = (TextView) convertView
+					.findViewById(R.id.personal_setting_offer_publish_date);
+			Button delete = (Button) convertView
+					.findViewById(R.id.personal_setting_offer_publish_delete);
+			title.setText(offer.getPost());
+			date.setText(offer.getDate());
+			convertView.setOnTouchListener(new offerDelete(delete, position,
+					false));
+			delete.setOnClickListener(new deleteClick(offer, String
+					.valueOf(data.getUserId()), publishedAdapter));
+			return convertView;
+		}
+	}
+
+	private class offerDelete implements OnTouchListener {
+
+		private Button deleteOffer;
+		private boolean isFavorite;
+		private int position;
+
+		public offerDelete(Button delete, int pos, boolean isFavoriteOffer) {
+			deleteOffer = delete;
+			upPosition = 0;
+			isFavorite = isFavoriteOffer;
+			position = pos;
+		}
+
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				downPosition = event.getX();
+				if (deleteButton != null
+						&& deleteButton.getVisibility() == View.VISIBLE) {
+					deleteButton.setVisibility(View.GONE);
+					doAnimation(context, deleteButton, R.anim.deleteout);
+				}
+				deleteButton = deleteOffer;
+				break;
+			case MotionEvent.ACTION_UP:
+				upPosition = event.getX();
+				break;
+			default:
+				break;
+			}
+			Log.e("Debug",
+					"PersonalSettingActivity->onTouch->Show me the position: "
+							+ downPosition + " " + upPosition);
+			if (upPosition == 0) {
+				return true;
+			} else if (downPosition - upPosition > 50) {
+				deleteButton.setVisibility(View.VISIBLE);
+				doAnimation(context, deleteButton, R.anim.deletein);
+				return true;
+			} else if (upPosition - downPosition > 50) {
+				return true;
+			} else {
+				onItemClick(position);
+			}
+			return false;
+		}
+
+		private void onItemClick(int position) {
+
+			if (isFavorite) {
+				Log.v("Debug",
+						"PersonalSetting->onItemClick->Show me the userID and offerID: "
+								+ favoriteInDataBase.get(position).getUserID()
+								+ " "
+								+ favoriteInDataBase.get(position).getOfferID());
+				SearchResulatItem item = convertObject(favoriteInDataBase
+						.get(position));
+				utilSrvc.gotoPublisherFromPersonalFavorite(context, item);
+			} else {
+				Log.v("Debug",
+						"PersonalSetting->onItemClick->Show me the userID and offerID: "
+								+ publishedInDataBase.get(position).getUserID()
+								+ " "
+								+ publishedInDataBase.get(position)
+										.getOfferID());
+				SearchResulatItem item = convertObject(publishedInDataBase
+						.get(position));
+				utilSrvc.gotoPublisherFromPersonalPublished(context, item);
+			}
+		}
+
+		private SearchResulatItem convertObject(OfferInfo info) {
+			SearchResulatItem item = new SearchResulatItem("", "", "", "");
+			String publisherName = null;
+			String mail = null;
+			PublisherInfo publisher = new PublisherInfo();
+			if (isFavorite) {
+				publisherName = info.getPublisherInfo().getName();
+				mail = info.getPublisherInfo().getEmail();
+				publisher = info.getPublisherInfo();
+			} else {
+				publisherName = data.getName();
+				mail = data.getEmail();
+				publisher.setUserID(data.getUserId());
+				publisher.setProfile(data.getProfile());
+
+			}
+			if (info.getCity() == "null") {
+				info.setCity("其他城市");
+			}
+			if (info.getEntreprise() == "null") {
+				info.setEntreprise("未填写公司");
+			}
+			if (info.getPost() == "null") {
+				info.setPost("未填写职位");
+			}
+			item = new SearchResulatItem(publisherName, info.getEntreprise(),
+					info.getCity(), info.getPost());
+			item.setDate(info.getDate());
+			if (info.getDescription() != "null") {
+				item.setDescription(info.getDescription());
+			} else {
+				item.setDescription("未描述Offer具体信息");
+			}
+			if (info.getDomain() != "null") {
+				item.setDomain(info.getDomain());
+			} else {
+				item.setDomain("其他行业");
+			}
+			if (info.getMailbox() != null && info.getMailbox().length() > 0) {
+				item.setMailbox(info.getMailbox());
+			} else {
+				item.setMailbox(mail);
+			}
+			item.setOfferID(info.getOfferID());
+			item.setFavorite(info.getFavorite());
+			item.setSalary(info.getSalary());
+			item.setPublisherInfo(publisher);
+			return item;
+		}
+	}
+
+	private class deleteClick implements OnClickListener {
+
+		private OfferInfo info;
+		private String userID;
+		private BaseAdapter offerAdapter;
+
+		public deleteClick(OfferInfo offer, String user, BaseAdapter adapter) {
+			info = offer;
+			userID = user;
+			offerAdapter = adapter;
+		}
+
+		@Override
+		public void onClick(View view) {
+			if (utilSrvc.isNetworkConnected(context)) {
+				if (deleteButton != null) {
+					deleteButton.setVisibility(View.GONE);
+				}
+				String myID = String.valueOf(data.getUserId());
+				if (userID == myID) {
+					deleteOffer.setOfferDelete(context, info, myID,
+							offerAdapter, publishedInDataBase);
+				} else {
+					deleteOffer.setOfferDelete(context, info, myID,
+							offerAdapter, favoriteInDataBase);
+				}
+			} else {
+				utilSrvc.showConnectDialog(context);
+			}
+		}
+	}
+
+}

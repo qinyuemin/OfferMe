@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    
+	<!-- 输出到日志文件 -->
+	<appender name="RunTime" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="log/RunTime.log" />
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="10240KB" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="MaxBackupIndex" value="100" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] [%t(%F:%L)]%n%p: %m%n" />
+		</layout>
+	</appender>
+	<!-- 输出到日志文件 -->
+	<appender name="DAO" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="log/DAO.log" />
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="10240KB" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="MaxBackupIndex" value="100" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] [%t(%F:%L)]%n%p: %m%n" />
+		</layout>
+	</appender>
+	<!-- 输出到日志文件 -->
+	<appender name="DB" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="log/DB.log" />
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="10240KB" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="MaxBackupIndex" value="100" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] [%t(%F:%L)]%n%p: %m%n" />
+		</layout>
+	</appender>
+	<appender name="Threadpool" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="log/Socket.log" />
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="10240KB" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="MaxBackupIndex" value="100" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] [%t(%F:%L)]%n%p: %m%n" />
+		</layout>
+	</appender>
+	<appender name="util" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="log/util.log" />
+		<param name="Append" value="true" />
+		<param name="MaxFileSize" value="10240KB" />
+		<param name="Encoding" value="UTF-8" />
+		<param name="MaxBackupIndex" value="100" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] [%t(%F:%L)]%n%p: %m%n" />
+		</layout>
+	</appender>
+	<!-- 输出到控制台中 -->
+	<appender name="cosoleLogger" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="ERROR" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] [%t(%F:%L)]%n%p: %m%n" />
+		</layout>
+	</appender>
+
+	<logger name="com.offerme.server" additivity="true">
+		<level value="ERROR" />
+		<appender-ref ref="RunTime" />
+	</logger>
+	
+	<logger name="com.offerme.server.database.dao" additivity="true">
+		<level value="INFO" />
+		<appender-ref ref="DAO" />
+	</logger>
+	
+	<logger name="com.offerme.server.database.db" additivity="true">
+		<level value="INFO" />
+		<appender-ref ref="DB" />
+	</logger>
+	
+	<logger name="com.offerme.database.threadpool" additivity="true">
+		<level value="INFO" />
+		<appender-ref ref="Threadpool" />
+	</logger>
+	
+	<logger name="com.offerme.server.util" additivity="true">
+		<level value="INFO" />
+		<appender-ref ref="util" />
+	</logger>
+
+	<!-- 设置接收所有输出的通道 -->
+	<root>
+		<level value="ERROR" />
+		<appender-ref ref="cosoleLogger" />
+	</root>
+
+</log4j:configuration>

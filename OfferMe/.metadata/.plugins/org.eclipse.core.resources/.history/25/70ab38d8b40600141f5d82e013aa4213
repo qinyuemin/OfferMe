@@ -1,0 +1,27 @@
+package com.offerme.client.activity;
+
+import com.offerme.R;
+import com.offerme.client.service.UtilSrvc;
+
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.widget.EditText;
+
+public class InscriptionDetailActivity extends ActionBarActivity {
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private final int TAKE_PICTURE = 2;
+	private final int GET_GALLERY = 1;
+	private byte[] imageByte = null;
+	private Uri imaginePath = null;
+	private EditText textName = null;
+	private EditText textCity = null;
+	private EditText textEntreprise = null;
+	private EditText textEmail = null;
+	private EditText textTelephone = null;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_inscription);
+	}
+}

@@ -1,0 +1,184 @@
+package com.offerme.client.activity;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import com.offerme.R;
+import com.offerme.client.service.InscriptionSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.inscription.InscriptionInfo;
+
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
+public class InscriptionDetailActivity extends ActionBarActivity {
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private InscriptionSrvc inscriptionSrvc = InscriptionSrvc
+			.getInstance(utilSrvc);
+	private InscriptionInfo info;
+	private final int TAKE_PICTURE = 2;
+	private final int GET_GALLERY = 1;
+	private byte[] imageByte = null;
+	private Uri imaginePath = null;
+	private EditText textName = null;
+	private EditText textCity = null;
+	private EditText textEntreprise = null;
+	private EditText textEmail = null;
+	private EditText textTelephone = null;
+	// private CheckBox mailPublic = null;
+	private CheckBox phonePublic = null;
+	private ImageView profile = null;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_inscription_detail);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(
+				R.layout.activity_inscription_detail_actionbar);
+		initialize();
+	}
+
+	public void backToInscription(View view) {
+		utilSrvc.gotoInscriptionPage(this);
+	}
+
+	private void initialize() {
+		Intent intent = this.getIntent();
+		info = (InscriptionInfo) intent.getSerializableExtra("InscriptionInfo");
+		textName = (EditText) findViewById(R.id.inscription_detail_personal_name);
+		textCity = (EditText) findViewById(R.id.inscription_detail_personal_city);
+		textEntreprise = (EditText) findViewById(R.id.inscription_detail_personal_entreprise);
+		textTelephone = (EditText) findViewById(R.id.inscription_detail_personal_phone);
+		textEmail = (EditText) findViewById(R.id.inscription_detail_personal_email);
+		// mailPublic = (CheckBox)
+		// findViewById(R.id.inscription_detail_personal_email_checkbox);
+		phonePublic = (CheckBox) findViewById(R.id.inscription_detail_personal_phone_checkbox);
+		profile = (ImageView) findViewById(R.id.inscription_detail_profile);
+		textEmail.setText(info.getEmail());
+	}
+
+	public void Submit(View view) {
+		if (utilSrvc.isNetworkConnected(this)) {
+			info.setCity(textCity.getText().toString());
+			info.setEmail(textEmail.getText().toString());
+			info.setEntreprise(textEntreprise.getText().toString());
+			info.setName(textName.getText().toString());
+			info.setPhotoByte(imageByte);
+			info.setTelephoneNumber(textTelephone.getText().toString());
+			// info.setEmailPublished(mailPublic.isChecked());
+			info.setPhonePublished(phonePublic.isChecked());
+			inscriptionSrvc.checkInscripInfo(this, info);
+			if (info.isComplete()) {
+				ProgressDialog processDialog = new ProgressDialog(this);
+				//inscriptionSrvc.submit(this, processDialog, info);
+			}
+		} else {
+			utilSrvc.showConnectDialog(this);
+		}
+	}
+
+	public void UploadPhoto(View view) {
+
+		LayoutInflater factory = (LayoutInflater) InscriptionDetailActivity.this
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View myView = factory
+				.inflate(R.layout.activity_inscription_photo, null);
+		AlertDialog.Builder builder = new AlertDialog.Builder(
+				InscriptionDetailActivity.this);
+		builder.setIcon(android.R.drawable.ic_menu_gallery);
+		builder.setTitle("选择图片");
+		builder.setView(myView);
+		builder.setNegativeButton("取消", new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		}).setCancelable(true);
+		final AlertDialog dialog = builder.create();
+		dialog.show();
+
+		RadioGroup radioGroup = (RadioGroup) myView
+				.findViewById(R.id.radioGroup);
+		final RadioButton radioLib = (RadioButton) myView
+				.findViewById(R.id.fromPhotoLib);
+		final RadioButton radioCamera = (RadioButton) myView
+				.findViewById(R.id.fromCamera);
+		radioGroup
+				.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(RadioGroup group, int checkedId) {
+						boolean returnValue = false;
+						if (checkedId == radioLib.getId()) {
+							returnValue = inscriptionSrvc.uploadPhoto(
+									InscriptionDetailActivity.this, "FromLib");
+						} else if (checkedId == radioCamera.getId()) {
+							returnValue = inscriptionSrvc.uploadPhoto(
+									InscriptionDetailActivity.this,
+									"FromCamera");
+						}
+						if (returnValue) {
+							dialog.dismiss();
+						}
+					}
+				});
+	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK && null != data) {
+			switch (requestCode) {
+			case GET_GALLERY:
+				imaginePath = data.getData();
+				try {
+					Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(
+							this.getContentResolver(), imaginePath);
+					imageByte = utilSrvc.getImageByte(imageBitmap);
+					imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 80,
+							80, true);
+					profile.setImageBitmap(imageBitmap);
+					if (!imageBitmap.isRecycled()) {
+						imageBitmap.recycle();
+					}
+
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			case TAKE_PICTURE:
+				Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+				imageByte = utilSrvc.getImageByte(imageBitmap);
+				imaginePath = utilSrvc.getUriFromBitMap(imageBitmap, this);
+				imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 80, 80,
+						true);
+				profile.setImageBitmap(imageBitmap);
+				if (!imageBitmap.isRecycled()) {
+					imageBitmap.recycle();
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}

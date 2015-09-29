@@ -1,0 +1,302 @@
+package com.offerme.client.activity;
+
+import java.util.List;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.Toast;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalDataBase;
+import com.offerme.client.service.PollingSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.chat.ChatFriend;
+import com.offerme.client.service.util.PollingUtils;
+
+public class LoggedInActivity extends ActionBarActivity {
+
+	public static final String FROM_CHAT = "FROM_CHAT";
+	public static final String FROM_USER = "StartFromUser";
+	public static final String FROM_PUBLISH = "StartFromPublish";
+	private LocalDataBase localDatabase = LocalDataBase.getInstance(this);
+	private SearchOfferActivity searchFragment;
+	private PublishOfferActivity publishFragment;
+	private PersonalSettingActivity personFragment;
+	private ChatFriendListActivity chatFragment;
+	private FragmentManager fragmentManager = getSupportFragmentManager();
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private FragmentTransaction fragmentTransaction;
+	private RadioButton startButton;
+	private ImageView mailButton;
+	private RadioGroup radioGroup;
+	private Intent intent = null;
+	private Handler mHandler;
+	private Thread waitMessage;
+	private boolean threadStart = true;
+	private int POLLINGTIME = 3;
+	private int EXITCLICK = 0;
+
+	private enum fragmentName {
+		SEARCH_FRAGMENT, PUBLISH_FRAGMENT, CHAT_FRAGMENT, ME_FRAGMENT
+	};
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_logged_in);
+		EXITCLICK = 0;
+		localDatabase.deleteDataBase(LocalDataBase.FRIENDTABLENAME);
+		localDatabase.deleteDataBase(LocalDataBase.MESSAGETABLENAME);
+		mHandler = new myHandler();
+		PollingUtils.startPollingService(this, POLLINGTIME, PollingSrvc.class,
+				PollingSrvc.ACTION);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		waitMessage = new waitNewMessage(mHandler);
+		waitMessage.start();
+		init();
+		initRadios();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		finish();
+		PollingUtils.stopPollingService(this, PollingSrvc.class,
+				PollingSrvc.ACTION);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		this.setIntent(intent);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (EXITCLICK == 0) {
+			Toast toast = Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+			EXITCLICK++;
+		} else {
+			EXITCLICK = 0;
+			moveTaskToBack(true);
+			android.os.Process.killProcess(android.os.Process.myPid());
+			System.exit(1);
+		}
+		return;
+	}
+
+	private void init() {
+		intent = this.getIntent();
+		fragmentTransaction = fragmentManager.beginTransaction();
+		mailButton = (ImageView) findViewById(R.id.rb_mail_newmessage);
+		threadStart = true;
+		if (!waitMessage.isAlive()) {
+			waitMessage.start();
+		}
+		if (intent.getBooleanExtra(FROM_USER, false)) {
+			setActionBar(fragmentName.ME_FRAGMENT);
+			if (personFragment == null) {
+				personFragment = new PersonalSettingActivity();
+				fragmentTransaction
+						.add(R.id.fragment_container, personFragment).commit();
+			}
+			startButton = (RadioButton) findViewById(R.id.rb_setting);
+		} else if (intent.getBooleanExtra(FROM_CHAT, false)) {
+			setActionBar(fragmentName.CHAT_FRAGMENT);
+			threadStart = false;
+			Integer friendID = (Integer) intent
+					.getSerializableExtra("FriendID");
+			if (chatFragment == null) {
+				chatFragment = new ChatFriendListActivity();
+				@SuppressWarnings("unchecked")
+				List<ChatFriend> friends = (List<ChatFriend>) intent
+						.getSerializableExtra(ChatFriendListActivity.FRIENDLIST);
+				chatFragment.setNewFriend(friends);
+				fragmentTransaction.replace(R.id.fragment_container,
+						chatFragment).commit();
+			} else if (friendID != null) {
+				chatFragment.removeNewFriend(friendID);
+			}
+			startButton = (RadioButton) findViewById(R.id.rb_mail);
+		} else if (intent.getBooleanExtra(FROM_PUBLISH, false)) {
+			setActionBar(fragmentName.PUBLISH_FRAGMENT);
+			if (publishFragment == null) {
+				publishFragment = new PublishOfferActivity();
+				fragmentTransaction.add(R.id.fragment_container,
+						publishFragment).commit();
+			}
+			startButton = (RadioButton) findViewById(R.id.rb_publish);
+		} else {
+			setActionBar(fragmentName.SEARCH_FRAGMENT);
+			if (searchFragment == null) {
+				searchFragment = new SearchOfferActivity();
+				searchFragment.setArguments(intent.getExtras());
+				fragmentTransaction
+						.add(R.id.fragment_container, searchFragment).commit();
+			}
+			startButton = (RadioButton) findViewById(R.id.rb_search);
+		}
+		startButton.setChecked(true);
+	}
+
+	private void initRadios() {
+		radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+		radioGroup.setOnCheckedChangeListener(new checkChange());
+	}
+
+	private void setActionBar(fragmentName fragmentID) {
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		switch (fragmentID) {
+		case SEARCH_FRAGMENT:
+			getSupportActionBar().setCustomView(
+					R.layout.activity_search_actionbar);
+			break;
+		case PUBLISH_FRAGMENT:
+			getSupportActionBar().setCustomView(
+					R.layout.activity_publish_offer_actionbar);
+			break;
+		case CHAT_FRAGMENT:
+			getSupportActionBar().setCustomView(
+					R.layout.activity_chat_friend_list_actionbar);
+			break;
+		case ME_FRAGMENT:
+			getSupportActionBar().setCustomView(
+					R.layout.activity_personal_setting_actionbar);
+			break;
+		}
+		getSupportActionBar().setBackgroundDrawable(
+				new ColorDrawable(Color.parseColor("#1e90d2")));
+	}
+
+	private class checkChange implements OnCheckedChangeListener {
+
+		@Override
+		public void onCheckedChanged(RadioGroup group, int checkedId) {
+			fragmentTransaction = fragmentManager.beginTransaction();
+			Bundle args = new Bundle();
+			switch (checkedId) {
+			case R.id.rb_search:
+				setActionBar(fragmentName.SEARCH_FRAGMENT);
+				searchFragment = new SearchOfferActivity();
+				searchFragment.setArguments(args);
+				fragmentTransaction.replace(R.id.fragment_container,
+						searchFragment);
+				break;
+
+			case R.id.rb_publish:
+				setActionBar(fragmentName.PUBLISH_FRAGMENT);
+				publishFragment = new PublishOfferActivity();
+				publishFragment.setArguments(args);
+				fragmentTransaction.replace(R.id.fragment_container,
+						publishFragment);
+				break;
+
+			case R.id.rb_mail:
+				mailButton.setVisibility(View.INVISIBLE);
+				setActionBar(fragmentName.CHAT_FRAGMENT);
+				chatFragment = new ChatFriendListActivity();
+				chatFragment.setArguments(args);
+				fragmentTransaction.replace(R.id.fragment_container,
+						chatFragment);
+				break;
+
+			case R.id.rb_setting:
+				setActionBar(fragmentName.ME_FRAGMENT);
+				personFragment = new PersonalSettingActivity();
+				personFragment.setArguments(args);
+				fragmentTransaction.replace(R.id.fragment_container,
+						personFragment);
+				break;
+
+			default:
+				break;
+			}
+			fragmentTransaction.addToBackStack(null);
+			fragmentTransaction.commit();
+		}
+
+	}
+
+	public void gotoChatSystemPage(View view) {
+		ChatFriend systemFriend = new ChatFriend();
+		systemFriend.setFriendId(0);
+		systemFriend.setName(getResources().getString(
+				R.string.action_system_message));
+		utilSrvc.gotoChatPage(this, systemFriend);
+	}
+
+	public void editFriendList(View view) {
+	}
+
+	public void goToSetting(View view) {
+		utilSrvc.gotoSettingPage(this);
+	}
+
+	public void gotoPersonalInfo(View view) {
+		utilSrvc.gotoPersonalInfoPage(this);
+	}
+
+	@SuppressLint("HandlerLeak")
+	private class myHandler extends Handler {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 100:
+				int buttonID = radioGroup.getCheckedRadioButtonId();
+				if (buttonID != R.id.rb_mail) {
+					mailButton = (ImageView) findViewById(R.id.rb_mail_newmessage);
+					mailButton.setVisibility(View.VISIBLE);
+				}
+				break;
+			}
+			super.handleMessage(msg);
+		}
+	}
+
+	private class waitNewMessage extends Thread {
+
+		private Handler threadHandler;
+
+		public waitNewMessage(Handler handler) {
+			this.threadHandler = handler;
+		}
+
+		public void run() {
+			while (threadStart) {
+				try {
+					sleep(1 * 1000);
+					System.out
+							.println("find the new friend list from LoggedIn");
+					if (localDatabase.getNewFriends(false) != null) {
+						Message message = new Message();
+						message.what = 100;
+						threadHandler.sendMessage(message);
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+}

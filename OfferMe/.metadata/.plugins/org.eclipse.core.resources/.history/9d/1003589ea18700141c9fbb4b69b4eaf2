@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">伯乐内聘</string>
+    
+    <string name="action_settings">设置</string>
+    <string name="action_contact_us">反馈</string>
+    <string name="action_logout">退出登录</string>
+    <string name="action_back">返回</string>
+    <string name="action_save">保存</string>
+    <string name="action_me">个人中心</string>
+    <string name="action_aboutus">关于我们</string>
+    <string name="action_finish">完成</string>
+    <string name="action_send_mail">重新发送</string>
+    <string name="action_system_message">系统消息</string>
+    <string name="action_load_more">正在加载......</string>
+    <string name="action_set_favorite">自己的Offer不能收藏哦~</string>
+    <string name="dialog_select_city">选择城市</string>
+    <string name="dialog_select_domain">选择行业</string>
+    
+    <string name="title_activity">伯乐内聘</string>
+    <string name="title_activity_home_page">浏览</string>
+    <string name="title_activity_inscription">注册</string>
+    <string name="title_activity_logged_in">欢迎</string>
+    <string name="title_activity_personal_setting">个人设置</string>
+    <string name="title_activity_personal_cv">简历</string>
+    <string name="title_activity_personal_workinput">工作经历</string>
+    <string name="title_activity_publish_offerlist">已发布的职位</string>
+    <string name="title_activity_publish_add_offer">发布新职位</string>
+    <string name="title_activity_publish_modify_offer">编辑已发职位</string>
+    <string name="title_activity_visitor">随便看看</string>
+    <string name="title_activity_publisher_info">职位详情</string>
+    <string name="title_activity_demander">求推荐</string>
+    <string name="title_activity_setting">设置</string>
+    <string name="title_activity_message">站内信</string>
+    <string name="title_activity_setting_person">个人资料</string>
+    <string name="title_activity_chat">站内信</string>
+    <string name="title_activity_friend_info">个人信息</string>
+    <string name="title_activity_feedback">信息反馈</string>
+    <string name="title_activity_forget_pwd">忘记密码</string>
+    
+    <string name="personal_cv_mine">我的简历</string>
+    <string name="personal_cv_received">收到的简历</string>
+    <string name="personal_cv_workyear">工作时间</string>
+    <string name="personal_cv_education">最高学历</string>
+    <string name="personal_cv_school">毕业院校</string>
+    <string name="personal_cv_workexpirence">工作经历</string>
+    <string name="personal_cv_workexpirence_ab">工作经历</string>
+    <string name="personal_cv_workplace">工作单位</string>
+    <string name="personal_cv_workpost">职位</string>
+    <string name="personal_cv_worktime">时间</string>
+    <string name="personal_cv_workinfo_hint">必填项</string>
+    <string name="personal_cv_workinfo_date_hint">至今</string>
+    <string name="personal_cv_year">年</string>
+    <string name="personal_cv_workexpirence_first">工作经历 1</string>
+    <string name="personal_cv_workexpirence_second">工作经历 2</string>
+    <string name="personal_cv_workexpirence_third">工作经历 3</string>
+    <string name="personal_cv_complete">简历填写不完整</string>
+    <string name="personal_cv_save_success">简历保存成功</string>
+    <string name="personal_cv_save_fail">简历保存失败</string>
+    <string name="personal_cv_send_success">简历投递成功</string>
+    <string name="personal_cv_sent_cv">抱歉，此offer已被删除</string>
+    <string name="personal_cv_send_fail">简历投递失败</string>
+    <string name="personal_cv_send_not_allowed_self">自己的Offer不能投递哦~</string>
+    <string name="personal_cv_send_not_allowed_incomplete">简历填写不完整哦~</string>
+    <string name="personal_cv_apply"> 应聘 </string>
+    <string name="personal_cv_age">岁</string>
+    <string name="personal_cv_post_info">添加您三段最出彩的经历</string>
+    
+    <string name="home_page_login">邮箱</string>
+    <string name="home_page_password">密码</string>
+    <string name="home_page_sign_in">登录</string>
+    <string name="home_page_create_account">注册</string>
+    <string name="home_page_weibo">微博登录</string>
+    <string name="home_page_guest">随便看看</string>
+    <string name="home_page_forget_password">忘记密码？</string>
+    
+    <string name="inscription_login">邮箱</string>
+    <string name="inscription_button">注册</string>
+    <string name="inscription_profile">头像</string>
+    <string name="inscription_firstname">名</string>
+    <string name="inscription_lastname">姓</string>
+    <string name="inscription_name">姓名</string>
+    <string name="inscription_age">年龄</string>
+    <string name="inscription_workyear">工作年限</string>
+    <string name="inscription_city">期望工作城市</string>
+    <string name="inscription_enterprise">目前公司</string>
+    <string name="inscription_post">目前职位</string>
+    <string name="inscription_mail">邮箱</string>
+    <string name="inscription_telephone">电话</string>
+    <string name="inscription_pwd">密码</string>
+    <string name="inscription_finish">完成</string>
+    <string name="inscription_reset">重置</string>
+    <string name="inscription_hint">必填项</string>
+    <string name="inscription_photo_lib">从图库获取头像</string>
+    <string name="inscription_photo_take">从相机拍摄头像</string>
+    <string name="inscription_aggreement1">注册表明同意</string>
+    <string name="inscription_aggreement2">服务条款</string>
+    <string name="inscription_complete_info">个人资料</string>
+    <string name="inscription_cancel">取消</string>
+        
+    <string name="loggedin_publish">发内推</string>
+    <string name="loggedin_demand">求内推</string>
+    <string name="loggedin_mail">站内信</string>
+    <string name="loggedin_info">我</string>
+    <string name="loggedin_success">登录成功</string>
+    <string name="loggedin_fail_network">抱歉，由于网络原因，暂时无法登录</string>
+    <string name="loggedin_fail_password">用户名密码错误</string>
+       
+    <string name="personal_setting_upload">更换头像</string>
+    <string name="personal_setting_firstname">名</string>
+    <string name="personal_setting_lastname">姓</string>
+    <string name="personal_setting_city">所在城市</string>
+    <string name="personal_setting_enterprise">所在公司</string>
+    <string name="personal_setting_mail">邮箱</string>
+    <string name="personal_setting_telephone">电话</string>
+    <string name="personal_setting_pwd">密码</string>
+    <string name="personal_setting_send_message">站内信</string>
+    <string name="personal_setting_save">保存更改</string>
+    <string name="personal_setting_change_pwd">更改密码</string>
+    <string name="personal_setting_change">更改</string>
+    <string name="personal_setting_publish">公开</string>
+    <string name="personal_setting_offer_detele">删除</string>
+    <string name="personal_setting_first_work">应届生</string>
+      
+    <string name="publisher_enterprise">公司</string>
+    <string name="publisher_city">地点</string>
+    <string name="publisher_domain">行业</string>
+    <string name="publisher_post">职位</string>
+    <string name="publisher_mailbox">接收邮箱</string>
+    <string name="publisher_salary">月薪</string>
+    <string name="publisher_content">职位详情</string>
+    <string name="publisher_salary_unit">元/月</string>
+    <string name="publisher_entreprise_hint">必填项</string>
+    <string name="publisher_city_hint">必填项</string>
+    <string name="publisher_post_hint">必填项</string>
+    <string name="publisher_content_hint">必填项</string>
+    <string name="publisher_domain_hint">公司所属行业</string>
+    <string name="publisher_mailbox_hint">邮箱</string>
+    <string name="publisher_salary_hint">不填为面议</string>
+    <string name="publisher_finish">发布</string>
+    <string name="publisher_reset">重置</string>
+    <string name="publisher_prompt">行业</string>
+    <string name="publisher_set_favorite">赞</string>
+    <string name="publisher_phone_call">呼叫</string>
+    <string name="publisher_phone_cancel">取消</string>
+    <string name="publisher_education">学历</string>
+    <string name="publisher_workyear">工作年限</string>
+    <string name="publisher_post_info">职位信息</string>
+    <string name="publisher_post_demand">职位要求</string>
+    <string name="publisher_post_description">职位描述</string>
+    <string name="publisher_mailbox_not_public">邮箱不公开哦~</string>
+    
+    <string name="ic_menu_search">搜索</string>
+    
+    <string name="demander_search_entreprise">公司或职位</string>
+    <string name="demander_search_region">地区</string>
+    <string name="demander_search">搜索</string>
+    
+    <string name="publisher_info_name">推荐人</string>
+    <string name="publisher_info_city">目前在</string>
+    <string name="publisher_info_entreprise">就职于</string>
+    <string name="publisher_info_contact_info">联系方式</string>
+    <string name="publisher_info_post_detail">发布的职位</string>
+    <string name="publisher_info_send_mail">发站内信</string>
+    <string name="publisher_offer_info_date">发布日期:</string>
+    <string name="publisher_offer_info_mail">联系邮箱:</string>
+    <string name="publisher_offer_info_name">联系人</string>
+    <string name="publisher_offer_info_salary">月薪</string>
+    <string name="publisher_offer_info_education">学历</string>
+    <string name="publisher_offer_info_workyear">工作年限</string>
+    <string name="publisher_offer_info_share">分享</string>
+    <string name="publisher_offer_info_sendmail">站内信</string>
+    <string name="publisher_offer_info_favorite">收藏</string>
+    <string name="publisher_offer_success">恭喜，职位发布成功</string>
+    <string name="publisher_offer_modify_success">恭喜，职位修改成功</string>
+    <string name="publisher_offer_fail">抱歉，职位发送失败</string>
+    <string name="publisher_offer_modify_fail">抱歉，职位修改失败</string>
+    <string name="publisher_offer_not_complete">抱歉，您的信息填写不全</string>
+    <string name="publisher_offer_mailformat_error">抱歉，您填写的邮箱有误</string>
+    <string name="publisher_offer_mail_not_public">邮箱不公开哦~</string>
+    
+    <string name="search_favorite_offer_success">恭喜，操作成功</string>
+    <string name="search_favorite_offer_fail">抱歉，操作失败</string>     
+    <string name="search_offer_no_more">没有更多结果了哦~</string>
+    
+    <string name="setting_new_message">新消息通知</string>
+    <string name="setting_new_message_accept">接受</string>
+    <string name="setting_version">版本</string>
+    <string name="setting_about_us">关于我们</string>
+    <string name="setting_recommand_friedns">推荐给朋友</string>
+    
+    <string name="setting_person_profile">头像</string>
+    <string name="setting_person_name">姓名</string>
+    <string name="setting_person_email">邮箱</string>
+    <string name="setting_person_phone">手机</string>
+    <string name="setting_person_city">目前城市</string>
+    <string name="setting_person_entreprise">目前公司</string>
+    <string name="setting_person_public">公开</string>
+    <string name="setting_person_private">隐藏</string>
+    <string name="setting_person_info">个人信息</string>
+    <string name="setting_person_workinfo">职业信息</string>
+    <string name="setting_person_favorite_offer">收藏的职位</string>
+    <string name="setting_person_applied_offer">应聘的职位</string>
+    <string name="setting_person_published_offer">发出的职位</string>
+       
+    <string name="chat_list_bar_title">站内信</string>
+    <string name="chat_list_bar_edit">编辑</string>
+    <string name="chat_list_system">系统消息</string>
+    <string name="chat_list_system_noMessage">没有系统消息</string>
+    <string name="chat_list_cv">我收到的简历</string>
+    <string name="chat_friend_name">姓名</string>
+    <string name="chat_list_last_message">没有新消息</string>
+    <string name="chat_list_last_message_time">时间</string>
+    <string name="chat_bar_title">未知</string>
+    <string name="chat_bar_return">返回</string>
+    <string name="chat_back">返回</string>
+    <string name="chat_send">发送</string>
+    <string name="char_fail">信息发送失败</string>
+    
+    <string name="forget_pwd_mail">注册的邮箱</string>
+    
+    <string name="aboutus_qq">官方吐槽QQ：3175007934</string>
+    <string name="aboutus_weixin">微信公众账号：OfferLink</string>
+    <string name="aboutus_service">服务条款</string>
+    
+    <string name="agreement">
+        伯乐内聘服务协议
+一、接受条款
+1、本协议为OfferLink工作组（以下称“公司”）提供的移动招聘平台（伯乐内聘）的使用人（下称“用户”）之间的服务协议（下称“本协议”）。
+
+2、公司在此特别提示，用户欲使用伯乐内聘服务，必须事先认真阅读本协议全部条款（未成年人阅读时应得到其监护人的陪同），特别是本协议中免除、减轻或者限制公司责任的全部条款以及含有限制用户权利内容的全部条款。
+
+3、用户下载、注册、登录、使用及连接伯乐内聘服务等行为均将被视为用户完全了解、接受并同意遵守本协议项下的全部内容。本协议可由公司单方随时修改，修改后的协议条款一经公司公布即代替本协议的原条款，构成用户与公司之间就本协议主题事由的全部、最新协议。用户可随时在公司网站或伯乐内聘应用程序中查阅最新协议条款。如果用户不接受公司修改后的最新协议条款，请立即停止使用伯乐内聘服务。如用户选择继续使用伯乐内聘服务，则视为用户完全了解、接受并同意遵守公司修改后的最新协议条款。
+
+4、用户特此声明，已经完全理解本协议相关内容，并不存在任何重大误解；同时，认可协议内容并不存在显失公平的情形。
+ 
+
+二、用户信息条款
+1、用户个人信息。用户个人信息包括下列信息：用户真实姓名，头像，工作信息，学历信息，手机号码，电子邮箱，IP地址。
+
+2、非用户个人信息。用户对伯乐内聘服务的操作状态、使用记录、使用习惯等反映在公司服务器端的全部记录信息，及其他一切本条第1款所述的用户个人信息范围外的信息，均为普通信息，均不属于用户个人信息。
+
+3、第三方平台记录信息。用户通过新浪微博账号等第三方平台账号（下称“第三方平台”）注册、登陆、使用伯乐内聘服务的，将被视为用户完全了解、同意并接受公司已包括但不限于收集、统计、分析等方式使用其在新浪微博等第三方平台上填写、登记、公布、记录的全部信息（下称“第三方平台记录信息”）。用户一旦使用第三方平台账号注册、登陆、使用伯乐内聘服务，公司对该等第三方平台记录的信息的任何使用，均将被视为已经获得了用户本人的完全同意并接受。
+
+4、重要提示：为向客户提供伯乐内聘服务，公司将可能使用用户个人信息、非用户个人信息及第三方平台记录信息（以下合称“用户信息”）。用户一旦注册、登陆、使用伯乐内聘服务，将视为用户完全了解、同意并接受公司通过包括但不限于收集、统计、分析、使用等方式使用用户信息。
+
+5、用户个人信息的使用目的、方式和范围。用户承诺其已完全了解：公司使用用户信息的目的在于：为用户提供包括职位推荐、简历查询、发布职位等伯乐内聘服务的各项功能；公司使用用户信息的方式包括但不限于：收集、统计、分析、商业用途的使用等方式；公司使用用户信息的范围包括但不限于：本条第1、2、3款所定义的用户个人信息、非用户个人信息、第三方平台记录信息等。
+
+6、用户查询、更正信息的渠道。用户可通过伯乐内聘服务中的【更新个人信息】相关功能查询、更正其授权伯乐内聘服务使用的用户信息。
+
+7、用户拒绝提供信息的方式及后果。用户可以通过停止使用伯乐内聘服务，不再向公司提供用户信息。但是，用户此前同意公司使用的用户信息，公司不承担删除、销毁的责任。用户拒绝提供用户信息的，公司可以随时停止提供伯乐内聘服务。
+
+8、特别说明：用户授权的明确性和不可撤销性。用户注册、登陆、使用伯乐内聘服务的行为，即视为明确同意公司收集和使用其用户信息，无需其他意思表示。用户对公司的前述明确同意是不可撤销、基于其自身真实意思表示的授权。公司对用户信息的使用无需向用户支付任何费用。用户可关闭账户或者停止使用伯乐内聘服务，但是用户前述关闭或停止使用的行为，对公司无追溯效力，公司此前经用户同意和授权对用户信息的一切使用行为，仍然合法有效。
+
+9、公司承诺。公司不会以违反法律、行政法规以及本协议约定的方式收集、使用用户信息。
+ 
+
+三、伯乐内聘服务使用规则
+1、用户完全了解并同意：用户对以其帐号注册、登陆、使用伯乐内聘服务的全部行为，包括其提供给公司的全部用户信息、以其伯乐内聘服务账号进行的所有行为和事件独立承担完全的法律责任。
+
+2、用户同意在使用伯乐内聘服务过程中，严格遵守以下规则：
+（1）遵守中国法律、法规、行政规章及规范性文件；
+
+（2）遵守公司所有与伯乐内聘服务有关的协议、规定、程序、通知、使用守则等全部文件；
+
+（3）不得为任何违法、犯罪目的而使用伯乐内聘服务；
+
+（4）不得以任何形式使用伯乐内聘服务侵犯公司的合法权利；
+
+（5）不得利用伯乐内聘服务进行任何可能对互联网正常运转造成不利影响的行为；
+
+（6）不得利用公司提供的服务上传、展示或传播任何虚假的、骚扰性的、中伤他人的、种族歧视性的、辱骂性的、恐吓性的、情色的或其他任何非法的信息资料；
+
+（7）不得以任何方式侵犯其他任何人依法享有的专利权、著作权、商标权、商业秘密等知识产权，第三人的名誉权或其他任何第三方的合法权益。
+
+3、公司有权对用户使用伯乐内聘服务的情况进行审查和监督，如用户在使用伯乐内聘服务时违反任何上述约定，公司有权要求用户改正或直接单方面采取一切必要措施，以消除或减轻用户不当行为给公司、第三方、互联网服务或社会公共利益造成的任何影响。公司在进行前述操作前，操作过程中或操作完成后不对用户进行任何方式的通知。
+
+4、用户在使用公司各项服务的同时，同意接受公司发布、推送、提供的各类信息。
+
+5、用户同意，公司有权随时变更、中止或终止部分或全部的伯乐内聘服务，公司无需就此通知用户，且公司不因此对用户或任何第三方承担任何责任。
+ 
+
+四、信息披露的免责条款
+公司将按照法律法规的规定及行业规范使用用户信息，不向任何无关的第三方披露用户个人信息中能够对用户个人进行身份辨识的用户个人信息或用户个人通讯信息，但有下列情形之一的除外：
+
+1、事先获得了用户的明确授权；
+
+2、为了维护公众以及公司的合法利益；
+
+3、公司可能会与第三方合作向用户提供相关的网络服务，在此情形下，如果该等第三方同意承担与本协议约定的用户隐私保护条款同等的责任，则公司有权将用户信息提供给该等第三方，无需获得用户的另行同意；
+
+4、按照有关的法律法规要求；
+
+5、按照相关政府主管部门、司法机关的要求。
+用户完全了解并同意，发生上述任何一种或多种情形时，公司对向任何第三方披露用户信息的行为不承担任何责任。
+ 
+
+五、知识产权
+
+1、“知识产权”是指与伯乐内聘服务相关的各种类的过去有效的、现行有效的、或即将产生的知识产权，包括但不限于发明专利、商标、著作权、实用新型、外观设计、布图设计、商业秘密、其他知识产权以及相关申请的权利。
+
+2、公司为与伯乐内聘服务相关的全部知识产权的权利人，对伯乐内聘服务提供过程中包含的全部知识产权，包括但不限于任何文本、图片、图形、音频和/或视频资料享有及保留完整、独立的全部权利。未经公司同意，用户不得在任何媒体直接或间接发布、播放、出于播放或发布目的而改写或再发行公司享有知识产权的或者伯乐内聘服务提供任何资料和信息，也不得将前述资料和信息用于任何商业目的。
+
+3、对于用户本人创作并上传到伯乐内聘网站或平台的任何文本、图片、图形、音频和/ 或视频等，公司保留对其内容进行实时监控的权利，并有权依公司独立判断对任何违反本协议约定或涉嫌违法、违规的内容实施删除。公司对于删除用户作品引起的任何后果或导致用户的任何损失不负任何责任。
+
+4、本条款非经公司书面同意将持续有效，不因用户关闭伯乐内聘服务账户或者停止使用伯乐内聘服务而失效。
+ 
+
+六、其他免责声明
+
+1、信息依现状提供。公司提供的全部服务信息仅依照该等信息提供时的现状提供并仅供用户参考，公司不对信前述信息的准确性、完整性、适用性等做任何承诺和保证。用户应对公司提供的信息自行判断，并承担因使用前述信息而引起的任何、全部风险，包括因其对信息的正确性、完整性或实用性的任何依赖或信任而导致的风险。公司无需对因用户使用信息的任何行为导致的任何损失承担责任。
+
+2、对于因不可抗力或公司不能预料、或不能控制的原因（包括但不限于计算机病毒或黑客攻击、系统不稳定、用户不当使用账户、以及其他任何技术、互联网络、通信线路原因等）造成的包括但不限于用户计算机信息和数据的安全，用户个人信息的安全等给用户或任何第三方造成的任何损失等，公司不承担任何责任。
+
+3、由于用户以违法、违规或违反本协议约定等任何方式使用伯乐内聘服务的行为，包括但不限于登录网站内容违法、不真实、不正当，侵犯第三方任何合法权益等，给公司或其他第三人造成的任何损失，用户同意承担由此造成的全部损害赔偿责任。
+
+4、用户完全了解并同意，在使用伯乐内聘服务的过程中，可能存在来自任何其他第三方的包括威胁性的、诽谤性的、令人反感的或非法的内容或行为，也可能存在对他人权利（包括知识产权）造成侵犯的匿名、冒名、或伪造的各种信息或行为，用户须自行判断相关内容、信息、行为的安全性等风险，并自行独立承担上述风险给公司或第三方造成的任何责任。
+
+5、公司及其合作方对伯乐内聘服务的任何及全部内容不作任何形式的承诺或保证，不论是明确的或暗示的。前述承诺或保证包括但不限于：伯乐内聘服务真实性、适销性、对特定用途的适用性、任何形式的所有权保证，非侵权保证等。公司对因前述未做承诺或保证的内容导致的任何直接、间接、偶然、特殊及后续的损害，不承担任何责任。
+ 
+
+七、适用法律和争议解决
+
+1、本协议的成立、生效、履行、解释及因本协议产生的任何争议，均适用中华人民共和国法律（不包括港澳台地区法律）。
+
+2、用户和公司之间与本协议有关的任何争议，首先应友好协商解决，在争议发生之日起三十日内仍不能通过协商达成一致的，用户在此完全、不可撤销地同意将前述争议提交有限公司住所地的人民法院进行诉讼。
+ 
+
+八、其他规定
+
+1、如本协议中的任何条款因任何原因完全或部分无效或不具有执行力，均不影响本协议其他条款的效力。
+
+2、本协议及本协议任何条款内容的最终解释权及修改权归公司所有。若您对公司及本服务有任何意见，欢迎垂询公司客服中心。服务热线：【QQ：3175007934】，服务网站：【http://www.offerlink.cn】。
+        
+    </string>
+</resources>

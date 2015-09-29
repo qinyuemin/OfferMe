@@ -1,0 +1,137 @@
+package com.offerme.client.service;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Toast;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalDataBase;
+import com.offerme.client.localdata.LocalPersonInfo;
+import com.offerme.client.service.chat.ApplyOfferMessage;
+import com.offerme.client.service.publishoffer.OfferInfo;
+import com.offerme.client.service.search.SearchResulatItem;
+import com.offerme.client.service.socket.SocketCommunication;
+import com.offerme.client.socket.Request;
+import com.offerme.client.socket.RequestType;
+
+public class ApplyOfferSrvc implements SocketSrvc {
+
+	private static ApplyOfferSrvc srvc = null;
+	private LocalPersonInfo personInfo = null;
+	private LocalDataBase dataBase = null;
+	private UtilSrvc utilSrvc;
+	private ApplyOfferMessage cvMessage;
+	private OfferInfo offerInfo = new OfferInfo();
+	private SocketCommunication socket;
+	private Context context;
+	private Dialog processDialog;
+	private Toast toast;
+
+	private ApplyOfferSrvc(UtilSrvc service) {
+		this.utilSrvc = service;
+	}
+
+	public static ApplyOfferSrvc getInstance(UtilSrvc service) {
+		if (srvc == null) {
+			srvc = new ApplyOfferSrvc(service);
+		}
+		return srvc;
+	}
+
+	public void sendCV(Context ctx, SearchResulatItem offer) {
+		context = ctx;
+		personInfo = LocalPersonInfo.getInstance(context);
+		dataBase = LocalDataBase.getInstance(context);
+		setCVMessage(offer);
+		setProcessDialog();
+		socket = new SocketCommunication(this);
+		socket.execute();
+	}
+
+	private void showText(String text) {
+		toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.show();
+	}
+
+	private void setCVMessage(SearchResulatItem offer) {
+		String offerID = offer.getOfferID();
+		String recieverID = String
+				.valueOf(offer.getPublisherInfo().getUserID());
+		cvMessage = new ApplyOfferMessage(offerID,
+				personInfo.getValue(LocalPersonInfo.USERID), recieverID);
+	}
+	
+	private void convertToOffer(SearchResulatItem offer)
+	{
+		
+	}
+
+	private void setProcessDialog() {
+		LayoutInflater factory = LayoutInflater.from(context);
+		View dialogView = factory.inflate(R.layout.dialog_process, null);
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		processDialog = builder.create();
+		((AlertDialog) processDialog).setView(dialogView, 0, 0, 0, 0);
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onPreExecute() {
+		processDialog.show();
+		Window window = processDialog.getWindow();
+		window.setGravity(Gravity.CENTER);
+		WindowManager.LayoutParams lp = window.getAttributes();
+		lp.alpha = 0.5f;
+		lp.width = 200;
+		lp.height = 300;
+		window.setAttributes(lp);
+		window.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
+				WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+	}
+
+	@Override
+	public Boolean doInBackground(String... params) {
+		Request request = Request.getInstance();
+		String[] strReply = new String[] { "" };
+		String rlt = request.getResualtFromJson(request.sendRequestGetReply(
+				RequestType.APPLY_OFFER, strReply, cvMessage));
+		System.out
+				.println("ApplyOffer->doInBackground: Show me the reply got: "
+						+ rlt);
+		if (rlt != null) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void onProgressUpdate(Integer... values) {
+
+	}
+
+	@Override
+	public void onPostExecute(Boolean success) {
+		processDialog.dismiss();
+		if (success) {
+			// updatePersonInfo();
+			dataBase.insertOffer(info);
+			showText(context.getResources().getString(
+					R.string.personal_cv_send_success));
+		} else {
+			showText(context.getResources().getString(
+					R.string.personal_cv_send_fail));
+		}
+	}
+
+	@Override
+	public void onCancelled() {
+		socket.cancel(true);
+	}
+}

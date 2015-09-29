@@ -1,0 +1,119 @@
+package com.offerme.client.service;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Toast;
+
+import com.offerme.R;
+import com.offerme.client.http.HttpRequest;
+import com.offerme.client.http.HttpServiceType;
+import com.offerme.client.service.socket.SocketCommunication;
+
+public class ForgetPasswordSrvc implements SocketSrvc {
+	private static ForgetPasswordSrvc srvc = null;
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private SocketCommunication socket;
+	private Context context;
+	private Toast toast;
+	private Dialog processDialog;
+	private String mailAddress;
+	private String resualt;
+
+	private ForgetPasswordSrvc() {
+	}
+
+	public static ForgetPasswordSrvc getInstance() {
+		if (srvc == null) {
+			srvc = new ForgetPasswordSrvc();
+		}
+		return srvc;
+	}
+
+	private void showText(String text) {
+		toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.show();
+	}
+
+	private boolean isMailAddress(String address) {
+		if (!android.util.Patterns.EMAIL_ADDRESS.matcher(address).matches()) {
+			showText("邮箱格式不正确哦~");
+			return false;
+		}
+		return true;
+	}
+
+	public void submit(String mail, Context ctx) {
+		context = ctx;
+		mailAddress = mail;
+		if (isMailAddress(mail)) {
+			setProcessDialog();
+			socket = new SocketCommunication(this);
+			socket.execute();
+		}
+	}
+
+	private void setProcessDialog() {
+		LayoutInflater factory = LayoutInflater.from(context);
+		View dialogView = factory.inflate(R.layout.dialog_process, null);
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		processDialog = builder.create();
+		((AlertDialog) processDialog).setView(dialogView, 0, 0, 0, 0);
+	}
+
+	@Override
+	public void onPreExecute() {
+		processDialog.setCancelable(true);
+		processDialog.show();
+		Window window = processDialog.getWindow();
+		window.setGravity(Gravity.CENTER);
+		WindowManager.LayoutParams lp = window.getAttributes();
+		lp.alpha = 0.5f;
+		lp.width = 200;
+		lp.height = 300;
+		window.setAttributes(lp);
+	}
+
+	@Override
+	public Boolean doInBackground(String... params) {
+		resualt = HttpRequest.getHttpResponseStr(HttpServiceType.FORGET_PWD,
+				mailAddress);
+		System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX: "+resualt);
+		if (resualt != null) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void onProgressUpdate(Integer... values) {
+
+	}
+
+	@Override
+	public void onPostExecute(Boolean success) {
+		processDialog.dismiss();
+		if (success) {
+			if (resualt.contains("OK")) {
+				showText("邮件已发送成功");
+			} else {
+				showText("此邮箱没有被注册哦~");
+			}
+			//utilSrvc.gotoHomeInPage(context);
+		} else {
+			showText("邮件发送失败");
+		}
+	}
+
+	@Override
+	public void onCancelled() {
+		socket.cancel(true);
+	}
+
+}

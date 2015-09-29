@@ -1,0 +1,43 @@
+package com.offerme.client.service;
+
+import java.util.Collections;
+
+import android.content.Context;
+import android.view.Gravity;
+import android.widget.Toast;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalDataBase;
+import com.offerme.client.localdata.LocalPersonInfo;
+import com.offerme.client.service.cv.PersonalCV;
+import com.offerme.client.service.cv.CVList;
+import com.offerme.client.socket.Request;
+import com.offerme.client.socket.RequestType;
+
+public class CVManagerSrvc {
+	private static CVManagerSrvc cvMessageSrvc = new CVManagerSrvc();
+
+	private CVManagerSrvc() {
+	}
+
+	public static CVManagerSrvc getInstance() {
+		return cvMessageSrvc;
+	}
+
+	public CVList getCVList(Context ctx) {
+
+		LocalPersonInfo personInfo = LocalPersonInfo.getInstance(ctx);
+		if (personInfo.getValue(LocalPersonInfo.USERID) == null) {
+			return null;
+		}
+		Integer userId = Integer.parseInt(personInfo
+				.getValue(LocalPersonInfo.USERID));
+
+		Request request = Request.getInstance();
+		CVList comCVList = request.sendRequestGetReplyObject(
+				RequestType.GET_MESSAGE, CVList.class, userId);
+
+		return comCVList;
+	}
+
+}

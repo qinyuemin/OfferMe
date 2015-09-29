@@ -1,0 +1,114 @@
+package com.offerme.client.activity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalDataBase;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.chat.ChatFriend;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
+
+public class ChatFriendListActivity extends Fragment {
+
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private LocalDataBase localDatabase = LocalDataBase
+			.getInstance(getActivity());
+
+	private Context context;
+	private List<ChatFriend> friendList = new ArrayList<ChatFriend>();
+
+	private ListView friendListView;
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.activity_chat_friend_list, container,
+				false);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		Log.v("Debug", "XXXXXXXXXXXXXXXXXXXXXXXX");
+		super.onActivityCreated(savedInstanceState);
+		context = this.getActivity();
+		initWidget();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		loadData();
+	}
+
+	private void initWidget() {
+		friendListView = (ListView) getActivity().findViewById(
+				R.id.chat_friend_list);
+		friendListView.setOnItemClickListener(new FriendItemClickListener());
+		friendListView.setAdapter(new ChatFriendListAdapter());
+	}
+
+	private void loadData() {
+		List<ChatFriend> friends = localDatabase.findAllFriends();
+		if (friends != null && !friends.isEmpty()) {
+			friendList.addAll(friends);
+		}
+	}
+
+	private class FriendItemClickListener implements OnItemClickListener {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			Log.v("Debug", "Chat->onItemClick->Show me the friend name: "
+					+ friendList.get(position).getName());
+			utilSrvc.gotoChatPage(context, friendList.get(position));
+		}
+	}
+
+	private class ChatFriendListAdapter extends BaseAdapter {
+
+		@Override
+		public int getCount() {
+			return friendList.size();
+		}
+
+		@Override
+		public ChatFriend getItem(int position) {
+			return friendList.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			ChatFriend friend = this.getItem(position);
+			if (convertView == null) {
+				LayoutInflater layoutInflater = (LayoutInflater) context
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = layoutInflater.inflate(
+						R.layout.activity_chat_friend_item, null);
+			}
+			TextView name = (TextView) convertView
+					.findViewById(R.id.chat_friend_name);
+			name.setText(friend.getName());
+			return convertView;
+		}
+	}
+
+}

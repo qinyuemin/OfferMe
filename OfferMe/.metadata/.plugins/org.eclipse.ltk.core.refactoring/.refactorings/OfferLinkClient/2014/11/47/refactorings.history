@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;com.offerme.client.activity.PersonalWorkInputActivity&apos; to &apos;PersonalCVWorkInputActivity&apos;&#x0D;&#x0A;- Original project: &apos;OfferMeClient&apos;&#x0D;&#x0A;- Original element: &apos;com.offerme.client.activity.PersonalWorkInputActivity&apos;&#x0D;&#x0A;- Renamed element: &apos;com.offerme.client.activity.PersonalCVWorkInputActivity&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;PersonalWorkInputActivity&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;com.offerme.client.activity{PersonalWorkInputActivity.java[PersonalWorkInputActivity" matchStrategy="1" name="PersonalCVWorkInputActivity" qualified="false" references="true" similarDeclarations="false" stamp="1416142376649" textual="false" version="1.0"/>
+</session>

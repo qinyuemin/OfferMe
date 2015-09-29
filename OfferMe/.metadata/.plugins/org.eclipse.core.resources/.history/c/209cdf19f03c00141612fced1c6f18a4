@@ -1,0 +1,124 @@
+package com.offerme.client.service.publishoffer;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Toast;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalDataBase;
+import com.offerme.client.localdata.LocalPersonInfo;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.socket.SocketCommunication;
+import com.offerme.client.socket.Request;
+import com.offerme.client.socket.RequestType;
+
+public class PublishOffer {
+	private Dialog processDialog;
+	private Context context;
+	private Toast toast;
+	private OfferInfo offerInfo = null;
+	private LocalPersonInfo personInfo = null;
+	private LocalDataBase dataBase = null;
+
+	public boolean submit(Context ctx, OfferInfo info) {
+		context = ctx;
+		offerInfo = info;
+		offerInfo.setUserID(personInfo.getValue(LocalPersonInfo.USERID));
+		Log.v("Debug", "PublishOffer->submit->Show me the user info: "
+				+ personInfo.getValue(LocalPersonInfo.USERID));
+		return this.doInBackground();
+	}
+
+	public void checkOfferInfo(Context context, OfferInfo offerInfo) {
+		personInfo = LocalPersonInfo.getInstance(context);
+		dataBase = LocalDataBase.getInstance(context);
+		if (!offerInfo.isAllSet()) {
+			toast = Toast.makeText(context, "抱歉，您的信息填写不全", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+			offerInfo.setIsComplete(false);
+		} else if (!offerInfo.checkEmailAddress(offerInfo.getMailbox(),
+				personInfo.getValue(LocalPersonInfo.EMAIL))) {
+			toast = Toast.makeText(context, "抱歉，您填写的邮箱有误", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+			offerInfo.setIsComplete(false);
+		} else {
+			offerInfo.setIsComplete(true);
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	public void onPreExecute(Dialog dialog, final SocketCommunication socketTask) {
+		processDialog = dialog;
+		processDialog.show();
+		Window window = processDialog.getWindow();
+		window.setGravity(Gravity.CENTER);
+		WindowManager.LayoutParams lp = window.getAttributes();
+		lp.alpha = 0.5f;
+		lp.width = 200;
+		lp.height = 300;
+		window.setAttributes(lp);
+		window.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
+				WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+	}
+
+	public Boolean doInBackground() {
+
+		Request request = Request.getInstance();
+		String[] strReply = new String[] { "" };
+		String rlt = request.getResualtFromJson(request.sendRequestGetReply(
+				RequestType.PUBLISHOFFER, strReply, offerInfo));
+		Log.v("Debug", "PublishOffer->doInBackground: Show me the reply got: "
+				+ rlt);
+		if (rlt != null) {
+			offerInfo.setOfferID(rlt.substring(12, rlt.length() - 1));
+			offerInfo.setDate(rlt.substring(1, 11));
+			dataBase.insertOffer(offerInfo);
+			// dataBase.visiterAllData(LocalDataBase.OFFERTABLENAME);
+			return true;
+		}
+		return false;
+	}
+
+	public void onProgressUpdate(Integer... values) {
+		// TODO Auto-generated method stub
+	}
+
+	public void onPostExecute(Boolean success, UtilSrvc utilSrvc) {
+		processDialog.dismiss();
+		String text = new String();
+		if (success) {
+			if (dataBase.hasOffer(offerInfo.getOfferID())) {
+				text = (String) context.getResources().getText(
+						R.string.publisher_offer_modify_success);
+			} else {
+				text = (String) context.getResources().getText(
+						R.string.publisher_offer_success);
+			}
+			toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+			utilSrvc.gotoLoggedInPage(context);
+		} else {
+			if(dataBase.hasOffer(offerInfo.getOfferID()))
+			{text = (String) context.getResources().getText(
+					R.string.publisher_offer_modify_fail);}
+			else
+			{text = (String) context.getResources().getText(
+					R.string.publisher_offer_fail);}
+			 
+			toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+		}
+	}
+
+	public void onCancelled(SocketCommunication socketTask) {
+		socketTask.cancel(true);
+	}
+}

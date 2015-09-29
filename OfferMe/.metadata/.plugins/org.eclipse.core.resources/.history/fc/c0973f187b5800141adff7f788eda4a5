@@ -1,0 +1,1127 @@
+package com.offerme.client.localdata;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.offerme.client.service.chat.ChatFriend;
+import com.offerme.client.service.chat.ChatMessage;
+import com.offerme.client.service.cv.PersonalCV;
+import com.offerme.client.service.cv.PersonalWorkInfo;
+import com.offerme.client.service.publishoffer.OfferInfo;
+import com.offerme.client.service.publishoffer.PublisherInfo;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class LocalDataBase {
+
+	private static LocalDataBase data = null;
+	private LocalPersonInfo personInfo = null;
+	private static SQLiteDatabase dataBase = null;
+	private Context context = null;
+	private List<Integer> newMessageFriends = new ArrayList<Integer>();
+	private final static String DATABASENAME = "OfferMeLocalDB.db";
+	private final static int DATABASEVERSION = 1;
+	public final static String OFFERTABLENAME = "OfferTable";
+	public final static String MESSAGETABLENAME = "MessageTable";
+	public final static String FRIENDTABLENAME = "FriendTable";
+	public final static String USERTABLENAME = "UserTable";
+	public final static String CVTABLENAME = "CVTable";
+
+	private LocalDataBase(Context ctx) {
+		context = ctx;
+		personInfo = LocalPersonInfo.getInstance(ctx);
+	}
+
+	public static LocalDataBase getInstance(Context context) {
+		if (data == null) {
+			data = new LocalDataBase(context);
+		}
+		return data;
+	}
+
+	public void deleteDataBase(String tableName) {
+		connectDataBase();
+		String sql = "DROP TABLE " + tableName;
+		System.out
+				.println("LogcalDataBase->deleteDataBase: Show me the delete sql: "
+						+ sql);
+		dataBase.execSQL(sql);
+		closeDataBase();
+	}
+
+	public void connectDataBase() {
+		openHelper helper = new openHelper();
+		if (dataBase != null && dataBase.isOpen()) {
+			closeDataBase();
+		}
+		dataBase = helper.getWritableDatabase();
+		createOfferTable();
+		createMessageTable();
+		createFriendTable();
+		createUserTable();
+		createCVTable();
+	}
+
+	public boolean createUserTable() {
+		try {
+			String sql = "CREATE TABLE IF NOT EXISTS " + USERTABLENAME + " ( "
+					+ " TELEPHONE VARCHAR(50) DEFAULT NULL, "
+					+ " MAIL  VARCHAR(100) DEFAULT NULL, "
+					+ " NAME  VARCHAR(100)  DEFAULT NULL , "
+					+ " CITY VARCHAR(10) DEFAULT NULL, "
+					+ " ENTREPRISE  VARCHAR(100) DEFAULT NULL, "
+					+ " ISPHONEPUBLIC VARCHAR(100) DEFAULT FALSE, "
+					+ " ISMAILPUBLIC VARCHAR(100) DEFAULT FALSE, "
+					+ " PROFILE BLOB DEFAULT NULL, "
+					+ " USERID VARCHAR(100) DEFAULT NULL, "
+					+ "PRIMARY KEY ('USERID'))";
+			if (dataBase.isOpen()) {
+				dataBase.execSQL(sql);
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return false;
+	}
+
+	private boolean createOfferTable() {
+		try {
+			String sql = "CREATE TABLE IF NOT EXISTS " + OFFERTABLENAME + " ( "
+					+ " OFFERID VARCHAR(100) DEFAULT NULL, "
+					+ " DATE  VARCHAR(20) DEFAULT NULL, "
+					+ " USERID  VARCHAR(100)  DEFAULT NULL , "
+					+ " FAVORITE VARCHAR(5) DEFAULT FALSE, "
+					+ " ENTREPRISE  VARCHAR(100) DEFAULT NULL, "
+					+ " CITY VARCHAR(100) DEFAULT NULL, "
+					+ " POST VARCHAR(100) DEFAULT NULL, "
+					+ " DOMAIN VARCHAR(100) DEFAULT NULL, "
+					+ " SALARY VARCHAR(100) DEFAULT NULL, "
+					+ " DESCRIPTION VARCHAR(1000) DEFAULT NULL,"
+					+ " APPLIED VARCHAR(5) DEFAULT FALSE,"
+					+ " OFFEROWNERID VARCHAR(20) DEFAULT NULL,"
+					+ " ACCPETED VARCHAR(5) DEFAULT FALSE, "
+					+ " PRIMARY KEY ('OFFERID','USERID'))";
+			if (dataBase.isOpen()) {
+				dataBase.execSQL(sql);
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return false;
+	}
+
+	private boolean createMessageTable() {
+		try {
+			String sql = "CREATE TABLE IF NOT EXISTS " + MESSAGETABLENAME
+					+ " ( " + " MESSAGE_ID numeric(100) DEFAULT NULL, "
+					+ " SENDER_ID numeric(100) DEFAULT NULL, "
+					+ " SENDER varchar(100) DEFAULT NULL, "
+					+ " RECEIVER_ID numeric(100)  DEFAULT NULL , "
+					+ " RECEIVER varchar(100)  DEFAULT NULL , "
+					+ " CONTENT varchar(512) DEFAULT NULL, "
+					+ " IS_COMING char(1) DEFAULT NULL, "
+					+ " RECEIVE_DATE varchar(100) DEFAULT NULL, "
+					+ " IS_READ char(1) DEFAULT NULL, "
+					+ " USERID VARCHAR(100) DEFAULT NULL, "
+					+ "PRIMARY KEY ('MESSAGE_ID',USERID))";
+			if (dataBase.isOpen()) {
+				dataBase.execSQL(sql);
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return false;
+	}
+
+	private boolean createFriendTable() {
+		try {
+			String sql = "CREATE TABLE IF NOT EXISTS " + FRIENDTABLENAME
+					+ " ( " + " FRIEND_ID numeric(100) DEFAULT NULL, "
+					+ " NAME varchar(100) DEFAULT NULL, "
+					+ " PORTRAIT blob DEFAULT NULL, "
+					+ " LAST_MESSAGE_ID numeric(100)  DEFAULT NULL , "
+					+ " USERID VARCHAR(100) DEFAULT NULL, "
+					+ " FRIEND_PROTRAIT_VERSION numeric(100) DEFAULT NULL, "
+					+ "PRIMARY KEY ('FRIEND_ID','USERID'))";
+			if (dataBase.isOpen()) {
+				dataBase.execSQL(sql);
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return false;
+	}
+
+	private boolean createCVTable() {
+		try {
+			String sql = "CREATE TABLE IF NOT EXISTS " + CVTABLENAME + " ( "
+					+ " CVUSERID VARCHAR(10) DEFAULT NULL, "
+					+ " NAME  VARCHAR(100) DEFAULT NULL, "
+					+ " POST  VARCHAR(100)  DEFAULT NULL , "
+					+ " AGE VARCHAR(10) DEFAULT NULL, "
+					+ " ENTREPRISE  VARCHAR(100) DEFAULT NULL, "
+					+ " WORKYEAR VARCHAR(10) DEFAULT NULL, "
+					+ " EDUCATION VARCHAR(100) DEFAULT NULL, "
+					+ " COLLEAGE VARCHAR(100) DEFAULT NULL, "
+					+ " FIRSTWORKENTREPRISE VARCHAR(100) DEFAULT NULL, "
+					+ " FIRSTWORKYEAR VARCHAR(10) DEFAULT NULL, "
+					+ " FIRSTWORKPOST VARCHAR(100) DEFAULT NULL, "
+					+ " SECONDWORKENTREPRISE VARCHAR(100) DEFAULT NULL, "
+					+ " SECONDWORKYEAR VARCHAR(10) DEFAULT NULL, "
+					+ " SECONDWORKPOST VARCHAR(100) DEFAULT NULL, "
+					+ " THIRDWORKENTREPRISE VARCHAR(100) DEFAULT NULL, "
+					+ " THIRDWORKYEAR VARCHAR(10) DEFAULT NULL, "
+					+ " THIRDWORKPOST VARCHAR(100) DEFAULT NULL, "
+					+ "	DATE VARCHAR(100) DEFAULT NULL,"
+					+ " PROFILE BLOB DEFAULT NULL, "
+					+ "	CITY VARCHAR(100) DEFAULT NULL,"
+					+ " POSTID VARCHAR(100) DEFAULT NULL,"
+					+ " POSTAPPLIED VARCHAR(100) DEFAULT NULL,"
+					+ " USERID VARCHAR(100) DEFAULT NULL, "
+					+ "PRIMARY KEY ('CVUSERID','USERID','POSTID'))";
+			if (dataBase.isOpen()) {
+				dataBase.execSQL(sql);
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return false;
+	}
+
+	public boolean hasOffer(String offerID) {
+		try {
+			if (dataBase == null || !dataBase.isOpen()) {
+				connectDataBase();
+			}
+			String sql = "SELECT * FROM " + OFFERTABLENAME + " WHERE OFFERID="
+					+ offerID + " AND USERID ="
+					+ personInfo.getValue(LocalPersonInfo.USERID);
+			System.out.println("Show me the sql in has offer: " + sql);
+			Cursor cursor = dataBase.rawQuery(sql, null);
+			if (cursor.isAfterLast()) {
+				System.out.println("");
+				return false;
+			}
+			cursor.moveToFirst();
+			cursor.close();
+			// closeDataBase();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public boolean hasMessage(Integer messageId) {
+		try {
+			if (dataBase == null || !dataBase.isOpen()) {
+				connectDataBase();
+			}
+			String sql = "SELECT * FROM " + MESSAGETABLENAME
+					+ " WHERE MESSAGE_ID =" + messageId + " AND USERID= "
+					+ personInfo.getValue(LocalPersonInfo.USERID);
+			Cursor cursor = dataBase.rawQuery(sql, null);
+			if (cursor.isAfterLast()) {
+				return false;
+			}
+			cursor.moveToFirst();
+			cursor.close();
+			// closeDataBase();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public boolean hasFriend(Integer friendId) {
+		try {
+			if (dataBase == null || !dataBase.isOpen()) {
+				connectDataBase();
+			}
+			String sql = "SELECT * FROM " + FRIENDTABLENAME
+					+ " WHERE FRIEND_ID =" + friendId + " AND USERID= "
+					+ personInfo.getValue(LocalPersonInfo.USERID);
+			Cursor cursor = dataBase.rawQuery(sql, null);
+			if (cursor.isAfterLast()) {
+				return false;
+			}
+			cursor.moveToFirst();
+			cursor.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public boolean hasUser(Integer userId) {
+		try {
+			if (dataBase == null || !dataBase.isOpen()) {
+				connectDataBase();
+			}
+			String sql = "SELECT * FROM " + USERTABLENAME + " WHERE USERID ="
+					+ userId;
+			Cursor cursor = dataBase.rawQuery(sql, null);
+			if (cursor.isAfterLast()) {
+				return false;
+			}
+			if (userId == Integer.parseInt(personInfo
+					.getValue(LocalPersonInfo.USERID))) {
+				return false;
+			}
+			cursor.moveToFirst();
+			cursor.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public boolean hasCV(Integer cvuserID, Integer offerID) {
+		try {
+			if (dataBase == null || !dataBase.isOpen()) {
+				connectDataBase();
+			}
+			String sql = "SELECT * FROM " + CVTABLENAME + " WHERE CVUSERID="
+					+ cvuserID + " AND POSTID = " + offerID + " AND USERID = "
+					+ personInfo.getValue(LocalPersonInfo.USERID);
+			Cursor cursor = dataBase.rawQuery(sql, null);
+			if (cursor.isAfterLast()) {
+				return false;
+			}
+			cursor.moveToFirst();
+			cursor.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public boolean insertUser(PublisherInfo info) {
+		try {
+			ContentValues values = new ContentValues();
+			System.out.println("Show me the user id: " + info.getUserID());
+			if (!hasUser(info.getUserID())) {
+				values.put("TELEPHONE", info.getTelephone());
+				values.put("MAIL", info.getEmail());
+				values.put("NAME", info.getName());
+				values.put("CITY", info.getCity());
+				values.put("ENTREPRISE", info.getEntreprise());
+				values.put("ISPHONEPUBLIC", info.isPhonePublished());
+				values.put("ISMAILPUBLIC", info.isMailPublished());
+				values.put("PROFILE", info.getProfile());
+				values.put("USERID", info.getUserID());
+				dataBase.insert(USERTABLENAME, null, values);
+			} else {
+				updateUser(info);
+			}
+			// this.visiterAllData(USERTABLENAME);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public boolean insertOffer(OfferInfo info) {
+		try {
+			if (dataBase == null || !dataBase.isOpen()) {
+				connectDataBase();
+			}
+			ContentValues values = new ContentValues();
+			if (!hasOffer(info.getOfferID())) {
+				values.put("OFFERID", info.getOfferID());
+				values.put("DATE", info.getDate());
+				values.put("USERID", info.getUserID());
+				values.put("FAVORITE", String.valueOf(info.getFavorite()));
+				values.put("ENTREPRISE", info.getEntreprise());
+				values.put("CITY", info.getCity());
+				values.put("POST", info.getPost());
+				values.put("DOMAIN", info.getDomain());
+				values.put("SALARY", info.getSalary());
+				values.put("DESCRIPTION", info.getDescription());
+				values.put("APPLIED", String.valueOf(info.getApplied()));
+				values.put("OFFEROWNERID", info.getOfferOwnerID());
+				values.put("ACCPETED", String.valueOf(info.getIsAccedpted()));
+				dataBase.insert(OFFERTABLENAME, null, values);
+				insertUser(info.getPublisherInfo());
+			} else {
+				updateOffer(info);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			closeDataBase();
+		}
+		return true;
+	}
+
+	public void insertChatMessages(List<ChatMessage> chatMessages) {
+		try {
+			if (dataBase == null || !dataBase.isOpen()) {
+				connectDataBase();
+			}
+			ContentValues values = new ContentValues();
+
+			if (chatMessages != null && !chatMessages.isEmpty()) {
+				for (ChatMessage chatMessage : chatMessages) {
+					if (!hasMessage(chatMessage.getMessageId())) {
+						values.put("USERID",
+								personInfo.getValue(LocalPersonInfo.USERID));
+						values.put("MESSAGE_ID", chatMessage.getMessageId());
+						values.put("CONTENT", chatMessage.getText());
+						values.put("RECEIVE_DATE", chatMessage.getDate());
+						values.put("IS_READ", "N");
+						if (chatMessage.isComMsg()) {
+							values.put("SENDER_ID", chatMessage.getUserId());
+							values.put("SENDER", chatMessage.getName());
+							values.put("IS_COMING", "Y");
+							System.out
+									.println("Add new friend from insertChatMessages: "
+											+ chatMessage.getUserId());
+							newMessageFriends.add(chatMessage.getUserId());
+						} else {
+							values.put("RECEIVER_ID", chatMessage.getUserId());
+							values.put("RECEIVER", chatMessage.getName());
+							values.put("IS_COMING", "N");
+						}
+						dataBase.insert(MESSAGETABLENAME, null, values);
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeDataBase();
+		}
+	}
+
+	public void insertOrUpdateFriends(List<ChatFriend> friends) {
+		try {
+			if (dataBase == null || !dataBase.isOpen()) {
+				connectDataBase();
+			}
+			ContentValues values = new ContentValues();
+
+			if (friends != null && !friends.isEmpty()) {
+				for (ChatFriend friend : friends) {
+					if (!hasFriend(friend.getFriendId())) {
+						values.put("USERID",
+								personInfo.getValue(LocalPersonInfo.USERID));
+						values.put("FRIEND_ID", friend.getFriendId());
+						values.put("NAME", friend.getName());
+						if (friend.getPortrait() != null) {
+							values.put("PORTRAIT", friend.getPortrait());
+						}
+						values.put("LAST_MESSAGE_ID", friend.getLastMessageId());
+						values.put("FRIEND_PROTRAIT_VERSION",
+								friend.getPortraitVersion());
+						dataBase.insert(FRIENDTABLENAME, null, values);
+					} else {
+						values.put("USERID",
+								personInfo.getValue(LocalPersonInfo.USERID));
+						values.put("NAME", friend.getName());
+						if (friend.getPortrait() != null) {
+							values.put("PORTRAIT", friend.getPortrait());
+						}
+						values.put("LAST_MESSAGE_ID", friend.getLastMessageId());
+						values.put("FRIEND_PROTRAIT_VERSION",
+								friend.getPortraitVersion());
+						String[] args = { String.valueOf(friend.getFriendId()) };
+						dataBase.update(FRIENDTABLENAME, values, "FRIEND_ID=?",
+								args);
+					}
+					if (!newMessageFriends.contains(friend.getFriendId())) {
+						System.out
+								.println("Add new friend from insertOrUpdateFriends: "
+										+ friend.getFriendId());
+						newMessageFriends.add(friend.getFriendId());
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeDataBase();
+		}
+	}
+
+	public boolean insertCV(List<PersonalCV> cvs) {
+		try {
+			if (dataBase == null || !dataBase.isOpen()) {
+				connectDataBase();
+			}
+			ContentValues values = new ContentValues();
+			if (cvs != null && !cvs.isEmpty()) {
+				for (PersonalCV cv : cvs) {
+					if (!hasCV(Integer.parseInt(cv.getUserID()),
+							Integer.parseInt(cv.getPostID()))) {
+						values.put("CVUSERID", cv.getUserID());
+						values.put("NAME", cv.getName());
+						values.put("POST", cv.getPost());
+						values.put("AGE", cv.getAge());
+						values.put("ENTREPRISE", cv.getEntreprise());
+						values.put("WORKYEAR", cv.getWorkyear());
+						values.put("EDUCATION", cv.getEducation());
+						values.put("COLLEAGE", cv.getColleage());
+						values.put("CITY", cv.getCity());
+						values.put("FIRSTWORKENTREPRISE", cv.getWorkInfo()
+								.getFirstWork());
+						values.put("FIRSTWORKYEAR", cv.getWorkInfo()
+								.getFirstWorkyear());
+						values.put("FIRSTWORKPOST", cv.getWorkInfo()
+								.getFirstWorkPost());
+						values.put("SECONDWORKENTREPRISE", cv.getWorkInfo()
+								.getSecondWork());
+						values.put("SECONDWORKYEAR", cv.getWorkInfo()
+								.getSecondWorkyear());
+						values.put("SECONDWORKPOST", cv.getWorkInfo()
+								.getSecondWorkPost());
+						values.put("THIRDWORKENTREPRISE", cv.getWorkInfo()
+								.getThirdWork());
+						values.put("THIRDWORKYEAR", cv.getWorkInfo()
+								.getThirdWorkyear());
+						values.put("THIRDWORKPOST", cv.getWorkInfo()
+								.getThirdWorkPost());
+						values.put("DATE", cv.getDate());
+						values.put("PROFILE", cv.getProfile());
+						values.put("POSTID", cv.getPostID());
+						values.put("POSTAPPLIED", cv.getPostApplied());
+						values.put("USERID",
+								personInfo.getValue(LocalPersonInfo.USERID));
+						dataBase.insert(CVTABLENAME, null, values);
+					}
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public boolean deleteFavoriteOffer(OfferInfo info) {
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		if (!isOfferApplied(info.getOfferID())) {
+			deleteOffer(info);
+		} else {
+			updateOffer(info);
+		}
+		closeDataBase();
+		return true;
+	}
+
+	public boolean deleteAppliedOffer(OfferInfo info) {
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		if (!isOfferFavorite(info.getOfferID())) {
+			deleteOffer(info);
+		} else {
+			updateOffer(info);
+		}
+		closeDataBase();
+		return true;
+	}
+
+	public boolean deletePublishedOffer(OfferInfo info) {
+		deleteOffer(info);
+		return true;
+	}
+
+	public boolean deleteOffer(OfferInfo info) {
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		String sql = "DELETE FROM " + OFFERTABLENAME + " WHERE OFFERID= "
+				+ info.getOfferID() + " AND USERID ="
+				+ personInfo.getValue(LocalPersonInfo.USERID);
+		System.out
+				.println("LocalDataBase->deleteOffer->Show me the delete sql: "
+						+ sql);
+		dataBase.execSQL(sql);
+
+		/*
+		 * if (info.getUserID() != personInfo.getValue(LocalPersonInfo.USERID))
+		 * { deleteUser(info.getOfferOwnerID()); }
+		 */
+		closeDataBase();
+		return true;
+	}
+
+	public boolean deleteUser(String userID) {
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		String sql = "DELETE FROM " + USERTABLENAME + " WHERE USERID= "
+				+ userID;
+		System.out
+				.println("LocalDataBase->deleteUser->Show me the delete sql: "
+						+ sql);
+		dataBase.execSQL(sql);
+		closeDataBase();
+		return true;
+	}
+
+	public void deleteChatMessages(List<ChatMessage> chatMessages) {
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		if (chatMessages != null && !chatMessages.isEmpty()) {
+			for (ChatMessage chatMessage : chatMessages) {
+				String sql = "DELETE FROM " + MESSAGETABLENAME
+						+ " WHERE MESSAGE_ID = " + chatMessage.getMessageId()
+						+ " AND USERID= "
+						+ personInfo.getValue(LocalPersonInfo.USERID);
+				dataBase.execSQL(sql);
+			}
+		}
+		closeDataBase();
+	}
+
+	public void deleteFriend(ChatFriend friend) {
+		if (friend != null) {
+			if (dataBase == null || !dataBase.isOpen()) {
+				connectDataBase();
+			}
+			String sql = "DELETE FROM " + FRIENDTABLENAME
+					+ " WHERE FRIEND_ID = " + friend.getFriendId()
+					+ " AND USERID= "
+					+ personInfo.getValue(LocalPersonInfo.USERID);
+			dataBase.execSQL(sql);
+			closeDataBase();
+		}
+	}
+
+	public void deleteCV(Integer cvuserID, String postApplied) {
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		String sql = "DELETE FROM " + CVTABLENAME + " WHERE CVUSERID="
+				+ cvuserID + " AND POSTAPPLIED = " + postApplied
+				+ " AND USERID = "
+				+ personInfo.getValue(LocalPersonInfo.USERID);
+		System.out.println("LocalDataBase->deleteCV->Show me the delete sql: "
+				+ sql);
+		dataBase.execSQL(sql);
+		closeDataBase();
+	}
+
+	public boolean updateUser(PublisherInfo info) {
+		try {
+			if (dataBase == null || !dataBase.isOpen()) {
+				connectDataBase();
+			}
+			ContentValues values = new ContentValues();
+			values.put("TELEPHONE", info.getTelephone());
+			values.put("MAIL", info.getEmail());
+			values.put("NAME", info.getName());
+			values.put("CITY", info.getCity());
+			values.put("ENTREPRISE", info.getEntreprise());
+			values.put("ISPHONEPUBLIC", info.isPhonePublished());
+			values.put("ISMAILPUBLIC", info.isMailPublished());
+			values.put("PROFILE", info.getProfile());
+
+			String whereClause = "USERID=?";
+			String[] whereArgs = { String.valueOf(info.getUserID()) };
+			dataBase.update(USERTABLENAME, values, whereClause, whereArgs);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public boolean updateOffer(OfferInfo info) {
+		try {
+			if (dataBase == null || !dataBase.isOpen()) {
+				connectDataBase();
+			}
+			ContentValues values = new ContentValues();
+			values.put("DATE", info.getDate());
+			values.put("FAVORITE", String.valueOf(info.getFavorite()));
+			values.put("ENTREPRISE", info.getEntreprise());
+			values.put("CITY", info.getCity());
+			values.put("POST", info.getPost());
+			values.put("DOMAIN", info.getDomain());
+			values.put("SALARY", info.getSalary());
+			values.put("DESCRIPTION", info.getDescription());
+			values.put("APPLIED", String.valueOf(info.getApplied()));
+			values.put("ACCPETED", String.valueOf(info.getIsAccedpted()));
+
+			String whereClause = "OFFERID=? AND USERID=?";
+			String[] whereArgs = { info.getOfferID(), info.getUserID() };
+			dataBase.update(OFFERTABLENAME, values, whereClause, whereArgs);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public boolean isOfferFavorite(String offerID) {
+		boolean resualt = false;
+		try {
+			if (dataBase == null || !dataBase.isOpen()) {
+				connectDataBase();
+			}
+			String sql = "SELECT * FROM " + OFFERTABLENAME + " WHERE OFFERID="
+					+ offerID + " AND USERID ="
+					+ personInfo.getValue(LocalPersonInfo.USERID);
+			System.out.println("Show me the sql: " + sql);
+			Cursor cursor = dataBase.rawQuery(sql, null);
+			if (cursor.isAfterLast()) {
+				return false;
+			}
+			cursor.moveToFirst();
+			resualt = Boolean.parseBoolean(cursor.getString(3));
+			closeDataBase();
+			cursor.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return resualt;
+	}
+
+	public boolean isOfferApplied(String offerID) {
+		boolean resualt = false;
+		try {
+			if (dataBase == null || !dataBase.isOpen()) {
+				connectDataBase();
+			}
+			String sql = "SELECT * FROM " + OFFERTABLENAME + " WHERE OFFERID="
+					+ offerID + " AND USERID ="
+					+ personInfo.getValue(LocalPersonInfo.USERID);
+			System.out.println("Show me the statement: " + sql);
+			Cursor cursor = dataBase.rawQuery(sql, null);
+			if (cursor.isAfterLast()) {
+				return false;
+			}
+			cursor.moveToFirst();
+			resualt = Boolean.parseBoolean(cursor.getString(10));
+			closeDataBase();
+			cursor.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return resualt;
+	}
+
+	public PublisherInfo findUserInfo(String userID) {
+		String userSQL = "SELECT * FROM " + USERTABLENAME + " WHERE USERID = "
+				+ userID;
+		Cursor userCursor = dataBase.rawQuery(userSQL, null);
+		System.out.println("LocalDataBase->findUserInfo->Show me the: "
+				+ userSQL);
+		userCursor.moveToFirst();
+		PublisherInfo info = new PublisherInfo();
+		if (userCursor.isAfterLast() == false) {
+			info.setTelephone(String.valueOf(userCursor.getString(0)));
+			info.setEmail(String.valueOf(userCursor.getString(1)));
+			info.setName(String.valueOf(userCursor.getString(2)));
+			info.setCity(String.valueOf(userCursor.getString(3)));
+			info.setEntreprise(String.valueOf(userCursor.getString(4)));
+			info.setPhonePublished(Boolean.getBoolean(userCursor.getString(5)));
+			info.setMailPublished(Boolean.getBoolean(userCursor.getString(6)));
+			info.setProfile(userCursor.getBlob(7));
+			info.setUserID(Integer.valueOf(userCursor.getString(8)));
+		}
+		userCursor.close();
+		return info;
+	}
+
+	public ArrayList<OfferInfo> findFavoriteOffer() {
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		ArrayList<OfferInfo> offerList = new ArrayList<OfferInfo>();
+		String offerSQL = "SELECT * FROM " + OFFERTABLENAME
+				+ " WHERE FAVORITE = 'true' AND USERID ="
+				+ personInfo.getValue(LocalPersonInfo.USERID);
+
+		Cursor offerCursor = dataBase.rawQuery(offerSQL, null);
+		System.out.println("LocalDataBase->findFavoriteOffer1->Show me the: "
+				+ offerSQL);
+		offerCursor.moveToFirst();
+		while (offerCursor.isAfterLast() == false) {
+			OfferInfo offer = new OfferInfo();
+			offer.setOfferID(String.valueOf(offerCursor.getString(0)));
+			offer.setDate(String.valueOf(offerCursor.getString(1)));
+			offer.setUserID(String.valueOf(offerCursor.getString(2)));
+			offer.setFavorite(Boolean.valueOf(offerCursor.getString(3)));
+			offer.setEntreprise(String.valueOf(offerCursor.getString(4)));
+			offer.setCity(String.valueOf(offerCursor.getString(5)));
+			offer.setPost(String.valueOf(offerCursor.getString(6)));
+			offer.setDomain(String.valueOf(offerCursor.getString(7)));
+			offer.setSalary(String.valueOf(offerCursor.getString(8)));
+			offer.setDescription(String.valueOf(offerCursor.getString(9)));
+			offer.setApplied(Boolean.valueOf(offerCursor.getString(10)));
+			offer.setOfferOwnerID(String.valueOf(offerCursor.getString(11)));
+			offer.setPublisherInfo(findUserInfo(offer.getOfferOwnerID()));
+			offerList.add(offer);
+			offerCursor.moveToNext();
+		}
+		offerCursor.close();
+		closeDataBase();
+		return offerList;
+	}
+
+	public ArrayList<OfferInfo> findPublishedOffer() {
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		ArrayList<OfferInfo> offerList = new ArrayList<OfferInfo>();
+		String sql = "SELECT * FROM "
+				+ OFFERTABLENAME
+				+ " WHERE APPLIED = 'false' AND FAVORITE = 'false' AND USERID = "
+				+ personInfo.getValue(LocalPersonInfo.USERID);
+		Cursor cursor = dataBase.rawQuery(sql, null);
+		cursor.moveToFirst();
+		System.out.println("LocalDataBase->findPublishedOffer->Show me the: "
+				+ sql);
+		while (cursor.isAfterLast() == false) {
+			OfferInfo offer = new OfferInfo();
+			offer.setOfferID(String.valueOf(cursor.getString(0)));
+			offer.setDate(String.valueOf(cursor.getString(1)));
+			offer.setUserID(String.valueOf(cursor.getString(2)));
+			offer.setFavorite(Boolean.valueOf(cursor.getString(3)));
+			offer.setEntreprise(String.valueOf(cursor.getString(4)));
+			offer.setCity(String.valueOf(cursor.getString(5)));
+			offer.setPost(String.valueOf(cursor.getString(6)));
+			offer.setDomain(String.valueOf(cursor.getString(7)));
+			offer.setSalary(String.valueOf(cursor.getString(8)));
+			offer.setDescription(String.valueOf(cursor.getString(9)));
+			offer.setApplied(Boolean.valueOf(cursor.getString(10)));
+			offerList.add(offer);
+			cursor.moveToNext();
+		}
+		cursor.close();
+		closeDataBase();
+		return offerList;
+	}
+
+	public ArrayList<OfferInfo> findAppliedOffer() {
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		ArrayList<OfferInfo> offerList = new ArrayList<OfferInfo>();
+		String offerSQL = "SELECT * FROM " + OFFERTABLENAME
+				+ " WHERE APPLIED = 'true' AND USERID ="
+				+ personInfo.getValue(LocalPersonInfo.USERID);
+		Cursor cursor = dataBase.rawQuery(offerSQL, null);
+		cursor.moveToFirst();
+		System.out.println("LocalDataBase->findAppliedOffer->Show me the: "
+				+ offerSQL);
+		while (cursor.isAfterLast() == false) {
+			OfferInfo offer = new OfferInfo();
+			offer.setOfferID(String.valueOf(cursor.getString(0)));
+			offer.setDate(String.valueOf(cursor.getString(1)));
+			offer.setUserID(String.valueOf(cursor.getString(2)));
+			offer.setEntreprise(String.valueOf(cursor.getString(4)));
+			offer.setCity(String.valueOf(cursor.getString(5)));
+			offer.setPost(String.valueOf(cursor.getString(6)));
+			offer.setDomain(String.valueOf(cursor.getString(7)));
+			offer.setSalary(String.valueOf(cursor.getString(8)));
+			offer.setDescription(String.valueOf(cursor.getString(9)));
+			offer.setApplied(Boolean.valueOf(cursor.getString(10)));
+			offer.setOfferOwnerID(String.valueOf(cursor.getString(11)));
+			// offer.setIsAccedpted(Boolean.valueOf(cursor.getString(12)));
+			offer.setPublisherInfo(findUserInfo(offer.getOfferOwnerID()));
+
+			offerList.add(offer);
+			cursor.moveToNext();
+			System.out.println("LocalDataBase->findAppliedOffer->Show me the: "
+					+ offer.getOfferID() + " " + offer.getCity());
+		}
+		cursor.close();
+		closeDataBase();
+		return offerList;
+	}
+
+	public ChatMessage findChatMessageById(Integer messageId) {
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		if (messageId == null) {
+			return null;
+		}
+		ChatMessage chatMessage = null;
+
+		String sql = "SELECT * FROM " + MESSAGETABLENAME
+				+ " WHERE MESSAGE_ID = " + messageId + " AND USERID= "
+				+ personInfo.getValue(LocalPersonInfo.USERID);
+		Cursor cursor = dataBase.rawQuery(sql, null);
+		cursor.moveToFirst();
+		if (!cursor.isAfterLast()) {
+			chatMessage = mappingChatMessage(cursor);
+		}
+		cursor.close();
+		closeDataBase();
+		return chatMessage;
+	}
+
+	public List<ChatMessage> findHistoryMessageByFriend(Integer friendId,
+			int limit, Integer messageId) {
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		List<ChatMessage> chatMessages = new ArrayList<ChatMessage>();
+		String sql = "SELECT * FROM " + MESSAGETABLENAME
+				+ " WHERE (SENDER_ID = " + friendId + " OR RECEIVER_ID = "
+				+ friendId + ")" + " AND USERID= "
+				+ personInfo.getValue(LocalPersonInfo.USERID);
+		// if messageId != null, find older message where MESSAGE_ID < messageId
+		if (messageId != null) {
+			sql = sql + " AND MESSAGE_ID < " + messageId;
+		}
+		// add order by
+		sql = sql + " ORDER BY MESSAGE_ID ASC";
+		// if number > 0, find limited message
+		if (limit > 0) {
+			sql = sql + " LIMIT " + limit;
+		}
+		System.out.println("LocalDataBase->findHistoryMessageByFriend->sql"
+				+ sql);
+		Cursor cursor = dataBase.rawQuery(sql, null);
+		cursor.moveToFirst();
+		while (cursor.isAfterLast() == false) {
+			chatMessages.add(mappingChatMessage(cursor));
+			cursor.moveToNext();
+		}
+		readMessages(chatMessages);
+		cursor.close();
+		closeDataBase();
+		return chatMessages;
+	}
+
+	public List<ChatMessage> findChatMessageBySender(Integer senderId,
+			boolean isNew) {
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		List<ChatMessage> chatMessages = new ArrayList<ChatMessage>();
+		String sql = "SELECT * FROM " + MESSAGETABLENAME
+				+ " WHERE SENDER_ID = " + senderId + " AND USERID= "
+				+ personInfo.getValue(LocalPersonInfo.USERID);
+		if (isNew) {
+			sql = sql + " AND IS_READ != 'Y'";
+		}
+		Cursor cursor = dataBase.rawQuery(sql, null);
+		cursor.moveToFirst();
+		while (cursor.isAfterLast() == false) {
+			chatMessages.add(mappingChatMessage(cursor));
+			cursor.moveToNext();
+		}
+		if (isNew) {
+			readMessages(chatMessages);
+		}
+		cursor.close();
+		closeDataBase();
+		return chatMessages;
+	}
+
+	private void readMessages(List<ChatMessage> chatMessages) {
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		if (!chatMessages.isEmpty()) {
+			for (ChatMessage chatMessage : chatMessages) {
+				String sql = "UPDATE " + MESSAGETABLENAME
+						+ " SET IS_READ = 'Y' WHERE MESSAGE_ID = "
+						+ chatMessage.getMessageId() + " AND USERID= "
+						+ personInfo.getValue(LocalPersonInfo.USERID);
+
+				dataBase.execSQL(sql);
+			}
+		}
+	}
+
+	private ChatMessage mappingChatMessage(Cursor cursor) {
+		ChatMessage chatMessage = new ChatMessage();
+		chatMessage.setMessageId(cursor.getInt(0));
+		chatMessage.setText(cursor.getString(5));
+		chatMessage.setDate(cursor.getString(7));
+
+		if ("Y".equals(cursor.getString(6))) {
+			chatMessage.setComMsg(true);
+			chatMessage.setUserId(cursor.getInt(1));
+			chatMessage.setName(cursor.getString(2));
+		} else {
+			chatMessage.setComMsg(false);
+			chatMessage.setUserId(cursor.getInt(3));
+			chatMessage.setName(cursor.getString(4));
+		}
+		return chatMessage;
+	}
+
+	public List<ChatFriend> findAllFriends() {
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		List<ChatFriend> friends = new ArrayList<ChatFriend>();
+		String sql = "SELECT * FROM " + FRIENDTABLENAME + " WHERE USERID= "
+				+ personInfo.getValue(LocalPersonInfo.USERID);
+		Cursor cursor = dataBase.rawQuery(sql, null);
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			ChatFriend friend = new ChatFriend();
+			friend.setFriendId(cursor.getInt(0));
+			friend.setName(cursor.getString(1));
+			friend.setPortrait(cursor.getBlob(2));
+			friend.setLastMessageId(cursor.getInt(3));
+			friend.setLastMessage(findChatMessageById(friend.getLastMessageId()));
+			friends.add(friend);
+			cursor.moveToNext();
+		}
+		cursor.close();
+		closeDataBase();
+		return friends;
+	}
+
+	public List<PersonalCV> findAllCVs() {
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		List<PersonalCV> cvs = new ArrayList<PersonalCV>();
+		String sql = "SELECT * FROM " + CVTABLENAME + " WHERE USERID = "
+				+ personInfo.getValue(LocalPersonInfo.USERID);
+		System.out.println("Show me the sql: " + sql);
+		Cursor cursor = dataBase.rawQuery(sql, null);
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			PersonalCV personalCV = new PersonalCV();
+			personalCV.setUserID(cursor.getString(0));
+			personalCV.setName(cursor.getString(1));
+			personalCV.setPost(cursor.getString(2));
+			personalCV.setAge(cursor.getString(3));
+			personalCV.setEntreprise(cursor.getString(4));
+			personalCV.setWorkyear(cursor.getString(5));
+			personalCV.setEducation(cursor.getString(6));
+			personalCV.setColleage(cursor.getString(7));
+			personalCV.setWorkInfo(getWorkInfo(cursor));
+			personalCV.setDate(cursor.getString(17));
+			personalCV.setProfile(cursor.getBlob(18));
+			personalCV.setCity(cursor.getString(19));
+			cvs.add(personalCV);
+			cursor.moveToNext();
+		}
+		cursor.close();
+		closeDataBase();
+		return cvs;
+	}
+
+	private PersonalWorkInfo getWorkInfo(Cursor cursor) {
+		PersonalWorkInfo workInfo = new PersonalWorkInfo();
+		workInfo.setFirstWork(cursor.getString(8));
+		workInfo.setFirstWorkyear(cursor.getString(9));
+		workInfo.setFirstWorkPost(cursor.getString(10));
+		workInfo.setSecondWork(cursor.getString(11));
+		workInfo.setSecondWorkyear(cursor.getString(12));
+		workInfo.setSecondWorkPost(cursor.getString(13));
+		workInfo.setThirdWork(cursor.getString(14));
+		workInfo.setThirdWorkyear(cursor.getString(15));
+		workInfo.setThirdWorkPost(cursor.getString(16));
+		return workInfo;
+	}
+
+	public ChatFriend findFriendById(Integer friendId) {
+		if (friendId == null) {
+			return null;
+		}
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		ChatFriend friend = null;
+
+		String sql = "SELECT * FROM " + FRIENDTABLENAME + " WHERE FRIEND_ID ="
+				+ friendId + " AND USERID= "
+				+ personInfo.getValue(LocalPersonInfo.USERID);
+		Cursor cursor = dataBase.rawQuery(sql, null);
+		cursor.moveToFirst();
+		if (!cursor.isAfterLast()) {
+			friend = new ChatFriend();
+			friend.setFriendId(cursor.getInt(0));
+			friend.setName(cursor.getString(1));
+			friend.setPortrait(cursor.getBlob(2));
+			friend.setLastMessageId(cursor.getInt(3));
+			friend.setPortraitVersion(cursor.getInt(5));
+			friend.setLastMessage(findChatMessageById(friend.getLastMessageId()));
+		}
+		cursor.close();
+		return friend;
+	}
+
+	synchronized public List<Integer> getNewFriends(boolean needClear) {
+		// System.out.println("Show me the newMessageFriends list size: "+newMessageFriends.size()+" "+needClear);
+		if (this.newMessageFriends.size() != 0) {
+			List<Integer> list = new ArrayList<Integer>(this.newMessageFriends);
+			if (needClear) {
+				this.newMessageFriends.clear();
+			}
+			return list;
+		}
+		return null;
+	}
+
+	public void closeDataBase() {
+		dataBase.close();
+	}
+
+	public void visiterAllData(String tableName) {
+		// This method is just for test!
+		if (dataBase == null || !dataBase.isOpen()) {
+			connectDataBase();
+		}
+		String sql = "SELECT * FROM " + tableName;
+		Cursor cursor = dataBase.rawQuery(sql, null);
+		cursor.moveToFirst();
+		while (cursor.isAfterLast() == false) {
+			cursor.moveToNext();
+		}
+		cursor.close();
+		closeDataBase();
+	}
+
+	private class openHelper extends SQLiteOpenHelper {
+		public openHelper() {
+			super(context, DATABASENAME, null, DATABASEVERSION);
+		}
+
+		@Override
+		public void onCreate(SQLiteDatabase db) {
+			dataBase = db;
+		}
+
+		@Override
+		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			deleteDataBase(OFFERTABLENAME);
+			deleteDataBase(MESSAGETABLENAME);
+			deleteDataBase(USERTABLENAME);
+			onCreate(db);
+		}
+	}
+
+}

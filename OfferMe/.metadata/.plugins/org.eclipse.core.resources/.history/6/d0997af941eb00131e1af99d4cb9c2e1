@@ -1,0 +1,44 @@
+package com.offerme.client.localdata;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class LocalDataBase extends SQLiteOpenHelper {
+
+	private static LocalDataBase data = null;
+	private final static String OFFERDATABASENAME = "OfferPublished";
+	private final static int OFFERDATABASEVERSION = 1;
+
+	private LocalDataBase(Context context) {
+		super(context, OFFERDATABASENAME, null, OFFERDATABASEVERSION);
+	}
+
+	public LocalDataBase getInstance(Context context) {
+		if (data == null) {
+			data = new LocalDataBase(context);
+		}
+		return data;
+	}
+
+	public boolean createOfferTable() {
+		return true;
+	}
+
+	public boolean createMailTable() {
+		return true;
+	}
+
+	@Override
+	public void onCreate(SQLiteDatabase arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

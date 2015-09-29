@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#1e90d2"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left|fill_vertical"
+        android:onClick="backToLoggedIn" >
+        
+    <ImageView
+            android:id="@+id/publish_offer_bar_left"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:onClick="backToLoggedIn"
+            android:layout_gravity="left|center_vertical"
+            android:src="@drawable/backarrow" />
+   
+    </FrameLayout>
+      
+    <TextView
+        android:id="@+id/publish_offer_bar_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/title_activity_publisher_info"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+    <FrameLayout
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right|fill_vertical"
+       >
+        
+    <ImageView
+        android:id="@+id/publish_offer_bar_right"
+        android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="10dp"
+        android:onClick="ShareJob"
+        android:src="@drawable/share" />
+   
+    </FrameLayout>
+
+</FrameLayout>

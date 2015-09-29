@@ -1,0 +1,123 @@
+package com.offerme.client.service;
+
+import java.util.Collections;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalDataBase;
+import com.offerme.client.service.chat.ChatFriend;
+import com.offerme.client.service.chat.ChatMessage;
+import com.offerme.client.service.socket.SocketCommunication;
+import com.offerme.client.socket.Request;
+import com.offerme.client.socket.RequestType;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Toast;
+
+public class SendMessageSrvc implements SocketSrvc {
+
+	private static SendMessageSrvc sendMessageSrvc = new SendMessageSrvc();
+	private Context context;
+	private SocketCommunication socket;
+	private Dialog processDialog;
+
+	private ChatMessage msg;
+
+	private SendMessageSrvc() {
+
+	}
+
+	public static SendMessageSrvc getInstance() {
+		return sendMessageSrvc;
+	}
+
+	public void sendMessage(Context ctx, ChatMessage chatMessage) {
+		context = ctx;
+		socket = new SocketCommunication(this);
+		msg = chatMessage;
+		socket.execute();
+	}
+
+	private void saveMessageInLocalDatabase(ChatMessage chatMessage) {
+		// save message
+		LocalDataBase localData = LocalDataBase.getInstance(context);
+		localData.insertChatMessages(Collections.singletonList(chatMessage));
+
+		// link this message as the last message for receiver
+		ChatFriend friend = localData.findFriendById(chatMessage.getUserId());
+		friend.setLastMessageId(chatMessage.getMessageId());
+		localData.insertOrUpdateFriends(Collections.singletonList(friend));
+	}
+
+	private void setProcessDialog() {
+		LayoutInflater factory = LayoutInflater.from(context);
+		View dialogView = factory.inflate(R.layout.dialog_process, null);
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		processDialog = builder.create();
+		((AlertDialog) processDialog).setView(dialogView, 0, 0, 0, 0);
+		setWindowAttributes(processDialog.getWindow());
+	}
+
+	@SuppressWarnings("deprecation")
+	private void setWindowAttributes(Window window) {
+		window.setGravity(Gravity.CENTER);
+		WindowManager.LayoutParams lp = window.getAttributes();
+		lp.alpha = 0.5f;
+		window.setAttributes(lp);
+		window.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
+				WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+	}
+
+	@Override
+	public void onPreExecute() {
+		setProcessDialog();
+		processDialog.show();
+	}
+
+	@Override
+	public Boolean doInBackground(String... params) {
+		Request request = Request.getInstance();
+		String messageId = request.sendRequestGetReplyString(
+				RequestType.SEND_MESSAGE, msg);
+		if (messageId != null && !"-1".equals(messageId)) {
+			msg.setMessageId(Integer.parseInt(messageId));
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void onProgressUpdate(Integer... values) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onPostExecute(Boolean success) {
+		processDialog.dismiss();
+		Toast toast = null;
+		if (success) {
+			saveMessageInLocalDatabase(msg);
+			toast = Toast.makeText(context, "发送成功", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+		} else {
+			toast = Toast.makeText(context, "发送失败", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+		}
+	}
+
+	@Override
+	public void onCancelled() {
+		socket.cancel(true);
+	}
+
+}

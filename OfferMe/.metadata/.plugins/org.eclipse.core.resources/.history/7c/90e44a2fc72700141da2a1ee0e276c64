@@ -1,0 +1,193 @@
+package com.offerme.client.activity;
+
+import java.util.Collections;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalDataBase;
+import com.offerme.client.service.SetFavoriteOfferSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.chat.ChatFriend;
+import com.offerme.client.service.publishoffer.PublisherInfo;
+import com.offerme.client.service.search.SearchResulatItem;
+
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class PublisherInfoActivity extends ActionBarActivity {
+
+	private UtilSrvc utilSrvc;
+	private SetFavoriteOfferSrvc favoriteSrvc;
+	private SearchResulatItem searchResualt;
+	private TextView publisher;
+	private TextView mail;
+	private TextView date;
+	private TextView post;
+	private TextView city;
+	private TextView domain;
+	private TextView entreprise;
+	private TextView description;
+	private ImageView profile;
+	// private Button message;
+	private CheckBox isFavorite;
+	private boolean isFromPersonalFavorite = false;
+	private boolean isFromPersonalPublished = false;
+	private Intent intent=null;
+
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_publisher_offerinfo);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(
+				R.layout.activity_publisher_offerinfo_actionbar);
+		getSupportActionBar().setBackgroundDrawable(
+				new ColorDrawable(Color.parseColor("#1e90d2")));
+		favoriteSrvc = SetFavoriteOfferSrvc.getInstance();
+		utilSrvc = UtilSrvc.getInstance();
+		Intent intent = this.getIntent();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		initialize();
+		loadData();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		if (!isFromPersonalFavorite && !isFromPersonalPublished) {
+			utilSrvc.gotoLoggedInPage(this);
+		} else {
+			utilSrvc.gotoLoggedInFromUser(this);
+		}
+		return;
+	}
+
+	public void backToLoggedIn(View view) {
+		if (!isFromPersonalFavorite && !isFromPersonalPublished) {
+			utilSrvc.gotoLoggedInPage(this);
+		} else {
+			utilSrvc.gotoLoggedInFromUser(this);
+		}
+		return;
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		this.setIntent(intent);
+		loadData();
+	}
+	
+	public void sendMail(View view) {
+		PublisherInfo publisherInfo = searchResualt.getPublisherInfo();
+		if (publisherInfo != null) {
+			ChatFriend friend = new ChatFriend();
+			friend.setFriendId(publisherInfo.getUserID());
+			friend.setName(publisherInfo.getName());
+			friend.setPortrait(publisherInfo.getProfile());
+			utilSrvc.gotoChatPage(this, friend);
+			
+			// add this friend if not exist
+			LocalDataBase localData = LocalDataBase.getInstance(this);
+			localData.insertOrUpdateFriends(Collections.singletonList(friend));
+		}
+	}
+
+	public void detailInfo(View view) {
+		if (!isFromPersonalFavorite && !isFromPersonalPublished) {
+			utilSrvc.gotoDetailInfoPage(this, searchResualt);
+		} else {
+			utilSrvc.gotoLoggedInFromUser(this);
+		}
+		return;
+	}
+
+	private void initialize() {
+		publisher = (TextView) findViewById(R.id.publisher_offer_info_name);
+		mail = (TextView) findViewById(R.id.publisher_offer_info_mail);
+		date = (TextView) findViewById(R.id.publisher_offer_info_date);
+		post = (TextView) findViewById(R.id.publisher_offer_info_post);
+		city = (TextView) findViewById(R.id.publisher_offer_info_city);
+		domain = (TextView) findViewById(R.id.publisher_offer_info_domain);
+		entreprise = (TextView) findViewById(R.id.publisher_offer_info_entrerprise);
+		profile = (ImageView) findViewById(R.id.publisher_offer_info_profile);
+		description = (TextView) findViewById(R.id.publisher_offer_info_description);
+		isFavorite = (CheckBox) findViewById(R.id.publisher_offer_info_favorite);
+		//loadData();
+	}
+
+	private void loadData() {
+		
+		if (intent.getBooleanExtra("IsFromPersonalFavorite", false)) {
+			searchResualt = (SearchResulatItem) intent
+					.getSerializableExtra("PublisherFromPersonalFavorite");
+			isFromPersonalFavorite = true;
+		} else if (intent.getBooleanExtra("IsFromPersonalPublished", false)) {
+			searchResualt = (SearchResulatItem) intent
+					.getSerializableExtra("PublisherFromPersonalPublished");
+			isFromPersonalPublished = true;
+		} else {
+			searchResualt = (SearchResulatItem) intent
+					.getSerializableExtra("Publisher");
+		}
+		Log.v("Debug", "PublisherInfoActivity->loadData->Show me the userID: "
+				+ searchResualt.getPublisherInfo().getUserID());
+		publisher.setText(searchResualt.getName());
+		mail.setText(searchResualt.getMailbox());
+		date.setText(searchResualt.getDate());
+		post.setText(searchResualt.getTitle());
+		city.setText(searchResualt.getCity());
+		domain.setText(searchResualt.getDomain());
+		entreprise.setText(searchResualt.getEntreprise());
+		description.setText(searchResualt.getDescription());
+		if (searchResualt.getPublisherInfo().getProfile() != null) {
+			Bitmap imageBitmap = BitmapFactory.decodeByteArray(searchResualt
+					.getPublisherInfo().getProfile(), 0, searchResualt
+					.getPublisherInfo().getProfile().length);
+			imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 80, 80, true);
+			profile.setImageBitmap(imageBitmap);
+		} else {
+			Bitmap imageBitmap = BitmapFactory.decodeResource(
+					this.getResources(), R.drawable.dafaultuser01);
+			imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 80, 80, true);
+			profile.setImageBitmap(imageBitmap);
+		}
+		isFavorite.setChecked(favoriteSrvc.isOfferFavorite(this,
+				searchResualt.getOfferID()));
+		isFavorite.setOnCheckedChangeListener(new onCheckBoxListener(this));
+	}
+
+	private class onCheckBoxListener implements OnCheckedChangeListener {
+		private Context context;
+
+		public onCheckBoxListener(Context ctx) {
+			context = ctx;
+		}
+
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
+			if (utilSrvc.isNetworkConnected(context)) {
+				favoriteSrvc.setFavoriteOffer(context, searchResualt,
+						isChecked, isFavorite);
+			} else {
+				utilSrvc.showConnectDialog(context);
+			}
+		}
+	}
+}

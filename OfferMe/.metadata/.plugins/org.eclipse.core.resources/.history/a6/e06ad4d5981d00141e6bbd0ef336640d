@@ -1,0 +1,199 @@
+package com.offerme.client.service;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.provider.MediaStore;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalPersonInfo;
+import com.offerme.client.service.inscription.InscriptionInfo;
+import com.offerme.client.service.socket.SocketCommunication;
+import com.offerme.client.socket.Request;
+
+public class InscriptionSrvc implements SocketSrvc {
+
+	private static InscriptionSrvc inscriptionSrvc = null;
+	private final int TAKE_PICTURE = 2;
+	private final int GET_GALLERY = 1;
+	private UtilSrvc utilSrvc;
+	private SocketCommunication socket;
+	private LocalPersonInfo personInfo = null;
+	private Context context;
+	private EditText textAuthCode = null;
+	private InscriptionInfo info;
+	private Dialog processDialog;
+	private Dialog authDialog;
+	private Button sendAuth;
+	private Button finish;
+	private Toast toast = null;
+	private boolean isStep2Prepared=false;
+
+	private InscriptionSrvc(UtilSrvc service) {
+		utilSrvc = service;
+	}
+
+	public final static InscriptionSrvc getInstance(UtilSrvc service) {
+		if (inscriptionSrvc == null) {
+			inscriptionSrvc = new InscriptionSrvc(service);
+		}
+		return inscriptionSrvc;
+	}
+
+	public void submit(Context ctx, Dialog pdialog, Dialog adialog,
+			InscriptionInfo inscriptionInfo) {
+		context = ctx;
+		info = inscriptionInfo;
+		processDialog = pdialog;
+		authDialog = adialog;
+		personInfo = LocalPersonInfo.getInstance(context);
+		socket = new SocketCommunication(this);
+		socket.execute();
+	}
+
+	public boolean uploadPhoto(ActionBarActivity activity, String source) {
+		if ("FromLib".equals(source)) {
+			Intent intentLib = new Intent(
+					Intent.ACTION_PICK,
+					android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+			activity.startActivityForResult(intentLib, GET_GALLERY);
+		} else if ("FromCamera".equals(source)) {
+			Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+			if (intentCamera.resolveActivity(activity.getPackageManager()) != null) {
+				activity.startActivityForResult(intentCamera, TAKE_PICTURE);
+			}
+		}
+		return true;
+	}
+
+	public void checkInscripInfo(Context ctx,InscriptionInfo info) {
+		if (!info.isAllSet()) {
+			toast = Toast.makeText(ctx, "抱歉，您的信息填写不全", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+			info.setComplete(false); // this part should be exist!
+		} else if (!info.checkEmailAddress(info.getEmail())) {
+			toast = Toast.makeText(ctx, "抱歉，邮箱格式不符合要求", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+			info.setComplete(false); // this part should be exist!
+		} else {
+			info.setComplete(true);
+		}
+	}
+
+	public void onPreExecute() {
+		processDialog.show();
+	}
+
+	public Boolean doInBackground(String... params) {
+		// First Step to get the userID
+		Request request = Request.getInstance();
+		String[] strReply = new String[] { "" };
+		//String rlt = request.getResualtFromJson(request.sendRequestGetReply(
+		//		RequestType.USERINSCRIPTI, strReply, inscriptionInfo));
+		//Log.v("Debug", "Show me the userID got: " + rlt);
+		//if (rlt != null) {
+			//personInfo.setUserID(rlt);
+			// First step finished, Second step start
+			//rlt = request.getResualtFromJson(request.sendRequestGetReply(
+			//		RequestType.USERINSCRIPTI, strReply, inscriptionInfo));
+			//if(rlt!=null)
+			//{
+			Log.v("Debug","00000000000000000000000000000");
+			socket.notifyProgress(null);
+			while(!isStep2Prepared)
+			{
+				//Log.v("Debug","5555555555555555555555555555");
+			}
+			return true;
+			//}
+		//}
+		//return false;
+	}
+
+	public void onProgressUpdate(Integer... values) {
+		Log.v("Debug","66666666666666666666666666666");
+		if(processDialog.isShowing())
+		{	Log.v("Debug","1111111111111111111111111111");
+			processDialog.dismiss();
+		}
+		else
+		{Log.v("Debug","22222222222222222222222222222");
+			return;
+		}
+		authDialog.show();
+		Log.v("Debug","33333333333333333333333333333");
+		textAuthCode =  (EditText) ((Activity) context).findViewById(R.id.dialog_inscription_code);
+		sendAuth=(Button) ((Activity) context).findViewById(R.id.dialog_inscription_send);
+		finish=(Button) ((Activity) context).findViewById(R.id.dialog_inscription_finish);
+		finish.setClickable(false);
+		info.setAuthCode(textAuthCode.getText().toString());
+		sendAuth.setOnClickListener(new sendAuth());
+		finish.setOnClickListener(new finishButton());
+		isStep2Prepared = true;
+		Log.v("Debug","44444444444444444444444444444444444");
+	}
+
+	public void onPostExecute(Boolean success) {
+		if(processDialog.isShowing())
+		{
+			processDialog.dismiss();
+		}
+		if(authDialog.isShowing())
+		{
+			//authDialog.dismiss();
+		}
+		if (success) {
+			toast = Toast.makeText(context, "恭喜，注册成功", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+			//personInfo.setInscriptionInfo(inscriptionInfo);
+			//personInfo.showAllValue();
+			//utilSrvc.gotoInscriptionDetailPage(context, inscriptionInfo);
+			//utilSrvc.gotoLoggedInPage(context);
+			
+		} else {
+			toast = Toast.makeText(context, "注册失败", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+		}
+	}
+
+	public void onCancelled() {
+		socket.cancel(true);
+	}
+	
+	private class sendAuth implements OnClickListener
+	{		@Override
+		public void onClick(View view) {
+			
+		}
+	}
+	
+	private class finishButton implements OnClickListener
+	{		@Override
+		public void onClick(View view) {
+			if(textAuthCode.getText().toString().length()==0)
+			{
+				toast = Toast.makeText(context, "验证码未填写", Toast.LENGTH_SHORT);
+				toast.setGravity(Gravity.CENTER, 0, 0);
+				toast.show();
+			}
+			else
+			{
+				//isStep2Prepared = true;
+			}
+		}
+	}
+
+}

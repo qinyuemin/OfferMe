@@ -1,0 +1,318 @@
+[2014-06-29 14:19:08] [pool-1-thread-2(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-06-30 23:37:14] [pool-1-thread-2(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-02 00:36:13] [pool-1-thread-4(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-02 01:04:00] [pool-1-thread-10(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-04 00:14:00] [pool-1-thread-3(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-04 00:26:13] [pool-1-thread-7(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-05 13:30:53] [pool-1-thread-2(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-05 14:11:35] [pool-1-thread-4(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-05 14:21:02] [pool-1-thread-7(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-06 01:58:06] [pool-1-thread-3(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-06 14:26:13] [pool-1-thread-2(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-08 00:04:05] [pool-1-thread-3(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-08 00:04:24] [pool-1-thread-4(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-08 01:01:52] [pool-1-thread-8(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-10 01:15:56] [pool-1-thread-2(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-11 23:32:47] [pool-1-thread-6(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-11 23:40:04] [pool-1-thread-1(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-11 23:40:26] [pool-1-thread-2(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-12 00:25:45] [pool-1-thread-6(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-12 00:45:36] [pool-1-thread-2(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-12 00:45:58] [pool-1-thread-3(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-12 00:58:22] [pool-1-thread-9(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-12 01:16:12] [pool-1-thread-2(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-12 01:16:31] [pool-1-thread-3(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-13 15:48:43] [pool-1-thread-2(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-13 15:55:19] [pool-1-thread-5(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-30 02:33:49] [pool-1-thread-6(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-30 02:33:55] [pool-1-thread-7(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-30 02:33:58] [pool-1-thread-8(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-30 02:48:38] [pool-1-thread-2(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-30 02:55:49] [pool-1-thread-4(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-31 00:32:11] [pool-1-thread-4(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-31 02:26:12] [pool-1-thread-2(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-08-02 01:37:04] [pool-1-thread-3(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-08-03 00:45:48] [pool-1-thread-2(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-08-19 22:34:19] [pool-1-thread-2(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:19] [pool-1-thread-1(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:19] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:42] [pool-1-thread-1(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:44] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:46] [pool-1-thread-2(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:48] [pool-1-thread-2(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:50] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:52] [pool-1-thread-1(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:54] [pool-1-thread-5(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:56] [pool-1-thread-4(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:58] [pool-1-thread-5(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:00] [pool-1-thread-6(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:02] [pool-1-thread-4(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:04] [pool-1-thread-7(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:06] [pool-1-thread-6(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:08] [pool-1-thread-7(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:10] [pool-1-thread-8(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:12] [pool-1-thread-8(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:14] [pool-1-thread-9(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:16] [pool-1-thread-9(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:18] [pool-1-thread-10(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:20] [pool-1-thread-10(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:12:50] [pool-1-thread-1(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:12:52] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:12:54] [pool-1-thread-2(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:12:56] [pool-1-thread-2(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:12:58] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:00] [pool-1-thread-4(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:02] [pool-1-thread-1(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:04] [pool-1-thread-7(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:06] [pool-1-thread-4(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:08] [pool-1-thread-6(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:10] [pool-1-thread-6(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:12] [pool-1-thread-5(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:14] [pool-1-thread-5(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:16] [pool-1-thread-10(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:18] [pool-1-thread-10(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:20] [pool-1-thread-8(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:22] [pool-1-thread-9(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:24] [pool-1-thread-7(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:26] [pool-1-thread-9(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:28] [pool-1-thread-4(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:30] [pool-1-thread-8(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:32] [pool-1-thread-1(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:34] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:00] [pool-1-thread-1(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:02] [pool-1-thread-4(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:04] [pool-1-thread-2(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:06] [pool-1-thread-5(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:08] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:10] [pool-1-thread-1(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:12] [pool-1-thread-8(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:14] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:16] [pool-1-thread-5(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:18] [pool-1-thread-7(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:20] [pool-1-thread-2(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:22] [pool-1-thread-6(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:24] [pool-1-thread-4(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:26] [pool-1-thread-5(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:28] [pool-1-thread-6(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:31] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)

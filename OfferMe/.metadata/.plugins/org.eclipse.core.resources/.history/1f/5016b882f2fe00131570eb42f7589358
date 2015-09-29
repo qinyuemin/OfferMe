@@ -1,0 +1,317 @@
+package com.offerme.client.service.search;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalPersonInfo;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.socket.SocketCommunication;
+import com.offerme.client.socket.Request;
+import com.offerme.client.socket.RequestType;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class Search {
+	private ProgressDialog processDialog;
+	private LocalPersonInfo personInfo;
+	private Context context;
+	private SearchResulat resultData;
+	private UtilSrvc utilSrvc;
+
+	public Search() {
+		processDialog = null;
+		context = null;
+		personInfo = null;
+	}
+
+	public boolean startSearch(Context ctx, SearchKeyword keyword) {
+		context = ctx;
+		personInfo = LocalPersonInfo.getInstance(context);
+		return this.doInBackground(keyword);
+	}
+
+	public void onPreExecute(ProgressDialog dialog,
+			final SocketCommunication socketTask) {
+		processDialog = dialog;
+		processDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		processDialog.setMessage("请稍后 :-)");
+		processDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						socketTask.cancel(true);
+						dialog.dismiss();
+					}
+				});
+		processDialog.setIndeterminate(false);
+		processDialog.setCancelable(true);
+		processDialog.show();
+	}
+
+	public Boolean doInBackground(SearchKeyword keyword) {
+		Request request = Request.getInstance();
+		String[] strReply = new String[] { "" };
+		resultData = request.getObjectFromJson(request.sendRequestGetReply(
+				RequestType.SEARCH, strReply, keyword), SearchResulat.class);
+		if (resultData != null) {
+			return true;
+		}
+		return false;
+	}
+
+	public void onProgressUpdate(Integer... values) {
+
+	}
+
+	public void onPostExecute(Boolean success, UtilSrvc utilSrvc) {
+		processDialog.dismiss();
+		// 成功信息目前为调试所用，之后可以删除
+		Toast toast = null;
+		if (success) {
+			this.utilSrvc = utilSrvc;
+			toast = Toast.makeText(context, "恭喜，搜索成功", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+
+			ListView resultList = (ListView) ((Activity) context)
+					.findViewById(R.id.search_resualt_list);
+			resultList.setAdapter(new searchResualtList());
+			resultList.setOnItemClickListener(new onItemClickListener());
+		} else {
+			toast = Toast.makeText(context, "搜索失败", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+		}
+	}
+
+	public void onCancelled(SocketCommunication socketTask) {
+		socketTask.cancel(true);
+	}
+
+	private class onItemClickListener implements OnItemClickListener {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			if (utilSrvc.isNetworkConnected(context)) {
+				Log.v("Debug", "Search->onItemClick->Show me the userID: "
+						+ resultData.getItem(position).getPublisherInfo()
+								.getUserID());
+				utilSrvc.gotoPublisherInfoPage(context,
+						resultData.getItem(position));
+			} else {
+				utilSrvc.showConnectDialog(context);
+			}
+		}
+	}
+
+	/*private class onImageClickListener implements OnClickListener {
+		private int position = -1;
+		private String name = null;
+
+		public onImageClickListener(int pos, String receiverName) {
+			Log.v("Debug",
+					"Search->onImageClickListener->Show me offer position: "
+							+ pos);
+			this.position = pos;
+			this.name = receiverName;
+		}
+
+		public String getReceiverID() {
+			return String.valueOf(resultData.getItem(position)
+					.getPublisherInfo().getUserID());
+		}
+
+		public String getReceiverName() {
+			return this.name;
+		}
+
+		public void onClick(View v) {
+			if (utilSrvc.isNetworkConnected(context)) {
+				Log.v("Debug",
+						"Search->onImageClickListener->onClick->Show me receiver Name and ID: "
+								+ getReceiverName() + " " + getReceiverID());
+				utilSrvc.gotoSendMailPage(context, getReceiverName(),
+						getReceiverID());
+			} else {
+				utilSrvc.showConnectDialog(context);
+			}
+		}
+	}*/
+
+	/*private class onCheckBoxListener implements OnCheckedChangeListener {
+		private int position = -1;
+
+		public onCheckBoxListener(int pos) {
+			this.position = pos;
+		}
+
+		public String getOfferID() {
+			return String.valueOf(resultData.getItem(position).getOfferID());
+		}
+
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
+			Log.v("Debug",
+					"Search->onCheckBoxListener->onClick->Show me offer ID and isChecked: "
+							+ getOfferID() + " " + isChecked);
+			Request request = Request.getInstance();
+			String[] strReply = new String[] { "" };
+			favoriteBean favoriteOffer = null;
+			if (isChecked) {
+				favoriteOffer = new favoriteBean(
+						personInfo.getValue(LocalPersonInfo.USERID),
+						getOfferID(), true);
+			} else {
+				favoriteOffer = new favoriteBean(
+						personInfo.getValue(LocalPersonInfo.USERID),
+						getOfferID(), false);
+			}
+			// send the value to data base
+			String rlt = request.getResualtFromJson(request
+					.sendRequestGetReply(RequestType.FAVORITE, strReply,
+							favoriteOffer));
+
+			if (rlt != null && rlt != "-1") {
+				String comment = null;
+				if (isChecked) {
+					comment = "恭喜，收藏成功";
+				} else {
+					comment = "恭喜，取消收藏成功";
+				}
+				Toast toast = Toast.makeText(context, comment,
+						Toast.LENGTH_SHORT);
+				toast.setGravity(Gravity.CENTER, 0, 0);
+				toast.show();
+			} else {
+				Toast toast = Toast.makeText(context, "抱歉，收藏失败",
+						Toast.LENGTH_SHORT);
+				toast.setGravity(Gravity.CENTER, 0, 0);
+				toast.show();
+			}
+		}
+	}*/
+
+	private class favoriteBean {
+		private String user;
+		private String offer;
+		private boolean isAdd;
+
+		public favoriteBean(String userID, String offerID, boolean isAdd) {
+			this.user = userID;
+			this.offer = offerID;
+			this.isAdd = isAdd;
+		}
+
+		public String getUser() {
+			return user;
+		}
+
+		public void setUser(String user) {
+			this.user = user;
+		}
+
+		public String getOffer() {
+			return offer;
+		}
+
+		public void setOffer(String offer) {
+			this.offer = offer;
+		}
+
+		public boolean isAdd() {
+			return isAdd;
+		}
+
+		public void setAdd(boolean isAdd) {
+			this.isAdd = isAdd;
+		}
+	}
+
+	private class searchResualtList extends BaseAdapter {
+
+		public String getSenderID() {
+			return personInfo.getValue(LocalPersonInfo.USERID);
+		}
+
+		@Override
+		public int getCount() {
+			return resultData.getSize();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return resultData.getItem(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			SearchResulatItem itemList = (SearchResulatItem) this
+					.getItem(position);
+			if (convertView == null) {
+				LayoutInflater layoutInflater = (LayoutInflater) context
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = layoutInflater.inflate(
+						R.layout.activity_search_item, null);
+			}
+			/*TextView userName = (TextView) convertView
+					.findViewById(R.id.resualt_name);*/
+			ImageView profile=(ImageView) convertView.findViewById(R.id.resualt_profile);
+			TextView postName = (TextView) convertView
+					.findViewById(R.id.resualt_post);
+			TextView date=(TextView) convertView.findViewById(R.id.resualt_date);
+			TextView enterpriseName = (TextView) convertView
+					.findViewById(R.id.resualt_enterpriser);
+			TextView salary=(TextView) convertView.findViewById(R.id.resualt_salary);
+			TextView cityName = (TextView) convertView
+					.findViewById(R.id.resualt_city);
+			TextView domain=(TextView) convertView.findViewById(R.id.resualt_domain);
+			/*ImageView emailImage = (ImageView) convertView
+					.findViewById(R.id.email);*/
+			/*CheckBox favoriteOffer = (CheckBox) convertView
+					.findViewById(R.id.favorite);*/
+			//userName.setText(itemList.getName());
+			if(itemList.getPublisherInfo().getProfile()!=null)
+			{
+				profile.setImageBitmap(BitmapFactory.decodeByteArray(itemList
+					.getPublisherInfo().getProfile(), 0, itemList
+					.getPublisherInfo().getProfile().length));
+			}
+			postName.setText(itemList.getTitle());
+			date.setText(itemList.getDate());
+			enterpriseName.setText(itemList.getEntreprise());
+			salary.setText(itemList.getSalary());
+			cityName.setText(itemList.getCity());
+			domain.setText(itemList.getDomain());
+			//favoriteOffer.setChecked(itemList.isFavorite());
+			Log.v("Debug", "Search->getView->Show me the sender and isFavorite: "
+					+ getSenderID()+" "+itemList.isFavorite());
+			/*emailImage.setOnClickListener(new onImageClickListener(position,
+					itemList.getName()));*/
+			/*favoriteOffer.setOnCheckedChangeListener(new onCheckBoxListener(
+					position));*/
+
+			return convertView;
+		}
+	}
+}

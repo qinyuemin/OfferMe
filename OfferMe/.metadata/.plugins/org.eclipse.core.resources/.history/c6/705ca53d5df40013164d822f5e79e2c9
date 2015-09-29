@@ -1,0 +1,76 @@
+package com.offerme.client.activity;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalPersonInfo;
+import com.offerme.client.service.UtilSrvc;
+
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+public class SendEmailActivity extends ActionBarActivity {
+
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private LocalPersonInfo info = LocalPersonInfo.getInstance(this);
+
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_send_email);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.send_email, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		super.onOptionsItemSelected(item);
+		switch (item.getItemId()) {
+		case R.id.action_send_email_contact:
+			// send mail to our system;
+			break;
+		case R.id.action_send_email_logout:
+			info.clearMemory();
+			utilSrvc.gotoHomeInPage(this);
+			break;
+		default:
+			break;
+		}
+		return true;
+	}
+	
+	public void sendEmail(View view) {
+		AlertDialog.Builder dialog = new Builder(SendEmailActivity.this);
+		dialog.setTitle("��ʾ");
+		/*
+		 * ��ݷ��ͳɹ���񷵻ز�ͬҳ�棬��ɹ����������ƻ���ϵ��ҳ�棬ʧ���򷵻ط���ҳ��
+		 */
+		if (true) {
+			dialog.setMessage("վ���ŷ��ͳɹ���");
+			dialog.setNeutralButton("����",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							utilSrvc.gotoDemandOfferPage(SendEmailActivity.this);
+						}
+
+					});
+		} else {
+			dialog.setMessage("վ���ŷ���ʧ�ܣ�");
+			dialog.setNegativeButton("����",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							// activityJumpSrvc.gotoInscriptionPage(SendEmailActivity.this);
+						}
+
+					});
+		}
+		dialog.show();
+	}
+}

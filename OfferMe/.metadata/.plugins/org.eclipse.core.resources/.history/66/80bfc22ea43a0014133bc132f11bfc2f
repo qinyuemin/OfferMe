@@ -1,0 +1,109 @@
+package com.offerme.server.service;
+
+import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+
+import com.offerme.server.database.dao.MessageDao;
+import com.offerme.server.database.dao.UserDao;
+import com.offerme.server.database.dao.proxy.DaoImplManage;
+import com.offerme.server.database.model.Message;
+import com.offerme.server.database.model.User;
+import com.offerme.server.service.bean.ChatMessage;
+import com.offerme.server.service.bean.ChatMessageList;
+import com.offerme.server.util.Log;
+
+public class ChatSrvc {
+
+	private static final Log LOG = new Log(
+			"com.offerme.server.service.ChatSrvc");
+
+	private MessageDao msgDao = DaoImplManage.getMessageDaoInstance();
+	private UserDao userDao = DaoImplManage.getUserDaoInstance();
+
+	public ChatMessageList getComingMessages(Integer userId) {
+
+		ChatMessageList res = new ChatMessageList();
+
+		try {
+			List<Message> messages = msgDao.getMessagesByReceiverIncrem(userId);
+			res = convertMessagesToChatMessageList(messages);
+			res.setResponseCode(0);
+		} catch (Exception e) {
+			res.setResponseCode(-1);
+			LOG.error("Cannot get coming messages, userId: " + userId);
+		}
+
+		return res;
+	}
+
+	public Integer saveMessage(ChatMessage chatMessage) {
+		Message message = convertChatMessageToMessage(chatMessage);
+		Integer messageId = -1;
+		try {
+			messageId = msgDao.insertMessage(message);
+		} catch (Exception e) {
+			messageId = -1;
+			LOG.error("Cannot save new message, sender:"
+					+ chatMessage.getLocalUserId());
+		}
+		return messageId;
+	}
+
+	private ChatMessageList convertMessagesToChatMessageList(
+			List<Message> messages) throws InvocationTargetException {
+
+		ChatMessageList res = new ChatMessageList();
+
+		if (CollectionUtils.isNotEmpty(messages)) {
+			for (Message message : messages) {
+				ChatMessage chatMsg = new ChatMessage();
+				chatMsg.setMessageId(message.getMessageId());
+				chatMsg.setUserId(message.getsUserId());
+				chatMsg.setName(message.getSUser().getName());
+				chatMsg.setComMsg(true);
+				chatMsg.setText(message.getContent());
+				System.out.println("XXXXX Show me the user id: "+message.getSUser().getName()+" "+message.getRUser().getName());
+				if (isProfileChanged(message, message.getsUserId())) {
+					chatMsg.setProfile(getUser(message.getsUserId())
+							.getPortrait());
+				}
+				chatMsg.setProfileVersion(getUser(message.getsUserId())
+						.getPortraitupdatetime());
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				chatMsg.setDate(df.format(message.getDate()));
+				res.getChatMessageList().add(chatMsg);
+			}
+		}
+
+		return res;
+	}
+
+	private Message convertChatMessageToMessage(ChatMessage chatMessage) {
+		System.out.println("XXXXX Show me the profileVersion 1: "+chatMessage.getProfileVersion());
+		Message message = new Message();
+		message.setsUserId(chatMessage.getLocalUserId());
+		message.setrUserId(chatMessage.getUserId());
+		message.setContent(chatMessage.getText());
+		message.setProfileVersion(chatMessage.getProfileVersion());
+		return message;
+	}
+
+	private boolean isProfileChanged(Message message, int userID)
+			throws InvocationTargetException {
+		System.out.println("XXXXX Show me the profileVersion 2: " + message.getProfileVersion()
+				+ " " + getUser(userID).getPortraitupdatetime());
+		if (message.getProfileVersion() != getUser(userID)
+				.getPortraitupdatetime() && message.getProfileVersion() != -100) {
+			return true;
+		}
+		return false;
+	}
+
+	private User getUser(int userID) throws InvocationTargetException {
+		return userDao.getUser(userID);
+	}
+
+}

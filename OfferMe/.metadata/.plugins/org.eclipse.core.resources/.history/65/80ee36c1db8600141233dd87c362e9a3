@@ -1,0 +1,49 @@
+package com.offerme.client.activity;
+
+import com.offerme.R;
+import com.offerme.client.service.UtilSrvc;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.fb.FeedbackAgent;
+
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+
+public class AboutUSActivity extends ActionBarActivity {
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private String mPageName = "AboutUSActivity";
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_setting);
+		utilSrvc.addNewActivity(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd(mPageName);
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart(mPageName);
+		MobclickAgent.onResume(this);
+		initWidget();
+		loadData();
+	}
+
+	@Override
+	public void onBackPressed() {
+		utilSrvc.gotoLoggedInFromUser(this);
+		return;
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		finish();
+	}
+}

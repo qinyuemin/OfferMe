@@ -1,0 +1,102 @@
+package com.offerme.client.activity;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalPersonInfo;
+import com.offerme.client.service.MessageSrvc;
+import com.offerme.client.service.PersonalSettingSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.personalsetting.PersonalSetting;
+
+import android.support.v4.app.Fragment;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class PersonalSettingActivity extends Fragment {
+
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private MessageSrvc messageSrvc = MessageSrvc.getInstance();
+	private LocalPersonInfo info = LocalPersonInfo.getInstance(getActivity());
+	private PersonalSettingSrvc personalSettingSrvc = PersonalSettingSrvc
+			.getInstance();
+
+	private PersonalSetting data;
+
+	private ImageView profileImg;
+	private TextView name;
+	private TextView city;
+	private TextView enterprise;
+	private TextView email;
+	private TextView phoneNumber;
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.activity_personal_setting, container, false);
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		initWidget();
+		loadData();
+	}
+
+	
+	private void initWidget() {
+		profileImg = (ImageView) getActivity().findViewById(R.id.ps_profile);
+		name = (TextView) getActivity().findViewById(R.id.ps_Name);
+		city = (TextView) getActivity().findViewById(R.id.ps_city);
+		enterprise = (TextView) getActivity().findViewById(R.id.ps_enterprise);
+		email = (TextView) getActivity().findViewById(R.id.ps_email);
+	}
+
+	private void loadData() {
+		data = personalSettingSrvc.loadLocalPersonalSetting(getActivity());
+		name.setText(data.getName());
+		city.setText(data.getCity());
+		enterprise.setText(data.getEnterprise());
+		email.setText(data.getEmail());
+		if (data.getProfile() != null) {
+			profileImg.setImageBitmap(BitmapFactory.decodeByteArray(data.getProfile(), 0, data.getProfile().length));
+		}
+	}
+	
+
+	/*private void updateData() {
+		if (data == null) {
+			data = new PersonalSetting();
+		}
+
+		data.setLastName(lastName.getText().toString());
+		data.setFirstName(firstName.getText().toString());
+		data.setName(name);
+		data.setCity(city.getText().toString());
+		data.setEnterprise(enterprise.getText().toString());
+		data.setEmail(email.getText().toString());
+		data.setPhoneNumber(phoneNumber.getText().toString());
+		data.setEmailPublished(isEmailPublished.isChecked());
+		data.setPhonePublished(isPhonePublished.isChecked());
+	}*/
+
+	public void savePersonalSetting(View view) {
+		if (utilSrvc.isNetworkConnected(getActivity())) {
+			//updateData();
+			personalSettingSrvc.savePersonalSetting(getActivity(), data);
+		} else {
+			utilSrvc.showConnectDialog(getActivity());
+		}
+	}
+
+	public void checkMessages(View view) {
+		if (utilSrvc.isNetworkConnected(getActivity())) {
+			messageSrvc.getMessageListFromServer(getActivity());
+		} else {
+			utilSrvc.showConnectDialog(getActivity());
+		}
+	}
+}

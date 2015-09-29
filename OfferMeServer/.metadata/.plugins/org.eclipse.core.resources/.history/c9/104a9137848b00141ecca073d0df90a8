@@ -1,0 +1,82 @@
+package com.offerme.server.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.offerme.server.model.business.applyoffer.ApplyOfferRequest;
+import com.offerme.server.model.business.favorite.FavoriteOffer;
+import com.offerme.server.model.business.offer.OfferDelete;
+import com.offerme.server.model.business.offer.OfferInfo;
+import com.offerme.server.model.business.search.SearchKeyword;
+import com.offerme.server.model.business.search.SearchResulat;
+import com.offerme.server.service.ApplyOfferSrvc;
+import com.offerme.server.service.DeleteOfferSrvc;
+import com.offerme.server.service.FavoriteOfferSrvc;
+import com.offerme.server.service.OfferSrvc;
+import com.offerme.server.service.SearchSrvc;
+import com.offerme.server.util.JsonUtil;
+import com.offerme.server.util.Tool;
+
+@Controller
+public class OfferController {
+
+	@Autowired
+	private OfferSrvc offerSrvc;
+
+	@Autowired
+	private ApplyOfferSrvc applyOfferSrvc;
+
+	@Autowired
+	private DeleteOfferSrvc deleteOfferSrvc;
+
+	@Autowired
+	private FavoriteOfferSrvc favoriteOfferSrvc;
+
+	@Autowired
+	private SearchSrvc searchSrvc;
+
+	@ResponseBody
+	@RequestMapping("/applyOffer")
+	public String applyOffer(String param) {
+
+		ApplyOfferRequest req = JsonUtil.jsonToBean(param,
+				ApplyOfferRequest.class);
+		return applyOfferSrvc.applyOffer(req);
+	}
+
+	@ResponseBody
+	@RequestMapping("/deleteOffer")
+	public String deleteOffer(String param) {
+		OfferDelete deleteoffer = JsonUtil.jsonToBean(param, OfferDelete.class);
+		return deleteOfferSrvc.deleteOffer(deleteoffer.getOfferID(),
+				deleteoffer.getUserID());
+	}
+
+	@ResponseBody
+	@RequestMapping("/favoriteOffer")
+	public String favoriteOffer(String param) {
+		FavoriteOffer favorite = JsonUtil
+				.jsonToBean(param, FavoriteOffer.class);
+		return favoriteOfferSrvc.setFavoriteOffer(favorite);
+	}
+
+	@ResponseBody
+	@RequestMapping("/publishOffer")
+	public String publishOffer(String param) {
+		OfferInfo info = JsonUtil.jsonToBean(param, OfferInfo.class);
+		System.out.println("XXXXXXXXXXXXXXXXXXXXX: "+param);
+		return null;
+		//Integer offerId = offerSrvc.publishOffer(info);
+		//return Tool.getNowDateStr() + " " + offerId;
+	}
+
+	@ResponseBody
+	@RequestMapping("/searchOffer")
+	public SearchResulat searchOffer(String param) {
+		SearchKeyword searchKeyword = JsonUtil.jsonToBean(param,
+				SearchKeyword.class);
+		return searchSrvc.getSearchResulat(searchKeyword);
+	}
+}

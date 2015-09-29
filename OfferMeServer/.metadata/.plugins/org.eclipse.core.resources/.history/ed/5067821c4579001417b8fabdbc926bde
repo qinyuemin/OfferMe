@@ -1,0 +1,74 @@
+package com.offerme.server.service.impl;
+
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.offerme.server.dao.UserDao;
+import com.offerme.server.model.db.User;
+import com.offerme.server.service.ForgetPasswordSrvc;
+
+@Service("forgetPasswordSrvc")
+@Transactional
+public class ForgetPasswordSrvcImpl implements ForgetPasswordSrvc {
+	@Autowired
+	private UserDao userdao;
+	private User user;
+	private final static String SMTPHOST = "192.168.1.3";
+	private final static String PORT = "25";
+	private final static String USERNAME = "offerlink";
+	private final static String PASSWORD = "123456";
+	private final static String FROM = "offerlink@offerlink.com";
+
+	@Override
+	public String sendMail(String mail) {
+		try {
+			user = userdao.findByEmail(mail);
+			if (user != null) {
+				// return "OK";
+				send(user);
+				return "KO";
+			} else {
+				return "KO";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@SuppressWarnings("static-access")
+	private static void send(User user) {
+		Properties props = System.getProperties();
+		props.put("mail.smtp.host", SMTPHOST);
+		props.put("mail.smtp.port",PORT);
+		props.put("mail.smtp.auth", "true");
+		Authenticator authenticator = new PasswordAuthentication(USERNAME,
+				PASSWORD);
+		Session session = Session.getDefaultInstance(props, authenticator);
+		try {
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(FROM));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+					user.getEmail()));
+			message.setSubject("I hava my own mail server");
+			message.setText("From now, you have your own mail server, congratulation!");
+			session.getTransport("smtp").send(message);
+			// Transport.send(message); //也可以这样创建Transport对象发送
+			System.out.println("SendMail Process Over!");
+
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
+}

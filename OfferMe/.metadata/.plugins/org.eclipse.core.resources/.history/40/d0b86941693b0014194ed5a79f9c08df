@@ -1,0 +1,332 @@
+package com.offerme.client.activity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalDataBase;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.chat.ChatFriend;
+import com.offerme.client.service.chat.ChatMessage;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+public class ChatFriendListActivity extends Fragment {
+
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	public static String FRIENDLIST = "FriendList";
+	private LocalDataBase localDatabase = LocalDataBase
+			.getInstance(getActivity());
+	private Context context;
+	private List<ChatFriend> friendList = new ArrayList<ChatFriend>();
+	private static List<ChatFriend> newMessageFriends = new ArrayList<ChatFriend>();
+	private ListView friendListView;
+	private ChatFriendListAdapter listAdapter = new ChatFriendListAdapter();
+	private boolean threadStart = true;
+	private Thread waitMessage;
+	private Handler mHandler;
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.activity_chat_friend_list, container,
+				false);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		context = this.getActivity();
+		mHandler = new myHandler();
+		initWidget();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		threadStart = true;
+		waitMessage = new waitNewMessage(mHandler);
+		waitMessage.start();
+		loadData();
+	}
+
+	public void setNewFriend(List<ChatFriend> friends) {
+		newMessageFriends = friends;
+		listAdapter.notifyDataSetChanged();
+	}
+
+	public void removeNewFriend(Integer friendID) {
+		if (newMessageFriends != null) {
+			for (int count = 0; count < newMessageFriends.size(); count++) {
+				if (friendID == newMessageFriends.get(count).getFriendId()) {
+					newMessageFriends.remove(count);
+				}
+			}
+			listAdapter.notifyDataSetChanged();
+		}
+	}
+
+	private void initWidget() {
+		friendListView = (ListView) getActivity().findViewById(
+				R.id.chat_friend_list);
+		friendListView.setAdapter(listAdapter);
+	}
+
+	private void loadData() {
+		List<ChatFriend> friends = localDatabase.findAllFriends();
+		if (friendListView.getAdapter() != null) {
+			friendList = new ArrayList<ChatFriend>();
+			friendListView.setAdapter(listAdapter);
+		}
+		if (friends != null && !friends.isEmpty()) {
+			friendList.addAll(friends);
+		}
+	}
+
+	private void doAnimation(Context context, View view, int animId) {
+		Animation animation = AnimationUtils.loadAnimation(context, animId);
+		view.startAnimation(animation);
+	}
+
+	private class ChatFriendListAdapter extends BaseAdapter {
+
+		@Override
+		public int getCount() {
+			return friendList.size();
+		}
+
+		@Override
+		public ChatFriend getItem(int position) {
+			return friendList.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			ChatFriend friend = this.getItem(position);
+			if (convertView == null) {
+				LayoutInflater layoutInflater = (LayoutInflater) context
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = layoutInflater.inflate(
+						R.layout.activity_chat_friend_item, null);
+			}
+			ImageView redpoint = (ImageView) convertView
+					.findViewById(R.id.chat_friend_new_message);
+			TextView name = (TextView) convertView
+					.findViewById(R.id.chat_friend_name);
+			name.setText(friend.getName());
+
+			TextView lastMessage = (TextView) convertView
+					.findViewById(R.id.chat_list_last_message);
+			TextView lastTime = (TextView) convertView
+					.findViewById(R.id.chat_list_last_message_time);
+
+			ChatMessage lastMessageText = friend.getLastMessage();
+
+			if (newMessageFriends.size() != 0) {
+				for (int count = 0; count < newMessageFriends.size(); count++) {
+					if (newMessageFriends.get(count) != null) {
+						if (newMessageFriends.get(count).getName()
+								.equalsIgnoreCase(friend.getName())) {
+							redpoint.setVisibility(View.VISIBLE);
+							lastMessageText = newMessageFriends.get(count)
+									.getLastMessage();
+						}
+					}
+				}
+			}
+			convertView.setOnTouchListener(new ItemTouchListener(position,
+					redpoint));
+
+			if (friend.getPortrait() != null) {
+				ImageView portrait = (ImageView) convertView
+						.findViewById(R.id.chat_friend_profile);
+				Bitmap imageBitmap = BitmapFactory.decodeByteArray(
+						friend.getPortrait(), 0, friend.getPortrait().length);
+				imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 50, 50,
+						true);
+				portrait.setImageBitmap(imageBitmap);
+			}
+
+			if (lastMessageText != null) {
+				lastMessage.setText(lastMessageText.getText());
+				lastTime.setText(lastMessageText.getDate().substring(5));
+			}
+
+			TextView delete = (TextView) convertView
+					.findViewById(R.id.chat_list_delete);
+			delete.setOnClickListener(new DeleteListener(friend, listAdapter));
+
+			return convertView;
+		}
+	}
+
+	private class ItemTouchListener implements OnTouchListener {
+
+		private int position;
+		private ImageView redpoint;
+		float downPosition = 0;
+		float upPosition = 0;
+
+		ItemTouchListener(int position, ImageView image) {
+			this.position = position;
+			this.redpoint = image;
+		}
+
+		@Override
+		public boolean onTouch(View view, MotionEvent event) {
+
+			TextView deleteButton = (TextView) view
+					.findViewById(R.id.chat_list_delete);
+
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				downPosition = event.getX();
+				if (deleteButton.getVisibility() == View.VISIBLE) {
+					deleteButton.setVisibility(View.GONE);
+					doAnimation(context, deleteButton, R.anim.deleteout);
+				}
+				break;
+			case MotionEvent.ACTION_UP:
+				upPosition = event.getX();
+				break;
+			default:
+				break;
+			}
+			// System.out
+			// .println("ChatFriendListActivity->onTouch->Show me the position: "
+			// + downPosition + ", " + upPosition);
+			if (upPosition == 0) {
+				return true;
+			} else if (downPosition - upPosition > 50) {
+				deleteButton.setVisibility(View.VISIBLE);
+				doAnimation(context, deleteButton, R.anim.deletein);
+				return true;
+			} else if (upPosition - downPosition > 50) {
+				return true;
+			} else {
+				onItemClick(position);
+			}
+			return false;
+		}
+
+		private void onItemClick(int position) {
+			System.out.println("Chat->onItemClick->Show me the friend name: "
+					+ friendList.get(position).getName());
+			int positionInNewFriend = -1;
+			for (int count = 0; count < newMessageFriends.size(); count++) {
+				if (newMessageFriends.get(count).getName()
+						.equalsIgnoreCase(friendList.get(position).getName())) {
+					positionInNewFriend = count;
+				}
+			}
+			if (positionInNewFriend != -1) {
+				newMessageFriends.remove(positionInNewFriend);
+			}
+			threadStart = false;
+			redpoint.setVisibility(View.GONE);
+			utilSrvc.gotoChatPage(context, friendList.get(position));
+		}
+
+	}
+
+	private class DeleteListener implements OnClickListener {
+
+		private ChatFriend friend;
+		private BaseAdapter friendListAdapter;
+
+		public DeleteListener(ChatFriend friend, BaseAdapter friendListAdapter) {
+			this.friend = friend;
+			this.friendListAdapter = friendListAdapter;
+		}
+
+		@Override
+		public void onClick(View view) {
+			Button deleteButton = (Button) view
+					.findViewById(R.id.chat_list_delete);
+			deleteButton.setVisibility(View.GONE);
+			localDatabase.deleteFriend(friend);
+			friendList.remove(friend);
+			friendListAdapter.notifyDataSetChanged();
+		}
+
+	}
+
+	@SuppressLint("HandlerLeak")
+	private class myHandler extends Handler {
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 100:
+				if (listAdapter != null) {
+					if (friendList.size() == 0) {
+						friendList = new ArrayList<ChatFriend>(
+								newMessageFriends);
+					}
+					listAdapter.notifyDataSetChanged();
+				}
+				break;
+			}
+			super.handleMessage(msg);
+		}
+	}
+
+	private class waitNewMessage extends Thread {
+		private Handler threadHandler;
+		private List<Integer> list = null;
+
+		public waitNewMessage(Handler handler) {
+			this.threadHandler = handler;
+		}
+
+		public void run() {
+
+			while (threadStart) {
+				try {
+					sleep(1 * 1000);
+					System.out
+							.println("find the new friend list from ChatFriendList");
+					list = localDatabase.getNewFriends(true);
+					if (list != null) {
+						Message message = new Message();
+						message.what = 100;
+						for (int count = 0; count < list.size(); count++) {
+							newMessageFriends.add(localDatabase
+									.findFriendById(list.get(count)));
+						}
+						threadHandler.sendMessage(message);
+
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+}

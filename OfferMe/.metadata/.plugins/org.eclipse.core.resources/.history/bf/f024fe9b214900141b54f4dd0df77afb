@@ -1,0 +1,169 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#1e90d2" >
+
+    <ImageView
+        android:id="@+id/home_page_logo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="40dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/logo" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/home_page_logo"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp" >
+
+        <FrameLayout
+            android:id="@+id/home_page_login_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/borderlogin" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:background="#FFFFFF"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true" >
+
+                    <ImageView
+                        android:id="@+id/imageView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/loginmail" />
+
+                    <EditText
+                        android:id="@+id/home_page_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:drawablePadding="10dp"
+                        android:ems="10"
+                        android:hint="@string/home_page_login"
+                        android:inputType="text"
+                        android:nextFocusDown="@+id/home_page_password"
+                        android:paddingLeft="15dp"
+                        android:textColor="#bababa"
+                        android:textSize="15sp" >
+
+                        <requestFocus />
+                    </EditText>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/home_page_line"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true" >
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/loginpwd" />
+
+                    <EditText
+                        android:id="@id/home_page_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:drawablePadding="10dp"
+                        android:ems="10"
+                        android:hint="@string/home_page_password"
+                        android:inputType="textPassword"
+                        android:paddingLeft="15dp"
+                        android:textColor="#bababa"
+                        android:textSize="15sp" >
+                    </EditText>
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/home_page_login_button_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@id/home_page_login_layout"
+            android:layout_marginTop="5dp" >
+
+            <ImageView
+                android:id="@+id/home_page_login_button"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:onClick="signIn"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:src="@drawable/login" />
+
+            <ImageView
+                android:id="@+id/home_page_sign_in"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:onClick="createAccount"
+                android:paddingLeft="5dp"
+                android:paddingRight="10dp"
+                android:src="@drawable/loginregister" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/home_page_forget_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/home_page_login_button_layout"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
+            android:hint="@string/home_page_forget_password"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="50dp"
+        android:orientation="horizontal" >
+
+    </LinearLayout>
+
+</RelativeLayout>

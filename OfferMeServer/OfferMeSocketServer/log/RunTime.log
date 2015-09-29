@@ -1,0 +1,1914 @@
+[2014-07-08 00:04:05] [pool-1-thread-3(UserDaoImpl.java:386)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 670,060 milliseconds ago.  The last packet sent successfully to the server was 21,303 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.UserDaoImpl.getUserByEmailAndPassword(UserDaoImpl.java:370)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.getUserByEmailAndPassword(Unknown Source)
+com.offerme.server.service.LoginSrvc.login(LoginSrvc.java:23)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:58)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:39)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-08 00:04:05] [pool-1-thread-3(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-08 00:04:24] [pool-1-thread-4(UserDaoImpl.java:386)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 734,507 milliseconds ago.  The last packet sent successfully to the server was 18,899 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.UserDaoImpl.getUserByEmailAndPassword(UserDaoImpl.java:370)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.getUserByEmailAndPassword(Unknown Source)
+com.offerme.server.service.LoginSrvc.login(LoginSrvc.java:23)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:58)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:39)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-08 00:04:24] [pool-1-thread-4(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-08 00:09:23] [sockListener(MainServer.java:140)]
+ERROR: Logis Server failed in Listener:Address already in use: JVM_Bind
+[2014-07-08 00:09:23] [sockListener(MainServer.java:141)]
+ERROR: java.net.BindException: Address already in use: JVM_Bind
+java.net.DualStackPlainSocketImpl.bind0(Native Method)
+java.net.DualStackPlainSocketImpl.socketBind(DualStackPlainSocketImpl.java:96)
+java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:374)
+java.net.PlainSocketImpl.bind(PlainSocketImpl.java:175)
+java.net.ServerSocket.bind(ServerSocket.java:376)
+java.net.ServerSocket.<init>(ServerSocket.java:237)
+java.net.ServerSocket.<init>(ServerSocket.java:128)
+com.offerme.server.MainServer$SocketListener.run(MainServer.java:124)
+
+[2014-07-08 00:34:47] [sockListener(MainServer.java:140)]
+ERROR: Logis Server failed in Listener:Address already in use: JVM_Bind
+[2014-07-08 00:34:47] [sockListener(MainServer.java:141)]
+ERROR: java.net.BindException: Address already in use: JVM_Bind
+java.net.DualStackPlainSocketImpl.bind0(Native Method)
+java.net.DualStackPlainSocketImpl.socketBind(DualStackPlainSocketImpl.java:96)
+java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:374)
+java.net.PlainSocketImpl.bind(PlainSocketImpl.java:175)
+java.net.ServerSocket.bind(ServerSocket.java:376)
+java.net.ServerSocket.<init>(ServerSocket.java:237)
+java.net.ServerSocket.<init>(ServerSocket.java:128)
+com.offerme.server.MainServer$SocketListener.run(MainServer.java:124)
+
+[2014-07-08 01:01:52] [pool-1-thread-8(OfferDaoImpl.java:275)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 971,880 milliseconds ago.  The last packet sent successfully to the server was 21,304 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.OfferDaoImpl.getOfferByCompCity(OfferDaoImpl.java:255)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy3.getOfferByCompCity(Unknown Source)
+com.offerme.server.service.SearchSrvc.getSearchResulat(SearchSrvc.java:30)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:71)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-08 01:01:52] [pool-1-thread-8(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-08 01:19:48] [pool-1-thread-6(UserDaoImpl.java:386)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 531,672 milliseconds ago.  The last packet sent successfully to the server was 18,903 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.UserDaoImpl.getUserByEmailAndPassword(UserDaoImpl.java:370)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.getUserByEmailAndPassword(Unknown Source)
+com.offerme.server.service.LoginSrvc.login(LoginSrvc.java:23)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:58)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-08 01:20:36] [pool-1-thread-9(OfferDaoImpl.java:275)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 778,794 milliseconds ago.  The last packet sent successfully to the server was 18,909 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.OfferDaoImpl.getOfferByCompCity(OfferDaoImpl.java:255)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy3.getOfferByCompCity(Unknown Source)
+com.offerme.server.service.SearchSrvc.getSearchResulat(SearchSrvc.java:30)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:71)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-10 01:15:56] [pool-1-thread-2(UserDaoImpl.java:321)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 310,230 milliseconds ago.  The last packet sent successfully to the server was 21,298 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.UserDaoImpl.checkUserEMAIL(UserDaoImpl.java:305)
+com.offerme.server.database.dao.impl.UserDaoImpl.insertUser(UserDaoImpl.java:64)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.insertUser(Unknown Source)
+com.offerme.server.service.InscriptionSrvc.inscriptUser(InscriptionSrvc.java:40)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:40)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-10 01:15:56] [pool-1-thread-2(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-11 23:32:47] [pool-1-thread-6(UserDaoImpl.java:390)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 1,144,629 milliseconds ago.  The last packet sent successfully to the server was 19,068 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.UserDaoImpl.getUserByEmailAndPassword(UserDaoImpl.java:374)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.getUserByEmailAndPassword(Unknown Source)
+com.offerme.server.service.LoginSrvc.login(LoginSrvc.java:23)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:56)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-11 23:32:47] [pool-1-thread-6(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-11 23:40:04] [pool-1-thread-1(OfferDaoImpl.java:275)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 266,419 milliseconds ago.  The last packet sent successfully to the server was 18,901 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.OfferDaoImpl.getOfferByCompCity(OfferDaoImpl.java:255)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy3.getOfferByCompCity(Unknown Source)
+com.offerme.server.service.SearchSrvc.getSearchResulat(SearchSrvc.java:30)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:63)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-11 23:40:04] [pool-1-thread-1(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-11 23:40:26] [pool-1-thread-2(OfferDaoImpl.java:275)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 1,605,741 milliseconds ago.  The last packet sent successfully to the server was 18,920 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.OfferDaoImpl.getOfferByCompCity(OfferDaoImpl.java:255)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy3.getOfferByCompCity(Unknown Source)
+com.offerme.server.service.SearchSrvc.getSearchResulat(SearchSrvc.java:30)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:63)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-11 23:40:26] [pool-1-thread-2(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-12 00:25:45] [pool-1-thread-6(OfferDaoImpl.java:275)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 363,392 milliseconds ago.  The last packet sent successfully to the server was 18,997 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.OfferDaoImpl.getOfferByCompCity(OfferDaoImpl.java:255)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy3.getOfferByCompCity(Unknown Source)
+com.offerme.server.service.SearchSrvc.getSearchResulat(SearchSrvc.java:30)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:63)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-12 00:25:45] [pool-1-thread-6(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-12 00:45:36] [pool-1-thread-2(OfferDaoImpl.java:275)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 378,585 milliseconds ago.  The last packet sent successfully to the server was 21,297 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.OfferDaoImpl.getOfferByCompCity(OfferDaoImpl.java:255)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.getOfferByCompCity(Unknown Source)
+com.offerme.server.service.SearchSrvc.getSearchResulat(SearchSrvc.java:30)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:63)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-12 00:45:36] [pool-1-thread-2(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-12 00:45:58] [pool-1-thread-3(OfferDaoImpl.java:275)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 401,381 milliseconds ago.  The last packet sent successfully to the server was 18,898 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.OfferDaoImpl.getOfferByCompCity(OfferDaoImpl.java:255)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.getOfferByCompCity(Unknown Source)
+com.offerme.server.service.SearchSrvc.getSearchResulat(SearchSrvc.java:30)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:63)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-12 00:45:58] [pool-1-thread-3(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-12 00:58:22] [pool-1-thread-9(OfferDaoImpl.java:275)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 336,196 milliseconds ago.  The last packet sent successfully to the server was 18,904 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.OfferDaoImpl.getOfferByCompCity(OfferDaoImpl.java:255)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.getOfferByCompCity(Unknown Source)
+com.offerme.server.service.SearchSrvc.getSearchResulat(SearchSrvc.java:30)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:63)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-12 00:58:22] [pool-1-thread-9(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-12 01:16:12] [pool-1-thread-2(OfferDaoImpl.java:275)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 267,354 milliseconds ago.  The last packet sent successfully to the server was 18,902 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.OfferDaoImpl.getOfferByCompCity(OfferDaoImpl.java:255)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.getOfferByCompCity(Unknown Source)
+com.offerme.server.service.SearchSrvc.getSearchResulat(SearchSrvc.java:30)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:63)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-12 01:16:12] [pool-1-thread-2(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-12 01:16:31] [pool-1-thread-3(OfferDaoImpl.java:275)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 286,786 milliseconds ago.  The last packet sent successfully to the server was 18,905 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.OfferDaoImpl.getOfferByCompCity(OfferDaoImpl.java:255)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.getOfferByCompCity(Unknown Source)
+com.offerme.server.service.SearchSrvc.getSearchResulat(SearchSrvc.java:30)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:63)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-12 01:16:31] [pool-1-thread-3(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-13 15:48:43] [pool-1-thread-2(UserDaoImpl.java:390)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 606,027 milliseconds ago.  The last packet sent successfully to the server was 21,303 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.UserDaoImpl.getUserByEmailAndPassword(UserDaoImpl.java:374)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.getUserByEmailAndPassword(Unknown Source)
+com.offerme.server.service.LoginSrvc.login(LoginSrvc.java:23)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:56)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-13 15:48:43] [pool-1-thread-2(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-13 15:55:19] [pool-1-thread-5(UserDaoImpl.java:390)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 361,047 milliseconds ago.  The last packet sent successfully to the server was 18,897 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.UserDaoImpl.getUserByEmailAndPassword(UserDaoImpl.java:374)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.getUserByEmailAndPassword(Unknown Source)
+com.offerme.server.service.LoginSrvc.login(LoginSrvc.java:23)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:56)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-13 15:55:19] [pool-1-thread-5(JDBCDataConnection.java:43)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-23 23:21:44] [pool-1-thread-10(UserDaoImpl.java:141)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'user_id=37' at line 1
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.Util.getInstance(Util.java:386)
+com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1052)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2444)
+com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2362)
+com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2347)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:105)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:105)
+com.offerme.server.database.dao.impl.UserDaoImpl.updateUser(UserDaoImpl.java:137)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.updateUser(Unknown Source)
+com.offerme.server.service.PersonalSettingSrvc.savePersonalSettingOnServer(PersonalSettingSrvc.java:22)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:78)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-23 23:21:52] [pool-1-thread-2(UserDaoImpl.java:141)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'user_id=37' at line 1
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.Util.getInstance(Util.java:386)
+com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1052)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2444)
+com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2362)
+com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2347)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:105)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:105)
+com.offerme.server.database.dao.impl.UserDaoImpl.updateUser(UserDaoImpl.java:137)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.updateUser(Unknown Source)
+com.offerme.server.service.PersonalSettingSrvc.savePersonalSettingOnServer(PersonalSettingSrvc.java:22)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:78)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-23 23:22:20] [pool-1-thread-9(UserDaoImpl.java:141)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'user_id=37' at line 1
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.Util.getInstance(Util.java:386)
+com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1052)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2444)
+com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2362)
+com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2347)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:105)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:105)
+com.offerme.server.database.dao.impl.UserDaoImpl.updateUser(UserDaoImpl.java:137)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.updateUser(Unknown Source)
+com.offerme.server.service.PersonalSettingSrvc.savePersonalSettingOnServer(PersonalSettingSrvc.java:22)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:78)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-23 23:30:27] [pool-1-thread-6(UserDaoImpl.java:141)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'user_id=37' at line 1
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.Util.getInstance(Util.java:386)
+com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1052)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4028)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2444)
+com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2362)
+com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:2347)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:105)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:105)
+com.offerme.server.database.dao.impl.UserDaoImpl.updateUser(UserDaoImpl.java:137)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.updateUser(Unknown Source)
+com.offerme.server.service.PersonalSettingSrvc.savePersonalSettingOnServer(PersonalSettingSrvc.java:22)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:78)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-26 23:15:08] [sockListener(MainServer.java:140)]
+ERROR: Logis Server failed in Listener:Address already in use: JVM_Bind
+[2014-07-26 23:15:08] [sockListener(MainServer.java:141)]
+ERROR: java.net.BindException: Address already in use: JVM_Bind
+java.net.DualStackPlainSocketImpl.bind0(Native Method)
+java.net.DualStackPlainSocketImpl.socketBind(DualStackPlainSocketImpl.java:96)
+java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:374)
+java.net.PlainSocketImpl.bind(PlainSocketImpl.java:175)
+java.net.ServerSocket.bind(ServerSocket.java:376)
+java.net.ServerSocket.<init>(ServerSocket.java:237)
+java.net.ServerSocket.<init>(ServerSocket.java:128)
+com.offerme.server.MainServer$SocketListener.run(MainServer.java:124)
+
+[2014-07-26 23:54:05] [sockListener(MainServer.java:140)]
+ERROR: Logis Server failed in Listener:Address already in use: JVM_Bind
+[2014-07-26 23:54:05] [sockListener(MainServer.java:141)]
+ERROR: java.net.BindException: Address already in use: JVM_Bind
+java.net.DualStackPlainSocketImpl.bind0(Native Method)
+java.net.DualStackPlainSocketImpl.socketBind(DualStackPlainSocketImpl.java:96)
+java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:374)
+java.net.PlainSocketImpl.bind(PlainSocketImpl.java:175)
+java.net.ServerSocket.bind(ServerSocket.java:376)
+java.net.ServerSocket.<init>(ServerSocket.java:237)
+java.net.ServerSocket.<init>(ServerSocket.java:128)
+com.offerme.server.MainServer$SocketListener.run(MainServer.java:124)
+
+[2014-07-27 00:31:00] [sockListener(MainServer.java:140)]
+ERROR: Logis Server failed in Listener:Address already in use: JVM_Bind
+[2014-07-27 00:31:00] [sockListener(MainServer.java:141)]
+ERROR: java.net.BindException: Address already in use: JVM_Bind
+java.net.DualStackPlainSocketImpl.bind0(Native Method)
+java.net.DualStackPlainSocketImpl.socketBind(DualStackPlainSocketImpl.java:96)
+java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:374)
+java.net.PlainSocketImpl.bind(PlainSocketImpl.java:175)
+java.net.ServerSocket.bind(ServerSocket.java:376)
+java.net.ServerSocket.<init>(ServerSocket.java:237)
+java.net.ServerSocket.<init>(ServerSocket.java:128)
+com.offerme.server.MainServer$SocketListener.run(MainServer.java:124)
+
+[2014-07-30 02:33:49] [pool-1-thread-6(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-30 02:33:55] [pool-1-thread-7(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-30 02:33:58] [pool-1-thread-8(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-30 02:48:38] [pool-1-thread-2(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-30 02:55:49] [pool-1-thread-4(UserDaoImpl.java:409)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 304,790 milliseconds ago.  The last packet sent successfully to the server was 18,908 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.UserDaoImpl.getUserByEmailAndPassword(UserDaoImpl.java:393)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy3.getUserByEmailAndPassword(Unknown Source)
+com.offerme.server.service.LoginSrvc.login(LoginSrvc.java:24)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:60)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-30 02:55:49] [pool-1-thread-4(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-31 00:32:11] [pool-1-thread-4(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-07-31 02:26:12] [pool-1-thread-2(OfferDaoImpl.java:199)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 1,248,590 milliseconds ago.  The last packet sent successfully to the server was 18,914 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.OfferDaoImpl.getOffer(OfferDaoImpl.java:179)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy3.getOffer(Unknown Source)
+com.offerme.server.service.DeleteOfferSrvc.getUserFromOffer(DeleteOfferSrvc.java:47)
+com.offerme.server.service.DeleteOfferSrvc.deleteOffer(DeleteOfferSrvc.java:18)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:120)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-07-31 02:26:12] [pool-1-thread-2(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-08-02 01:20:09] [sockListener(MainServer.java:140)]
+ERROR: Logis Server failed in Listener:Address already in use: JVM_Bind
+[2014-08-02 01:20:09] [sockListener(MainServer.java:141)]
+ERROR: java.net.BindException: Address already in use: JVM_Bind
+java.net.DualStackPlainSocketImpl.bind0(Native Method)
+java.net.DualStackPlainSocketImpl.socketBind(DualStackPlainSocketImpl.java:96)
+java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:374)
+java.net.PlainSocketImpl.bind(PlainSocketImpl.java:175)
+java.net.ServerSocket.bind(ServerSocket.java:376)
+java.net.ServerSocket.<init>(ServerSocket.java:237)
+java.net.ServerSocket.<init>(ServerSocket.java:128)
+com.offerme.server.MainServer$SocketListener.run(MainServer.java:124)
+
+[2014-08-02 01:37:03] [pool-1-thread-3(UserDaoImpl.java:409)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 966,137 milliseconds ago.  The last packet sent successfully to the server was 21,640 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.UserDaoImpl.getUserByEmailAndPassword(UserDaoImpl.java:393)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.getUserByEmailAndPassword(Unknown Source)
+com.offerme.server.service.LoginSrvc.login(LoginSrvc.java:24)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:60)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-02 01:37:04] [pool-1-thread-3(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-08-03 00:45:48] [pool-1-thread-2(OfferDaoImpl.java:199)]
+ERROR: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 504,519 milliseconds ago.  The last packet sent successfully to the server was 21,303 milliseconds ago.
+sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1116)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3589)
+com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:3478)
+com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4019)
+com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2490)
+com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2651)
+com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2683)
+com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2144)
+com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2310)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+com.offerme.server.database.dao.impl.OfferDaoImpl.getOffer(OfferDaoImpl.java:179)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:25)
+$Proxy4.getOffer(Unknown Source)
+com.offerme.server.service.DeleteOfferSrvc.getUserFromOffer(DeleteOfferSrvc.java:49)
+com.offerme.server.service.DeleteOfferSrvc.deleteOffer(DeleteOfferSrvc.java:18)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:120)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-03 00:45:48] [pool-1-thread-2(JDBCDataConnection.java:44)]
+ERROR: 释放数据库连接失败Already closed.
+[2014-08-08 00:44:17] [sockListener(MainServer.java:140)]
+ERROR: Logis Server failed in Listener:Address already in use: JVM_Bind
+[2014-08-08 00:44:17] [sockListener(MainServer.java:141)]
+ERROR: java.net.BindException: Address already in use: JVM_Bind
+java.net.DualStackPlainSocketImpl.bind0(Native Method)
+java.net.DualStackPlainSocketImpl.socketBind(DualStackPlainSocketImpl.java:96)
+java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:374)
+java.net.PlainSocketImpl.bind(PlainSocketImpl.java:175)
+java.net.ServerSocket.bind(ServerSocket.java:376)
+java.net.ServerSocket.<init>(ServerSocket.java:237)
+java.net.ServerSocket.<init>(ServerSocket.java:128)
+com.offerme.server.MainServer$SocketListener.run(MainServer.java:124)
+
+[2014-08-19 01:32:18] [sockListener(MainServer.java:140)]
+ERROR: Logis Server failed in Listener:Address already in use: JVM_Bind
+[2014-08-19 01:32:18] [sockListener(MainServer.java:141)]
+ERROR: java.net.BindException: Address already in use: JVM_Bind
+java.net.DualStackPlainSocketImpl.bind0(Native Method)
+java.net.DualStackPlainSocketImpl.socketBind(DualStackPlainSocketImpl.java:96)
+java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:374)
+java.net.PlainSocketImpl.bind(PlainSocketImpl.java:175)
+java.net.ServerSocket.bind(ServerSocket.java:376)
+java.net.ServerSocket.<init>(ServerSocket.java:237)
+java.net.ServerSocket.<init>(ServerSocket.java:128)
+com.offerme.server.MainServer$SocketListener.run(MainServer.java:124)
+
+[2014-08-19 22:34:19] [pool-1-thread-2(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:19] [pool-1-thread-1(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:19] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:19] [pool-1-thread-1(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-19 22:34:19] [pool-1-thread-2(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-19 22:34:19] [pool-1-thread-1(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-19 22:34:19] [pool-1-thread-3(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-19 22:34:19] [pool-1-thread-2(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-19 22:34:19] [pool-1-thread-3(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-19 22:34:42] [pool-1-thread-1(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:42] [pool-1-thread-1(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-19 22:34:42] [pool-1-thread-1(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-19 22:34:44] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:44] [pool-1-thread-3(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-19 22:34:44] [pool-1-thread-3(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-19 22:34:46] [pool-1-thread-2(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:46] [pool-1-thread-2(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-19 22:34:46] [pool-1-thread-2(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-19 22:34:48] [pool-1-thread-2(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:50] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:52] [pool-1-thread-1(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:54] [pool-1-thread-5(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:54] [pool-1-thread-5(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-19 22:34:54] [pool-1-thread-5(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-19 22:34:56] [pool-1-thread-4(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:34:56] [pool-1-thread-4(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-19 22:34:56] [pool-1-thread-4(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-19 22:34:58] [pool-1-thread-5(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:00] [pool-1-thread-6(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:00] [pool-1-thread-6(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-19 22:35:00] [pool-1-thread-6(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-19 22:35:02] [pool-1-thread-4(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:04] [pool-1-thread-7(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:04] [pool-1-thread-7(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-19 22:35:04] [pool-1-thread-7(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-19 22:35:06] [pool-1-thread-6(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:08] [pool-1-thread-7(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:10] [pool-1-thread-8(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:10] [pool-1-thread-8(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-19 22:35:10] [pool-1-thread-8(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-19 22:35:12] [pool-1-thread-8(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:14] [pool-1-thread-9(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:14] [pool-1-thread-9(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-19 22:35:14] [pool-1-thread-9(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-19 22:35:16] [pool-1-thread-9(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:18] [pool-1-thread-10(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-19 22:35:18] [pool-1-thread-10(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:41)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-19 22:35:18] [pool-1-thread-10(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-19 22:35:20] [pool-1-thread-10(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-23 16:42:54] [sockListener(MainServer.java:140)]
+ERROR: Logis Server failed in Listener:Address already in use: JVM_Bind
+[2014-08-23 16:42:54] [sockListener(MainServer.java:141)]
+ERROR: java.net.BindException: Address already in use: JVM_Bind
+java.net.DualStackPlainSocketImpl.bind0(Native Method)
+java.net.DualStackPlainSocketImpl.socketBind(DualStackPlainSocketImpl.java:96)
+java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:374)
+java.net.PlainSocketImpl.bind(PlainSocketImpl.java:175)
+java.net.ServerSocket.bind(ServerSocket.java:376)
+java.net.ServerSocket.<init>(ServerSocket.java:237)
+java.net.ServerSocket.<init>(ServerSocket.java:128)
+com.offerme.server.MainServer$SocketListener.run(MainServer.java:124)
+
+[2014-08-24 00:12:50] [pool-1-thread-1(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:12:50] [pool-1-thread-1(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-24 00:12:50] [pool-1-thread-1(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-24 00:12:52] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:12:52] [pool-1-thread-3(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-24 00:12:52] [pool-1-thread-3(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-24 00:12:54] [pool-1-thread-2(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:12:54] [pool-1-thread-2(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-24 00:12:54] [pool-1-thread-2(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-24 00:12:56] [pool-1-thread-2(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:12:58] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:00] [pool-1-thread-4(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:00] [pool-1-thread-4(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-24 00:13:00] [pool-1-thread-4(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-24 00:13:02] [pool-1-thread-1(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:04] [pool-1-thread-7(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:04] [pool-1-thread-7(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-24 00:13:04] [pool-1-thread-7(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-24 00:13:06] [pool-1-thread-4(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:08] [pool-1-thread-6(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:08] [pool-1-thread-6(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-24 00:13:08] [pool-1-thread-6(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-24 00:13:10] [pool-1-thread-6(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:12] [pool-1-thread-5(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:12] [pool-1-thread-5(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-24 00:13:12] [pool-1-thread-5(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-24 00:13:14] [pool-1-thread-5(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:16] [pool-1-thread-10(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:16] [pool-1-thread-10(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-24 00:13:16] [pool-1-thread-10(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-24 00:13:18] [pool-1-thread-10(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:20] [pool-1-thread-8(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:20] [pool-1-thread-8(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-24 00:13:20] [pool-1-thread-8(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-24 00:13:22] [pool-1-thread-9(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:22] [pool-1-thread-9(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-24 00:13:22] [pool-1-thread-9(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-24 00:13:24] [pool-1-thread-7(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:26] [pool-1-thread-9(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:28] [pool-1-thread-4(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:28] [pool-1-thread-4(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-24 00:13:28] [pool-1-thread-4(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-24 00:13:30] [pool-1-thread-8(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:32] [pool-1-thread-1(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:32] [pool-1-thread-1(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-24 00:13:32] [pool-1-thread-1(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-24 00:13:34] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-24 00:13:34] [pool-1-thread-3(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-24 00:13:34] [pool-1-thread-3(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 37
+[2014-08-28 09:37:00] [pool-1-thread-1(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:00] [pool-1-thread-1(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-28 09:37:00] [pool-1-thread-1(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 50
+[2014-08-28 09:37:02] [pool-1-thread-4(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:02] [pool-1-thread-4(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-28 09:37:02] [pool-1-thread-4(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 50
+[2014-08-28 09:37:04] [pool-1-thread-2(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:04] [pool-1-thread-2(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-28 09:37:04] [pool-1-thread-2(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 50
+[2014-08-28 09:37:06] [pool-1-thread-5(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:06] [pool-1-thread-5(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-28 09:37:06] [pool-1-thread-5(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 50
+[2014-08-28 09:37:08] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:08] [pool-1-thread-3(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-28 09:37:08] [pool-1-thread-3(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 50
+[2014-08-28 09:37:10] [pool-1-thread-1(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:12] [pool-1-thread-8(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:12] [pool-1-thread-8(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-28 09:37:12] [pool-1-thread-8(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 50
+[2014-08-28 09:37:14] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:16] [pool-1-thread-5(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:18] [pool-1-thread-7(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:18] [pool-1-thread-7(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-28 09:37:18] [pool-1-thread-7(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 50
+[2014-08-28 09:37:20] [pool-1-thread-2(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:22] [pool-1-thread-6(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:22] [pool-1-thread-6(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-28 09:37:22] [pool-1-thread-6(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 50
+[2014-08-28 09:37:24] [pool-1-thread-4(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:26] [pool-1-thread-5(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:26] [pool-1-thread-5(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-28 09:37:26] [pool-1-thread-5(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 50
+[2014-08-28 09:37:28] [pool-1-thread-6(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:31] [pool-1-thread-3(JDBCDataConnection.java:30)]
+ERROR: 获取数据库连接失败Cannot create PoolableConnectionFactory (Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.)
+[2014-08-28 09:37:31] [pool-1-thread-3(MessageDaoImpl.java:281)]
+ERROR: java.lang.NullPointerException
+com.offerme.server.database.dao.impl.MessageDaoImpl.getMessagesByReceiverIncrem(MessageDaoImpl.java:259)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:601)
+com.offerme.server.database.dao.proxy.InvocationHandlerImp.invoke(InvocationHandlerImp.java:27)
+$Proxy5.getMessagesByReceiverIncrem(Unknown Source)
+com.offerme.server.service.ChatSrvc.getComingMessages(ChatSrvc.java:26)
+com.offerme.server.service.threadpool.DistributeManage.DistributeRequest(DistributeManage.java:83)
+com.offerme.server.service.threadpool.ThreadTask.run(ThreadTask.java:38)
+java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1110)
+java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:603)
+java.lang.Thread.run(Thread.java:722)
+
+[2014-08-28 09:37:31] [pool-1-thread-3(ChatSrvc.java:31)]
+ERROR: Cannot get coming messages, userId: 50

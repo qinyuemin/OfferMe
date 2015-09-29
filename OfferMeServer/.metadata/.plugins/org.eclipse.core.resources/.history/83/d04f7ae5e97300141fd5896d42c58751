@@ -1,0 +1,134 @@
+package com.offerme.server.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
+import com.offerme.server.model.business.OfferBusinessBean;
+import com.offerme.server.model.business.offer.OfferInfo;
+import com.offerme.server.model.business.offer.PublisherInfo;
+import com.offerme.server.model.business.search.SearchKeyword;
+import com.offerme.server.model.business.search.SearchResulat;
+import com.offerme.server.model.business.search.SearchResulatItem;
+import com.offerme.server.model.db.User;
+import com.offerme.server.service.OfferSrvc;
+import com.offerme.server.service.SearchSrvc;
+import com.offerme.server.util.Tool;
+
+@Service("searchSrvc")
+@Transactional
+public class SearchSrvcImpl implements SearchSrvc {
+
+	@Autowired
+	OfferSrvc offerSrvc;
+
+	@Override
+	public SearchResulat getSearchResulat(SearchKeyword searchKeyword) {
+
+		SearchResulat resualt = new SearchResulat();
+
+		if ("不限".equals(searchKeyword.getCity())) {
+			searchKeyword.setCity("");
+		}
+
+		List<OfferBusinessBean> offerList = offerSrvc
+				.getOffersByCityAndKeyword(searchKeyword.getCity(),
+						searchKeyword.getEntreprise());
+		List<OfferBusinessBean> favoriteOfferList = offerSrvc
+				.getFavoriteOffersByUserId(searchKeyword.getPersonID());
+		List<OfferBusinessBean> appliedOfferList = offerSrvc
+				.getAppliedOffersByUserId(searchKeyword.getPersonID());
+
+		if (!CollectionUtils.isEmpty(offerList)) {
+			for (OfferBusinessBean offer : offerList) {
+				SearchResulatItem item = new SearchResulatItem(
+						String.valueOf(offer.getOfferId()), offer.getTitle());
+				item.setDate(Tool.getDateStr(offer.getCreDt()));
+				item.setDescription(offer.getContent());
+				item.setDomain(offer.getTrade());
+				item.setMailbox(offer.getOfferMail());
+				item.setSalary(offer.getSalary());
+				item.setEducation(offer.getEducation());
+				item.setWorkyear(offer.getWorkyear());
+				item.setApplied(isAppliedOrFavorite(offer.getOfferId(),
+						appliedOfferList));
+				item.setFavorite(isAppliedOrFavorite(offer.getOfferId(),
+						favoriteOfferList));
+				item.setName(offer.getOfferOwner().getName());
+				item.setEntreprise(offer.getCompany());
+				item.setCity(offer.getCity());
+				item.setOfferInfo(this.getOfferInfo(offer));
+				item.setPublisherInfo(this.getPublisherInfo(offer));
+				item.setFavoriteCount(offer.getFavoriteCount());
+				resualt.addItem(item);
+			}
+		}
+
+		return resualt;
+	}
+
+	private OfferInfo[] getOfferInfo(OfferBusinessBean offer) {
+		OfferInfo[] info = null;
+		try {
+			List<OfferBusinessBean> infoList = offerSrvc
+					.getOffersByUserId(offer.getUserId());
+			info = new OfferInfo[infoList.size()];
+			for (int index = 0; index < infoList.size(); index++) {
+				info[index] = new OfferInfo();
+				info[index].setCity(infoList.get(index).getCity());
+				info[index].setDate(infoList.get(index).getCreDt());
+				info[index].setDescription(infoList.get(index).getContent());
+				info[index].setEntreprise(infoList.get(index).getCompany());
+				info[index].setPost(infoList.get(index).getTitle());
+				info[index].setUserID(String.valueOf(infoList.get(index)
+						.getUserId()));
+				info[index].setDomain(String.valueOf(infoList.get(index)
+						.getTrade()));
+				info[index].setSalary(String.valueOf(infoList.get(index)
+						.getSalary()));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return info;
+	}
+
+	private PublisherInfo getPublisherInfo(OfferBusinessBean offer) {
+		PublisherInfo info = new PublisherInfo();
+		User user = offer.getOfferOwner();
+		info.setPost(user.getPost());
+		info.setEmail(user.getEmail());
+		info.setProfile(user.getPortrait());
+		info.setTelephone(user.getPhone());
+		info.setUserID(user.getUserId());
+		info.setCity(user.getCity());
+		info.setEntreprise(user.getCompany());
+		info.setName(user.getName());
+		info.setMailPublished(isPublic(user.getEmailPublic()));
+		info.setPhonePublished(isPublic(user.getPhonePublic()));
+		return info;
+	}
+
+	private boolean isAppliedOrFavorite(Integer offerId,
+			List<OfferBusinessBean> offers) {
+		if (!CollectionUtils.isEmpty(offers)) {
+			for (OfferBusinessBean offer : offers) {
+				if (offerId.intValue() == offer.getOfferId().intValue()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean isPublic(int value) {
+		if (value == 1) {
+			return true;
+		}
+		return false;
+	}
+}

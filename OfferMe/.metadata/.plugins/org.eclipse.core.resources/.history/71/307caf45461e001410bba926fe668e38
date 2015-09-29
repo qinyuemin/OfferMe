@@ -1,0 +1,89 @@
+package com.offerme.client.activity;
+
+import com.offerme.R;
+import com.offerme.client.service.InscriptionSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.inscription.InscriptionInfo;
+
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class InscriptionActivity extends ActionBarActivity {
+
+	/** function created automatically */
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private InscriptionInfo inscriptionInfo = new InscriptionInfo();
+	private InscriptionSrvc inscriptionSrvc = InscriptionSrvc
+			.getInstance(utilSrvc);
+	private EditText textEmail = null;
+	private EditText textPassword = null;
+	private Dialog processDialog = null;
+	private Dialog authDialog = null;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_inscription);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(
+				R.layout.activity_inscription_actionbar);
+		getSupportActionBar().setBackgroundDrawable(
+				new ColorDrawable(Color.parseColor("#1e90d2")));
+		initialize();
+	}
+
+	private void initialize() {
+		textEmail = (EditText) super.findViewById(R.id.inscription_mail_text);
+		textPassword = (EditText) super
+				.findViewById(R.id.inscription_password_txt);
+	}
+
+	public void backToLogin(View view) {
+		utilSrvc.gotoHomeInPage(this);
+	}
+
+	public void goToInscriptionDetail(View view) {
+		if (inscriptionInfo.checkEmailAddress(textEmail.getText().toString())) {
+			inscriptionInfo.setEmail(textEmail.getText().toString());
+			inscriptionInfo.setPassword(textPassword.getText().toString());
+			setProcessDialog();
+			inscriptionSrvc.submit(this, processDialog, inscriptionInfo);
+		} else {
+			Toast toast = Toast.makeText(this, "邮箱不符合格式", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+		}
+	}
+
+	private void setProcessDialog() {
+		LayoutInflater factory = LayoutInflater.from(this);
+		View dialogView = factory.inflate(R.layout.dialog_process, null);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		processDialog = builder.create();
+		((AlertDialog) processDialog).setView(dialogView, 0, 0, 0, 0);
+		setWindowAttributes(processDialog.getWindow());
+	}
+
+	@SuppressWarnings("deprecation")
+	private void setWindowAttributes(Window window) {
+		window.setGravity(Gravity.CENTER);
+		WindowManager.LayoutParams lp = window.getAttributes();
+		lp.alpha = 0.5f;
+		window.setAttributes(lp);
+		window.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
+				WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+	}
+
+}

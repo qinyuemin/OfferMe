@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg" >
+
+    <FrameLayout
+        android:id="@+id/publisher_offer_info_up"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/publisher_offer_info_down"
+        android:layout_marginTop="5dp" >
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/border"
+                    android:onClick="detailInfo"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp" >
+
+                    <FrameLayout
+			            android:layout_width="80dp"
+			            android:layout_height="80dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp">
+			            
+	                    <ImageView
+	                        android:id="@+id/publisher_offer_info_profile"
+	                        android:layout_width="match_parent"
+	                        android:layout_height="match_parent"
+	                        android:layout_gravity="center"
+	                        android:padding="5dp"
+	                        android:scaleType="centerCrop"
+	                        android:src="@drawable/dafaultuser01" />
+	                    
+	                    <ImageView
+			                android:id="@+id/publisher_offer_info_profile_round"
+			                android:layout_width="match_parent"
+			                android:layout_height="match_parent"
+			                android:src="@drawable/borderprofile" />
+                    </FrameLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" 
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:orientation="vertical" >
+
+                            <TextView
+                                android:id="@+id/publisher_offer_info_name"
+                                style="@style/DefaultTextColor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="#b2b2b2"
+                                android:textSize="15sp"
+                                android:gravity="left|center_vertical" />
+
+                            <TextView
+                                android:id="@+id/publisher_offer_info_mail"
+                                style="@style/DefaultTextColor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="#b2b2b2"
+                                android:gravity="left|center_vertical"
+                                android:textSize="12sp" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" >
+
+                                <TextView
+                                    android:id="@+id/publisher_offer_info_string"
+                                    android:textColor="#b2b2b2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:gravity="left|center_vertical"
+                                    android:text="@string/publisher_offer_info_date"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/publisher_offer_info_date"
+                                    android:textColor="#b2b2b2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:gravity="center_vertical"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                       <ImageView
+		                    android:id="@+id/publisher_offer_info_publisher"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="fill_parent"
+		                    android:layout_marginTop="30dp"
+		                    android:layout_marginBottom="30dp"
+		                    android:layout_marginLeft="5dp"
+		                    android:layout_alignParentRight="true"
+		                    android:src="@drawable/datailarrow" />
+                      <!--   <ImageView
+                            android:id="@+id/publisher_offer_info_publisher"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/abc_ic_go_search_api_holo_light" /> -->
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    >
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp" >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" >
+
+                            <TextView
+                                android:id="@+id/publisher_offer_info_post"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="1"
+                                android:textColor="#FFFFFF"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/publisher_offer_info_entrerprise"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="1"
+                                android:textColor="#FFFFFF"
+                                android:textSize="12sp" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:descendantFocusability="blocksDescendants"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    android:id="@+id/publisher_offer_info_city"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="left|center_vertical"
+                                    android:gravity="left|center_vertical"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/publisher_offer_info_seperate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:text=" | "
+                                    android:textColor="#FFFFFF" />
+
+                                <TextView
+                                    android:id="@+id/publisher_offer_info_domain"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="right|center_vertical"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical" >
+
+                            <LinearLayout
+                                android:layout_width="75dp"
+                                android:layout_height="25dp" >
+
+                                <CheckBox
+                                    android:id="@+id/publisher_offer_info_favorite"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/cbxcollect"
+                                    android:button="@null"
+                                    android:gravity="center" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/publisher_offer_info_line"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <TextView
+                        android:id="@+id/publisher_offer_info_description"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@id/publisher_offer_info_down"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/publisher_offer_info_phone"
+                    android:layout_width="80dp"
+                    android:layout_height="fill_parent"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:onClick="callPublisher"
+                    android:src="@drawable/calling01btn" />
+
+                <ImageView
+                    android:id="@+id/publisher_offer_info_sendmail"
+                    android:layout_width="80dp"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:onClick="sendMailFromOffer"
+                    android:src="@drawable/letterbtn" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+</RelativeLayout>

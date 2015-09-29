@@ -1,0 +1,85 @@
+package com.offerme.server.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.offerme.server.dao.CvDao;
+import com.offerme.server.model.business.personinfo.PersonalCV;
+import com.offerme.server.model.business.personinfo.PersonalWorkInfo;
+import com.offerme.server.model.db.Cv;
+import com.offerme.server.service.CvSrvc;
+import com.offerme.server.util.Tool;
+
+@Service("cvSrvc")
+@Transactional
+public class CvSrvcImpl implements CvSrvc {
+
+	@Autowired
+	private CvDao cvDao;
+	
+	@Override
+	public Cv getCvByUserId(Integer userId) {
+		return cvDao.findByUserId(userId);
+	}
+
+	@Override
+	public void updateCV(Cv cv) {
+		cvDao.update(cv);
+	}
+
+	@Override
+	public Integer insertCV(Cv cv) {
+		return cvDao.save(cv);
+	}
+
+	@Override
+	public void deleteCV(Integer cvId) {
+		cvDao.delete(cvId);
+	}
+	
+	@Override
+	public String saveCV(PersonalCV personCV) {
+		String strReturn = "";
+		
+		PersonalWorkInfo workInfo = personCV.getWorkInfo();
+		
+		Cv cv = new Cv();
+		cv.setUserId(Tool.parseInt(personCV.getUserID()));
+		cv.setDiploma(personCV.getEducation());
+		cv.setSchool(personCV.getColleage());
+		cv.setCurrentCompany(personCV.getEntreprise());
+		cv.setCurrentPost(personCV.getPost());
+		cv.setJobYear(Tool.parseInt(personCV.getWorkyear()));
+		for (int count = 0; count < personCV.getWorkInfo().getWorks().size();) {
+			if (count < 3) {
+				cv.setJobCompany01(workInfo.getFirstWork());
+				cv.setJobYear01(workInfo.getFirstWorkyear());
+				cv.setJobPost01(workInfo.getFirstWorkPost());
+			} else if (count < 6) {
+				cv.setJobCompany02(workInfo.getSecondWork());
+				cv.setJobYear02(workInfo.getSecondWorkyear());
+				cv.setJobPost02(workInfo.getSecondWorkPost());
+			} else if (count < 9) {
+				cv.setJobCompany03(workInfo.getThirdWork());
+				cv.setJobYear03(workInfo.getThirdWorkyear());
+				cv.setJobPost03(workInfo.getThirdWorkPost());
+			}
+			count = count + 3;
+		}
+		
+		try {
+			Cv cvOld = getCvByUserId(Tool.parseInt(personCV.getUserID()));
+			if ( cvOld != null) {
+				cv.setCvId(cvOld.getCvId());
+				updateCV(cv);
+			} else {
+				insertCV(cv);
+			}
+			strReturn = "ok";
+		} catch (Exception e) {
+			strReturn = "failed";
+		}
+		return strReturn;
+	}
+}

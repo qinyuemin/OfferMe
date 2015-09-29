@@ -1,0 +1,54 @@
+package com.offerme.client.service.util;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.provider.MediaStore.Images;
+
+public class MultiMedia {
+	public Uri getUriFromBitMap(Bitmap imageBitmap, Context ctx) {
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+		String path = Images.Media.insertImage(ctx.getContentResolver(),
+				imageBitmap, "Title", null);
+		Uri uriPath = Uri.parse(path);
+
+		String[] proj = { MediaStore.Images.Media.DATA };
+		Cursor actualimagecursor = ctx.getContentResolver().query(uriPath,
+				proj, null, null, null);
+		int actual_image_column_index = actualimagecursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		actualimagecursor.moveToFirst();
+
+		String img_path = actualimagecursor
+				.getString(actual_image_column_index);
+		File file = new File(img_path);
+		Uri fileUri = Uri.fromFile(file);
+		return fileUri;
+	}
+
+	public byte[] getImageByte(Bitmap imageBitmap) {
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		int quality = 100;
+		int maxSize = 4;
+		imageBitmap.compress(CompressFormat.JPEG, quality, stream);
+		while (stream.toByteArray().length / 1024 > maxSize && quality > 0) {
+			quality = quality - 20;
+			stream.reset();
+			imageBitmap.compress(CompressFormat.JPEG, quality, stream);
+		}
+		return stream.toByteArray();
+	}
+
+	public Bitmap getImageBitmap(Bitmap imageBitmap, int targetSize) {
+		return ThumbnailUtils.extractThumbnail(imageBitmap, targetSize,
+				targetSize);
+	}
+}

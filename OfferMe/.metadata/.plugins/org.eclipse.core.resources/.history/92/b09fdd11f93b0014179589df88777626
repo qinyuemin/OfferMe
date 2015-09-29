@@ -1,0 +1,50 @@
+package com.offerme.client.activity;
+
+import com.offerme.R;
+import com.offerme.client.service.UtilSrvc;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+public class PublishOfferListActivity extends Fragment {
+
+	private ImageView addNewOffer;
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.activity_publish_offerlist, container,
+				false);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		initWidget();
+	}
+
+	private void initWidget() {
+		addNewOffer = (ImageView) getActivity().findViewById(
+				R.id.publish_offerlist_addOffer);
+		addNewOffer.setOnClickListener(new gotoPublishOffer());
+	}
+
+	private class gotoPublishOffer implements OnClickListener {
+
+		@Override
+		public void onClick(View view) {
+			utilSrvc.gotoPublishOfferPage(getActivity());
+		}
+	}
+}

@@ -1,0 +1,129 @@
+package com.offerme.client.activity;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalPersonInfo;
+import com.offerme.client.service.PublishOfferSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.publishoffer.OfferInfo;
+
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+
+public class PublishOfferActivity extends ActionBarActivity {
+
+	private EditText entreprise = null;
+	private EditText description = null;
+	private EditText post = null;
+	private EditText mailbox = null;
+	private EditText salaryFrom = null;
+	private EditText salaryTo = null;
+	private ImageView submitAction = null;
+	private Spinner city = null;
+	private Spinner domain = null;
+	private LocalPersonInfo info = LocalPersonInfo.getInstance(this);
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private PublishOfferSrvc publishOfferSrvc = PublishOfferSrvc
+			.getInstance(utilSrvc);
+	private OfferInfo offerInfo = new OfferInfo();
+	private Dialog processDialog = null;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_publish_offer);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(
+				R.layout.activity_publish_offer_actionbar);
+		getSupportActionBar().setBackgroundDrawable(
+				new ColorDrawable(Color.parseColor("#1e90d2")));
+		initWidget();
+	}
+
+	@Override
+	public void onBackPressed() {
+		utilSrvc.gotoLoggedInFromPublish(this);
+		return;
+	}
+
+	public void backToPublishOfferList(View view) {
+		utilSrvc.gotoLoggedInFromPublish(this);
+		return;
+	}
+	
+	public void initWidget() {
+		submitAction = (ImageView) this.findViewById(R.id.publish_offer_bar_left);
+		entreprise = (EditText) this.findViewById(R.id.enterpriseName);
+		description = (EditText) this.findViewById(R.id.contentDescript);
+		post = (EditText) this.findViewById(R.id.postName);
+		mailbox = (EditText) this.findViewById(R.id.mailboxName);
+		salaryFrom = (EditText) this.findViewById(R.id.salaryFromName);
+		salaryTo = (EditText) this.findViewById(R.id.salaryToName);
+		entreprise.setHint(info.getValue(LocalPersonInfo.ENTREPRISE));
+		mailbox.setHint(info.getValue(LocalPersonInfo.EMAIL));
+		city = (Spinner) this.findViewById(R.id.cityName);
+		submitAction.setOnClickListener(new submit());
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				this, R.array.city_list, R.layout.spinner_type);
+		adapter.setDropDownViewResource(R.layout.spinner_dropdown_type);
+		city.setAdapter(adapter);
+		domain = (Spinner) this.findViewById(R.id.domainName);
+		adapter = ArrayAdapter.createFromResource(this, R.array.domain_list,
+				R.layout.spinner_type);
+		adapter.setDropDownViewResource(R.layout.spinner_dropdown_type);
+		domain.setAdapter(adapter);
+	}
+
+	private class submit implements OnClickListener {
+		@Override
+		public void onClick(View arg0) {
+			if (utilSrvc.isNetworkConnected(PublishOfferActivity.this)) {
+				if (entreprise.getText().toString().length() == 0) {
+					offerInfo.setEntreprise(entreprise.getHint().toString());
+				} else {
+					offerInfo.setEntreprise(entreprise.getText().toString());
+				}
+				if (mailbox.getText().toString().length() == 0) {
+					offerInfo.setMailbox(mailbox.getHint().toString());
+				} else {
+					offerInfo.setMailbox(mailbox.getText().toString());
+				}
+				offerInfo.setCity(city.getSelectedItem().toString());
+				offerInfo.setDescription(description.getText().toString());
+				offerInfo.setPost(post.getText().toString());
+				offerInfo.setDomain(domain.getSelectedItem().toString());
+				offerInfo.setSalary(salaryFrom.getText().toString(), salaryTo
+						.getText().toString());
+				publishOfferSrvc.checkOfferInfo(PublishOfferActivity.this,
+						offerInfo);
+				if (offerInfo.getIsComplete()) {
+					setProcessDialog();
+					publishOfferSrvc.submit(PublishOfferActivity.this,
+							processDialog, offerInfo);
+				}
+			} else {
+				utilSrvc.showConnectDialog(PublishOfferActivity.this);
+			}
+		}
+	}
+
+	private void setProcessDialog() {
+		LayoutInflater factory = LayoutInflater.from(this);
+		View dialogView = factory.inflate(R.layout.dialog_process, null);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		processDialog = builder.create();
+		((AlertDialog) processDialog).setView(dialogView, 0, 0, 0, 0);
+	}
+
+}

@@ -1,0 +1,316 @@
+package com.offerme.client.activity;
+
+import java.util.List;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.Toast;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalDataBase;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.chat.ChatFriend;
+import com.offerme.client.service.util.PollingUtils;
+import com.umeng.analytics.MobclickAgent;
+
+public class LoggedInActivity extends ActionBarActivity {
+
+	public static final String FROM_CHAT = "FROM_CHAT";
+	public static final String FROM_USER = "StartFromUser";
+	public static final String FROM_PUBLISH = "StartFromPublish";
+	public static final String FRIENDID = "FriendID";
+	private LocalDataBase localDatabase = LocalDataBase.getInstance(this);
+	private SearchOfferActivity searchFragment = new SearchOfferActivity();
+	private PublishOfferListActivity publishFragment = new PublishOfferListActivity();
+	private PersonalSettingActivity personFragment = new PersonalSettingActivity();
+	private ChatFriendListActivity chatFragment = new ChatFriendListActivity();
+	private FragmentManager fragmentManager = getSupportFragmentManager();
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private FragmentTransaction fragmentTransaction;
+	private Fragment currentFragment = null;
+	private RadioButton startButton;
+	private ImageView mailButton;
+	private RadioGroup radioGroup;
+	private Intent intent = null;
+	private Handler mHandler;
+	private Thread waitMessage;
+	volatile private boolean isThreadReady = true;
+	private int POLLINGTIME = 3;
+	private int EXITCLICK = 0;
+	private String mPageName = "LoggedInActivity";
+
+	private enum fragmentName {
+		SEARCH_FRAGMENT, PUBLISH_FRAGMENT, CHAT_FRAGMENT, ME_FRAGMENT
+	};
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		utilSrvc.addNewActivity(this);
+		setContentView(R.layout.activity_logged_in);
+		EXITCLICK = 0;
+		// localDatabase.deleteDataBase(LocalDataBase.OFFERTABLENAME);
+		// localDatabase.deleteDataBase(LocalDataBase.FRIENDTABLENAME);
+		// localDatabase.deleteDataBase(LocalDataBase.MESSAGETABLENAME);
+		// localDatabase.deleteDataBase(LocalDataBase.CVTABLENAME);
+		mHandler = new myHandler();
+		PollingUtils.startPollingService(this, POLLINGTIME,
+				PollingService.class, PollingService.ACTION);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart(mPageName);
+		MobclickAgent.onResume(this);
+		waitMessage = new waitNewMessage(mHandler);
+		waitMessage.start();
+		init();
+		initRadios();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd(mPageName);
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		PollingUtils.stopPollingService(this, PollingService.class,
+				PollingService.ACTION);
+		finish();
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		this.setIntent(intent);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (EXITCLICK == 0) {
+			Toast toast = Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+			EXITCLICK++;
+		} else {
+			EXITCLICK = 0;
+			utilSrvc.exit();
+		}
+		return;
+	}
+
+	private void init() {
+		intent = this.getIntent();
+		fragmentTransaction = fragmentManager.beginTransaction();
+		mailButton = (ImageView) findViewById(R.id.rb_mail_newmessage);
+		if (intent.getBooleanExtra(FROM_USER, false)) {
+			setActionBar(fragmentName.ME_FRAGMENT);
+			setFragment(personFragment, PersonalSettingActivity.class);
+			fragmentTransaction.commit();
+			startButton = (RadioButton) findViewById(R.id.rb_setting);
+		} else if (intent.getBooleanExtra(FROM_CHAT, false)) {
+			setActionBar(fragmentName.CHAT_FRAGMENT);
+			Integer friendID = (Integer) intent
+					.getSerializableExtra(FRIENDID);
+			if (!chatFragment.isAdded()) {
+				chatFragment = new ChatFriendListActivity();
+				@SuppressWarnings("unchecked")
+				List<ChatFriend> friends = (List<ChatFriend>) intent
+						.getSerializableExtra(ChatFriendListActivity.FRIENDLIST);
+				chatFragment.setNewFriend(friends);
+				fragmentTransaction.replace(R.id.fragment_container,
+						chatFragment).commit();
+			} else if (friendID != null) {
+				chatFragment.removeNewFriend(friendID);
+			}
+			currentFragment = chatFragment;
+			startButton = (RadioButton) findViewById(R.id.rb_mail);
+		} else if (intent.getBooleanExtra(FROM_PUBLISH, false)) {
+			setActionBar(fragmentName.PUBLISH_FRAGMENT);
+			setFragment(publishFragment, PublishOfferListActivity.class);
+			fragmentTransaction.commit();
+			startButton = (RadioButton) findViewById(R.id.rb_publish);
+		} else {
+			setActionBar(fragmentName.SEARCH_FRAGMENT);
+			setFragment(searchFragment, SearchOfferActivity.class);
+			fragmentTransaction.commit();
+			startButton = (RadioButton) findViewById(R.id.rb_search);
+		}
+		startButton.setChecked(true);
+	}
+
+	private void initRadios() {
+		radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+		radioGroup.setOnCheckedChangeListener(new checkChange());
+	}
+
+	private void initSearchActionBar() {
+		if (searchFragment.isAdded()) {
+			searchFragment.initActionBar();
+		}
+	}
+
+	private void initPublishActionBar() {
+		if (publishFragment.isAdded()) {
+			publishFragment.initActionBar();
+		}
+	}
+
+	private void setActionBar(fragmentName fragmentID) {
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setBackgroundDrawable(
+				new ColorDrawable(Color.parseColor("#1e90d2")));
+		switch (fragmentID) {
+		case SEARCH_FRAGMENT:
+			getSupportActionBar().setCustomView(
+					R.layout.activity_search_actionbar);
+			initSearchActionBar();
+			break;
+		case PUBLISH_FRAGMENT:
+			getSupportActionBar().setCustomView(
+					R.layout.activity_publish_offerlist_actionbar);
+			initPublishActionBar();
+			break;
+		case CHAT_FRAGMENT:
+			getSupportActionBar().setCustomView(
+					R.layout.activity_chat_friend_list_actionbar);
+			break;
+		case ME_FRAGMENT:
+			getSupportActionBar().setCustomView(
+					R.layout.activity_personal_setting_actionbar);
+			break;
+		}
+	}
+
+	private class checkChange implements OnCheckedChangeListener {
+
+		@Override
+		public void onCheckedChanged(RadioGroup group, int checkedId) {
+			fragmentTransaction = fragmentManager.beginTransaction();
+			switch (checkedId) {
+			case R.id.rb_search:
+				System.out.println("Loading search fragment");
+				setActionBar(fragmentName.SEARCH_FRAGMENT);
+				setFragment(searchFragment, SearchOfferActivity.class);
+				break;
+
+			case R.id.rb_publish:
+				System.out.println("Loading publish offer fragment");
+				setActionBar(fragmentName.PUBLISH_FRAGMENT);
+				setFragment(publishFragment, PublishOfferListActivity.class);
+				break;
+
+			case R.id.rb_mail:
+				System.out.println("Loading mail fragment");
+				mailButton.setVisibility(View.INVISIBLE);
+				isThreadReady = false;
+				setActionBar(fragmentName.CHAT_FRAGMENT);
+				setFragment(chatFragment, ChatFriendListActivity.class);
+				break;
+
+			case R.id.rb_setting:
+				System.out.println("Loading user fragment");
+				setActionBar(fragmentName.ME_FRAGMENT);
+				setFragment(personFragment, PersonalSettingActivity.class);
+				break;
+
+			default:
+				break;
+			}
+			fragmentTransaction.addToBackStack(String.valueOf(checkedId));
+			fragmentTransaction.commit();
+			restartThread();
+		}
+
+	}
+
+	public void setFragment(Fragment toFragment, Class<?> fragmentClass) {
+		if (!toFragment.isAdded()) {
+			fragmentTransaction.add(R.id.fragment_container, toFragment);
+		}
+		if (currentFragment != null) {
+			fragmentTransaction.hide(currentFragment).show(toFragment);
+		}
+		currentFragment = toFragment;
+	}
+
+	public void goToSetting(View view) {
+		utilSrvc.gotoSettingPage(this);
+	}
+
+	public void gotoPersonalInfo(View view) {
+		utilSrvc.gotoPersonalInfoPage(this);
+	}
+
+	public void restartThread() {
+		if (!isThreadReady) {
+			isThreadReady = true;
+			waitMessage = new waitNewMessage(mHandler);
+			waitMessage.start();
+		}
+	}
+
+	@SuppressLint("HandlerLeak")
+	private class myHandler extends Handler {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 100:
+				int buttonID = radioGroup.getCheckedRadioButtonId();
+				if (buttonID != R.id.rb_mail) {
+					mailButton = (ImageView) findViewById(R.id.rb_mail_newmessage);
+					mailButton.setVisibility(View.VISIBLE);
+				}
+				break;
+			}
+			super.handleMessage(msg);
+		}
+	}
+
+	private class waitNewMessage extends Thread {
+
+		private Handler threadHandler;
+
+		public waitNewMessage(Handler handler) {
+			this.threadHandler = handler;
+		}
+
+		public void run() {
+			while (isThreadReady) {
+				try {
+					sleep(1 * 1000);
+					// System.out.println("find the new info from LoggedIn");
+					if (localDatabase.getNewFriends().size() != 0
+							|| localDatabase.getNewCommingCV() == true) {
+						Message message = new Message();
+						message.what = 100;
+						threadHandler.sendMessage(message);
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+}

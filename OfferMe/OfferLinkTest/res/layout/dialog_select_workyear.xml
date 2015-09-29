@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/personal_workyear_0"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="@string/personal_setting_first_work"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_1"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView01"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_2"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="2"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView02"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_3"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="3"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView03"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_4"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="4"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView04"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_5"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="5"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView05"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_6"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="6"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView06"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_7"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="7"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView07"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_8"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="8"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView08"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_9"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="9"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView09"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_10"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="10"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView10"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_11"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="11"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView11"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_12"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="12"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView12"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_13"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="13"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView13"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_14"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="14"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView14"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_15"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="15"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView15"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_16"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="16"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView16"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_17"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="17"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView17"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_18"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="18"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView18"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_19"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="19"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TextView19"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#b1b1b1" />
+
+            <Button
+                android:id="@+id/personal_workyear_20"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:text="20"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

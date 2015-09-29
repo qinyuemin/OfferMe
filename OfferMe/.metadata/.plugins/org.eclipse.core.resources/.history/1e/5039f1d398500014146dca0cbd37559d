@@ -1,0 +1,321 @@
+package com.offerme.client.activity;
+
+import com.offerme.R;
+import com.offerme.client.service.ApplyOfferSrvc;
+import com.offerme.client.service.SetFavoriteOfferSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.chat.ChatFriend;
+import com.offerme.client.service.publishoffer.PublisherInfo;
+import com.offerme.client.service.search.SearchResulatItem;
+import com.offerme.client.service.util.GlobalValue;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.bean.SocializeEntity;
+import com.umeng.socialize.controller.UMServiceFactory;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.controller.listener.SocializeListeners.SnsPostListener;
+import com.umeng.socialize.sso.SinaSsoHandler;
+import com.umeng.socialize.weixin.controller.UMWXHandler;
+import com.umeng.socialize.weixin.media.CircleShareContent;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class PublisherInfoActivity extends ActionBarActivity {
+
+	public static final String FROM_FAVORITE = "IsFromPersonalFavorite";
+	public static final String FROM_APPLIED = "IsFromPersonalAppied";
+	public static final String FROM_PERSONAL_APPLIED = "PublisherFromPersonalApplied";
+	public static final String FROM_PERSONAL_FAVORITE = "PublisherFromPersonalFavorite";
+	public static final String PUBLISHER_ITEM = "Publisher";
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private ApplyOfferSrvc applyOfferSrvc = ApplyOfferSrvc.getInstance(utilSrvc);
+	private SetFavoriteOfferSrvc favoriteSrvc;
+	private SearchResulatItem searchResualt;
+	private TextView publisher;
+	private TextView mail;
+	private TextView date;
+	private TextView post;
+	private TextView city;
+	private TextView domain;
+	private TextView entreprise;
+	private TextView description;
+	private ImageView profile;
+	// private ImageView sendCV;
+	private ImageView contactPublisher;
+	private ImageView nocontactPublisher;
+	private CheckBox isFavorite;
+	private boolean isFromPersonalFavorite = false;
+	private boolean isFromPersonalApplied = false;
+	private Intent intent = null;
+	private Dialog dialog;
+	private UMSocialService mController = UMServiceFactory
+			.getUMSocialService(GlobalValue.SHAREDESCRIPTION);
+
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		utilSrvc.addNewActivity(this);
+		setContentView(R.layout.activity_publisher_offerinfo);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(
+				R.layout.activity_publisher_offerinfo_actionbar);
+		getSupportActionBar().setBackgroundDrawable(
+				new ColorDrawable(Color.parseColor("#1e90d2")));
+		favoriteSrvc = SetFavoriteOfferSrvc.getInstance();
+		utilSrvc = UtilSrvc.getInstance();
+		intent = this.getIntent();
+		initView();
+		loadData();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		finish();
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (!isFromPersonalFavorite && !isFromPersonalApplied) {
+			utilSrvc.gotoLoggedInPage(this);
+		} else {
+			utilSrvc.gotoLoggedInFromUser(this);
+		}
+		return;
+	}
+
+	public void backToLoggedIn(View view) {
+		if (!isFromPersonalFavorite && !isFromPersonalApplied) {
+			utilSrvc.gotoLoggedInPage(this);
+		} else {
+			utilSrvc.gotoLoggedInFromUser(this);
+		}
+		return;
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		this.setIntent(intent);
+		this.intent = intent;
+		loadData();
+	}
+
+	private void initView() {
+		publisher = (TextView) findViewById(R.id.publisher_offer_info_name);
+		mail = (TextView) findViewById(R.id.publisher_offer_info_mail);
+		date = (TextView) findViewById(R.id.publisher_offer_info_date);
+		post = (TextView) findViewById(R.id.publisher_offer_info_post);
+		city = (TextView) findViewById(R.id.publisher_offer_info_city);
+		domain = (TextView) findViewById(R.id.publisher_offer_info_domain);
+		entreprise = (TextView) findViewById(R.id.publisher_offer_info_entrerprise);
+		description = (TextView) findViewById(R.id.publisher_offer_info_description);
+		profile = (ImageView) findViewById(R.id.publisher_offer_info_profile);
+		// sendCV = (ImageView) findViewById(R.id.publisher_offer_info_send_cv);
+		contactPublisher = (ImageView) findViewById(R.id.publisher_offer_info_phone);
+		nocontactPublisher = (ImageView) findViewById(R.id.publisher_offer_info_phone_uncontactable);
+		isFavorite = (CheckBox) findViewById(R.id.publisher_offer_info_favorite);
+	}
+
+	private void loadData() {
+		if (intent.getBooleanExtra(FROM_FAVORITE, false)) {
+			searchResualt = (SearchResulatItem) intent
+					.getSerializableExtra(FROM_PERSONAL_FAVORITE);
+			isFromPersonalFavorite = true;
+		} else if (intent.getBooleanExtra(FROM_APPLIED, false)) {
+			searchResualt = (SearchResulatItem) intent
+					.getSerializableExtra(FROM_PERSONAL_APPLIED);
+			isFromPersonalApplied = true;
+		} else {
+			searchResualt = (SearchResulatItem) intent
+					.getSerializableExtra(PUBLISHER_ITEM);
+			isFromPersonalFavorite = false;
+			isFromPersonalApplied = false;
+		}// this part will be change
+		publisher.setText(searchResualt.getName());
+		mail.setText(searchResualt.getMailbox());
+		date.setText(searchResualt.getDate());
+		post.setText(searchResualt.getTitle());
+		city.setText(searchResualt.getCity());
+		domain.setText(searchResualt.getDomain());
+		entreprise.setText(searchResualt.getEntreprise());
+		description.setText(searchResualt.getDescription());
+		profile.setImageBitmap(setProfileImg());
+		if (searchResualt.isApplied()) {
+			contactPublisher.setVisibility(View.VISIBLE);
+			nocontactPublisher.setVisibility(View.INVISIBLE);
+		} else {
+			contactPublisher.setVisibility(View.INVISIBLE);
+			nocontactPublisher.setVisibility(View.VISIBLE);
+		}
+		isFavorite.setChecked(favoriteSrvc.isOfferFavorite(this,
+				searchResualt.getOfferID()));
+		isFavorite.setOnClickListener(new onClickListener(this));
+	}
+
+	private Bitmap setProfileImg() {
+		Bitmap imageBitmap;
+		if (searchResualt.getPublisherInfo().getProfile() != null) {
+			imageBitmap = BitmapFactory.decodeByteArray(searchResualt
+					.getPublisherInfo().getProfile(), 0, searchResualt
+					.getPublisherInfo().getProfile().length);
+		} else {
+			imageBitmap = BitmapFactory.decodeResource(this.getResources(),
+					R.drawable.dafaultuser01);
+		}
+		imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 80, 80, true);
+		return imageBitmap;
+	}
+
+	private class onClickListener implements OnClickListener {
+		private Context context;
+
+		public onClickListener(Context ctx) {
+			context = ctx;
+		}
+
+		@Override
+		public void onClick(View buttonView) {
+			if (utilSrvc.isNetworkConnected(context)) {
+				favoriteSrvc.setFavoriteOffer(context, searchResualt,
+						isFavorite.isChecked(), isFavorite);
+			} else {
+				utilSrvc.showConnectDialog(context);
+			}
+		}
+	}
+
+	public void sendCV(View view) {
+		if (utilSrvc.isNetworkConnected(this)) {
+			applyOfferSrvc.sendCV(this, searchResualt.getOfferID());
+		} else {
+			utilSrvc.showConnectDialog(this);
+		}
+	}
+
+	public void sendMailFromOffer(View view) {
+		PublisherInfo publisherInfo = searchResualt.getPublisherInfo();
+		if (publisherInfo != null) {
+			ChatFriend friend = new ChatFriend();
+			friend.setFriendId(publisherInfo.getUserID());
+			friend.setName(publisherInfo.getName());
+			friend.setPortrait(publisherInfo.getProfile());
+			friend.setPortraitVersion(-1);
+			utilSrvc.gotoChatPageFromPublisher(this, friend, searchResualt);
+		}
+	}
+
+	public void dialogCall(View view) {
+		Uri uri = Uri.parse("tel:"
+				+ searchResualt.getPublisherInfo().getTelephone());
+		Intent it = new Intent();
+		it.setAction(Intent.ACTION_CALL);
+		it.setData(uri);
+		this.startActivity(it);
+	}
+
+	public void dialogCancel(View view) {
+		if (dialog.isShowing()) {
+			dialog.dismiss();
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	public void callPublisher(View view) {
+		if (searchResualt.getPublisherInfo().isPhonePublished()) {
+			LayoutInflater factory = (LayoutInflater) this
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View myView = factory.inflate(R.layout.dialog_phone, null);
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			dialog = builder.create();
+			((AlertDialog) dialog).setView(myView, 0, 0, 0, 0);
+			dialog.getWindow().setFlags(
+					WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
+					WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+			dialog.show();
+			TextView phonenumber = (TextView) dialog
+					.findViewById(R.id.dialog_phone_number);
+			phonenumber
+					.setText(searchResualt.getPublisherInfo().getTelephone());
+
+		} else {
+			Toast toast = Toast.makeText(this, "抱歉，对方未公开手机号",
+					Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+		}
+	}
+
+	public void detailInfo(View view) {
+		if (!isFromPersonalFavorite && !isFromPersonalApplied) {
+			System.out.println("Show me the offerid: "
+					+ searchResualt.getName());
+			utilSrvc.gotoDetailInfoPage(this, searchResualt);
+		} else {
+			utilSrvc.gotoLoggedInFromUser(this);
+		}
+		return;
+	}
+
+	private String sharedJobName() {
+		String job = "Haha, I found an interesting job: "
+				+ searchResualt.getTitle() + " in "
+				+ searchResualt.getEntreprise() + ". You could contact him by "
+				+ searchResualt.getMailbox();
+		return job;
+	}
+
+	public void ShareJob(View view) {
+		String appID = "wxf3b27a07fbdea9b8";
+		String appSecret = "3189d3f2c08993a4d6ff9f8be70ff8b9";
+
+		mController.getConfig().setSsoHandler(new SinaSsoHandler());
+		UMWXHandler wxCircleHandler = new UMWXHandler(this, appID, appSecret);
+		wxCircleHandler.setToCircle(true);
+		wxCircleHandler.addToSocialSDK();
+
+		CircleShareContent circleMedia = new CircleShareContent();
+		// This message should be dynamic
+		circleMedia.setShareContent(sharedJobName());
+		// circleMedia.setTitle("Test Message From OfferMe Client");
+		// circleMedia.setShareImage(urlImage);
+		// circleMedia.setTargetUrl("http://www.umeng.com");
+		mController.setShareMedia(circleMedia);
+		// mController.openShare(this, false);
+		mController.postShare(this, SHARE_MEDIA.WEIXIN_CIRCLE,
+				new SnsPostListener() {
+
+					@Override
+					public void onStart() {
+					}
+
+					@Override
+					public void onComplete(SHARE_MEDIA platform, int eCode,
+							SocializeEntity entity) {
+						if (eCode == 200) {
+							Toast.makeText(PublisherInfoActivity.this, "分享成功.",
+									Toast.LENGTH_SHORT).show();
+						}
+					}
+				});
+	}
+}

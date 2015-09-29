@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+
+    <!--LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" >
+
+        <Spinner
+            android:id="@+id/search_region"
+            android:layout_width="80dp"
+            android:layout_height="fill_parent"
+            android:entries="@array/city_list"
+            android:prompt="@string/demander_search_region" />
+
+        <EditText
+            android:id="@+id/search_content"
+            style="@style/DefaultTextColor"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/demander_search_entreprise"
+            android:imeOptions="actionNext"
+            android:singleLine="true" >
+
+            <requestFocus />
+        </EditText>
+
+        <ImageButton
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="#FFFFFF"
+            android:contentDescription="@string/ic_menu_search"
+            android:onClick="search"
+            android:src="@android:drawable/ic_menu_search" />
+    </LinearLayout-->
+
+    <ListView
+        android:id="@+id/search_resualt_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="5dp" >
+    </ListView>
+
+</LinearLayout>

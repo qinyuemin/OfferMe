@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#f6f6f6"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/setting_person_info"
+            android:textColor="#808080"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="#FFFFFF"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/TextView02"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#e3e3e3" />
+
+            <FrameLayout
+                android:id="@+id/personal_profile_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="90dp" >
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent" >
+
+                    <TextView
+                        android:id="@+id/personal_profile_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/setting_person_profile"
+                        android:textColor="#808080"
+                        android:textSize="16sp" />
+
+                    <FrameLayout
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="30dp" >
+
+                        <ImageView
+                            android:id="@+id/personal_profile"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="15dp"
+                            android:padding="5dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/dafaultuser01" />
+
+                        <ImageView
+                            android:id="@+id/personal_profile_round"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginRight="15dp"
+                            android:background="@drawable/borderprofile" />
+                    </FrameLayout>
+
+                    <ImageView
+                        android:id="@+id/personal_change_profile"
+                        android:layout_width="15dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="15dp"
+                        android:src="@drawable/datailarrow" />
+                </FrameLayout>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#e3e3e3" />
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="40dp" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent" >
+
+                    <TextView
+                        android:id="@+id/personal_name_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/setting_person_name"
+                        android:textColor="#808080"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/personal_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:ellipsize="end"
+                        android:ems="10"
+                        android:gravity="right|center_vertical"
+                        android:hint="@string/inscription_hint"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:textColor="#808080"
+                        android:textColorHint="#d3d3d3"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/TextView05"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#e3e3e3" />
+
+            <FrameLayout
+                android:id="@+id/personal_age_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FFFFFF" >
+
+                    <TextView
+                        android:id="@+id/personal_age_text"
+                        style="@style/DefaultTextColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/inscription_age"
+                        android:textColor="#808080"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/personal_age"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:gravity="right|center_vertical"
+                        android:hint="@string/inscription_hint"
+                        android:textColor="#808080"
+                        android:textColorHint="#d3d3d3"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/TextView04"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#e3e3e3" />
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="40dp" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FFFFFF" >
+
+                    <TextView
+                        android:id="@+id/personal_email_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/setting_person_email"
+                        android:textColor="#808080"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/personal_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:ellipsize="end"
+                        android:ems="10"
+                        android:gravity="right|center_vertical"
+                        android:hint="@string/inscription_hint"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
+                        android:nextFocusDown="@+id/personal_phone"
+                        android:singleLine="true"
+                        android:textColor="#808080"
+                        android:textColorHint="#d3d3d3"
+                        android:textSize="14sp" />
+
+                    <CheckBox
+                        android:id="@+id/personal_email_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="15dp"
+                        android:text="@string/setting_person_public"
+                        android:textColor="#808080"
+                        android:textColorHint="#d3d3d3"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="40dp" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FFFFFF" >
+
+                    <TextView
+                        android:id="@+id/personal_phone_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/setting_person_phone"
+                        android:textColor="#808080"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@id/personal_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:ellipsize="end"
+                        android:ems="10"
+                        android:gravity="right|center_vertical"
+                        android:hint="@string/inscription_hint"
+                        android:imeOptions="actionNext"
+                        android:inputType="phone"
+                        android:nextFocusDown="@+id/personal_entreprise"
+                        android:singleLine="true"
+                        android:textColor="#808080"
+                        android:textColorHint="#d3d3d3"
+                        android:textSize="14sp" />
+
+                    <CheckBox
+                        android:id="@+id/personal_phone_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="15dp"
+                        android:text="@string/setting_person_public"
+                        android:textColor="#808080"
+                        android:textColorHint="#d3d3d3"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/TextView03"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="#e3e3e3" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/TextView01"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#e3e3e3" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/TextView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/setting_person_workinfo"
+            android:textColor="#808080"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="#FFFFFF"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/TextView07"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#e3e3e3" />
+
+            <FrameLayout
+                android:id="@+id/personal_workyear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:id="@+id/personal_workyear_text"
+                        style="@style/DefaultTextColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/inscription_workyear"
+                        android:textColor="#808080"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/personal_workyear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:gravity="right|center_vertical"
+                        android:hint="@string/inscription_hint"
+                        android:textColor="#808080"
+                        android:textColorHint="#d3d3d3"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/TextView08"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#e3e3e3" />
+
+            <FrameLayout
+                android:id="@+id/personal_city_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="1dp" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical" >
+
+                        <TextView
+                            android:id="@+id/personal_city_text"
+                            style="@style/DefaultTextColor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="15dp"
+                            android:text="@string/inscription_city"
+                            android:textColor="#808080"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/personal_city"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_weight="1"
+                            android:gravity="right|center_vertical"
+                            android:hint="@string/inscription_hint"
+                            android:textColor="#808080"
+                            android:textColorHint="#d3d3d3"
+                            android:textSize="14sp" />
+
+                        <!--
+                            Spinner
+                            android:id="@id/personal_city"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right|center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_weight="1"
+                            android:background="#FFFFFF"
+                            android:entries="@array/city_list"
+                            android:gravity="right"
+                            android:nextFocusDown="@+id/personal_entreprise"
+                            android:prompt="@string/demander_search_region" /-->
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/TextView09"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#e3e3e3" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="1dp"
+                android:focusableInTouchMode="true" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:id="@+id/personal_entreprise_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/setting_person_entreprise"
+                        android:textColor="#808080"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@id/personal_entreprise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:ellipsize="end"
+                        android:ems="10"
+                        android:gravity="right|center_vertical"
+                        android:hint="@string/inscription_hint"
+                        android:imeOptions="actionNext"
+                        android:nextFocusDown="@+id/personal_post"
+                        android:singleLine="true"
+                        android:textColor="#808080"
+                        android:textColorHint="#d3d3d3"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/TextView10"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#e3e3e3" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="1dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:id="@+id/personal_post_text"
+                            style="@style/DefaultTextColor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="15dp"
+                            android:text="@string/inscription_post"
+                            android:textColor="#808080"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@id/personal_post"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:ems="10"
+                            android:gravity="right|center_vertical"
+                            android:hint="@string/inscription_hint"
+                            android:imeOptions="actionDone"
+                            android:singleLine="true"
+                            android:textColor="#808080"
+                            android:textColorHint="#d3d3d3"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/TextView06"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#e3e3e3" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

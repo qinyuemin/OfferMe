@@ -1,0 +1,236 @@
+package com.offerme.client.activity;
+
+import java.util.Collections;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalDataBase;
+import com.offerme.client.service.SetFavoriteOfferSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.chat.ChatFriend;
+import com.offerme.client.service.publishoffer.PublisherInfo;
+import com.offerme.client.service.search.SearchResulatItem;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class PublisherInfoActivity extends ActionBarActivity {
+
+	private UtilSrvc utilSrvc;
+	private SetFavoriteOfferSrvc favoriteSrvc;
+	private SearchResulatItem searchResualt;
+	private TextView publisher;
+	private TextView mail;
+	private TextView date;
+	private TextView post;
+	private TextView city;
+	private TextView domain;
+	private TextView entreprise;
+	private TextView description;
+	private TextView favoriteCount;
+	private ImageView profile;
+	// private Button message;
+	private CheckBox isFavorite;
+	private boolean isFromPersonalFavorite = false;
+	private boolean isFromPersonalPublished = false;
+	private Intent intent = null;
+	private Dialog dialog;
+
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_publisher_offerinfo);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(
+				R.layout.activity_publisher_offerinfo_actionbar);
+		getSupportActionBar().setBackgroundDrawable(
+				new ColorDrawable(Color.parseColor("#1e90d2")));
+		favoriteSrvc = SetFavoriteOfferSrvc.getInstance();
+		utilSrvc = UtilSrvc.getInstance();
+		intent = this.getIntent();
+		initialize();
+		loadData();
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (!isFromPersonalFavorite && !isFromPersonalPublished) {
+			utilSrvc.gotoLoggedInPage(this);
+		} else {
+			utilSrvc.gotoLoggedInFromUser(this);
+		}
+		return;
+	}
+
+	public void backToLoggedIn(View view) {
+		if (!isFromPersonalFavorite && !isFromPersonalPublished) {
+			utilSrvc.gotoLoggedInPage(this);
+		} else {
+			utilSrvc.gotoLoggedInFromUser(this);
+		}
+		return;
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		this.setIntent(intent);
+		this.intent = intent;
+		loadData();
+	}
+
+	public void sendMailFromOffer(View view) {
+		PublisherInfo publisherInfo = searchResualt.getPublisherInfo();
+		if (publisherInfo != null) {
+			ChatFriend friend = new ChatFriend();
+			friend.setFriendId(publisherInfo.getUserID());
+			friend.setName(publisherInfo.getName());
+			friend.setPortrait(publisherInfo.getProfile());
+			utilSrvc.gotoChatPageFromPublisher(this, friend, searchResualt);
+		}
+	}
+
+	public void dialogCall(View view) {
+		Uri uri = Uri.parse("tel:"
+				+ searchResualt.getPublisherInfo().getTelephone());
+		Intent it = new Intent();
+		it.setAction(Intent.ACTION_CALL);
+		it.setData(uri);
+		this.startActivity(it);
+	}
+
+	public void dialogCancel(View view) {
+		if (dialog.isShowing()) {
+			dialog.dismiss();
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	public void callPublisher(View view) {
+		if (searchResualt.getPublisherInfo().isPhonePublished()) {
+			LayoutInflater factory = (LayoutInflater) this
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View myView = factory.inflate(R.layout.dialog_phone, null);
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			dialog = builder.create();
+			((AlertDialog) dialog).setView(myView, 0, 0, 0, 0);
+			dialog.getWindow().setFlags(
+					WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
+					WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+			dialog.show();
+			TextView phonenumber = (TextView) dialog
+					.findViewById(R.id.dialog_phone_number);
+			phonenumber
+					.setText(searchResualt.getPublisherInfo().getTelephone());
+
+		} else {
+			Toast toast = Toast.makeText(this, "抱歉，对方未公开手机号",
+					Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+		}
+	}
+
+	public void detailInfo(View view) {
+		if (!isFromPersonalFavorite && !isFromPersonalPublished) {
+			utilSrvc.gotoDetailInfoPage(this, searchResualt);
+		} else {
+			utilSrvc.gotoLoggedInFromUser(this);
+		}
+		return;
+	}
+
+	private void initialize() {
+		publisher = (TextView) findViewById(R.id.publisher_offer_info_name);
+		mail = (TextView) findViewById(R.id.publisher_offer_info_mail);
+		date = (TextView) findViewById(R.id.publisher_offer_info_date);
+		post = (TextView) findViewById(R.id.publisher_offer_info_post);
+		city = (TextView) findViewById(R.id.publisher_offer_info_city);
+		domain = (TextView) findViewById(R.id.publisher_offer_info_domain);
+		favoriteCount = (TextView) findViewById(R.id.publisher_offer_info_favorite_num);
+		entreprise = (TextView) findViewById(R.id.publisher_offer_info_entrerprise);
+		profile = (ImageView) findViewById(R.id.publisher_offer_info_profile);
+		description = (TextView) findViewById(R.id.publisher_offer_info_description);
+		isFavorite = (CheckBox) findViewById(R.id.publisher_offer_info_favorite);
+	}
+
+	private void loadData() {
+		if (intent.getBooleanExtra("IsFromPersonalFavorite", false)) {
+			searchResualt = (SearchResulatItem) intent
+					.getSerializableExtra("PublisherFromPersonalFavorite");
+			isFromPersonalFavorite = true;
+		} else if (intent.getBooleanExtra("IsFromPersonalPublished", false)) {
+			searchResualt = (SearchResulatItem) intent
+					.getSerializableExtra("PublisherFromPersonalPublished");
+			isFromPersonalPublished = true;
+		} else {
+			searchResualt = (SearchResulatItem) intent
+					.getSerializableExtra("Publisher");
+			isFromPersonalFavorite = false;
+			isFromPersonalPublished = false;
+		}
+		System.out
+				.println("PublisherInfoActivity->loadData->Show me the userID: "
+						+ searchResualt.getPublisherInfo().getUserID());
+		publisher.setText(searchResualt.getName());
+		mail.setText(searchResualt.getMailbox());
+		date.setText(searchResualt.getDate());
+		post.setText(searchResualt.getTitle());
+		city.setText(searchResualt.getCity());
+		domain.setText(searchResualt.getDomain());
+		entreprise.setText(searchResualt.getEntreprise());
+		description.setText(searchResualt.getDescription());
+		favoriteCount.setText(searchResualt.getFavoriteCount());
+		if (searchResualt.getPublisherInfo().getProfile() != null) {
+			Bitmap imageBitmap = BitmapFactory.decodeByteArray(searchResualt
+					.getPublisherInfo().getProfile(), 0, searchResualt
+					.getPublisherInfo().getProfile().length);
+			imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 80, 80, true);
+			profile.setImageBitmap(imageBitmap);
+		} else {
+			Bitmap imageBitmap = BitmapFactory.decodeResource(
+					this.getResources(), R.drawable.dafaultuser01);
+			imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 80, 80, true);
+			profile.setImageBitmap(imageBitmap);
+		}
+		isFavorite.setChecked(favoriteSrvc.isOfferFavorite(this,
+				searchResualt.getOfferID()));
+		isFavorite.setOnClickListener(new onClickListener(this));
+	}
+
+	private class onClickListener implements OnClickListener {
+		private Context context;
+
+		public onClickListener(Context ctx) {
+			context = ctx;
+		}
+
+		@Override
+		public void onClick(View buttonView) {
+			if (utilSrvc.isNetworkConnected(context)) {
+				favoriteSrvc.setFavoriteOffer(context, searchResualt,
+						isFavorite.isChecked(), isFavorite);
+			} else {
+				utilSrvc.showConnectDialog(context);
+			}
+		}
+	}
+}

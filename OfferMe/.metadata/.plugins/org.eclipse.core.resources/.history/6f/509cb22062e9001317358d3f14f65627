@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="270dp"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="10dp"
+            android:onClick="personInfo"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp" >
+
+                <TextView
+                    android:id="@+id/resualt_name"
+                    style="@style/DefaultTextColor"
+                    android:layout_width="100dp"
+                    android:layout_height="fill_parent"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="left|center_vertical"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/resualt_enterpriser"
+                    style="@style/DefaultTextColor"
+                    android:layout_width="170dp"
+                    android:layout_height="fill_parent"
+                    android:gravity="left|center_vertical"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/resualt_city"
+                style="@style/DefaultTextColor"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="left|center_vertical"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right"
+            android:layout_marginLeft="5dp" >
+
+            <ImageButton
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:onClick="sendEmail"
+                android:src="@android:drawable/sym_action_email" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

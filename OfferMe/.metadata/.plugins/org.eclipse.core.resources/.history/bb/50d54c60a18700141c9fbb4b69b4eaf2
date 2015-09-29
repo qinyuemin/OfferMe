@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">伯乐内聘</string>
+    
+    <string name="action_settings">设置</string>
+    <string name="action_contact_us">反馈</string>
+    <string name="action_logout">退出登录</string>
+    <string name="action_back">返回</string>
+    <string name="action_save">保存</string>
+    <string name="action_me">个人中心</string>
+    <string name="action_aboutus">关于我们</string>
+    <string name="action_finish">完成</string>
+    <string name="action_send_mail">重新发送</string>
+    <string name="action_system_message">系统消息</string>
+    <string name="action_load_more">正在加载......</string>
+    <string name="action_set_favorite">自己的Offer不能收藏哦~</string>
+    <string name="dialog_select_city">选择城市</string>
+    <string name="dialog_select_domain">选择行业</string>
+    
+    <string name="title_activity">伯乐内聘</string>
+    <string name="title_activity_home_page">浏览</string>
+    <string name="title_activity_inscription">注册</string>
+    <string name="title_activity_logged_in">欢迎</string>
+    <string name="title_activity_personal_setting">个人设置</string>
+    <string name="title_activity_personal_cv">简历</string>
+    <string name="title_activity_personal_workinput">工作经历</string>
+    <string name="title_activity_publish_offerlist">已发布的职位</string>
+    <string name="title_activity_publish_add_offer">发布新职位</string>
+    <string name="title_activity_publish_modify_offer">编辑已发职位</string>
+    <string name="title_activity_visitor">随便看看</string>
+    <string name="title_activity_publisher_info">职位详情</string>
+    <string name="title_activity_demander">求推荐</string>
+    <string name="title_activity_setting">设置</string>
+    <string name="title_activity_message">站内信</string>
+    <string name="title_activity_setting_person">个人资料</string>
+    <string name="title_activity_chat">站内信</string>
+    <string name="title_activity_friend_info">个人信息</string>
+    <string name="title_activity_feedback">信息反馈</string>
+    <string name="title_activity_forget_pwd">忘记密码</string>
+    
+    <string name="personal_cv_mine">我的简历</string>
+    <string name="personal_cv_received">收到的简历</string>
+    <string name="personal_cv_workyear">工作时间</string>
+    <string name="personal_cv_education">最高学历</string>
+    <string name="personal_cv_school">毕业院校</string>
+    <string name="personal_cv_workexpirence">工作经历</string>
+    <string name="personal_cv_workexpirence_ab">工作经历</string>
+    <string name="personal_cv_workplace">工作单位</string>
+    <string name="personal_cv_workpost">职位</string>
+    <string name="personal_cv_worktime">时间</string>
+    <string name="personal_cv_workinfo_hint">必填项</string>
+    <string name="personal_cv_workinfo_date_hint">至今</string>
+    <string name="personal_cv_year">年</string>
+    <string name="personal_cv_workexpirence_first">工作经历 1</string>
+    <string name="personal_cv_workexpirence_second">工作经历 2</string>
+    <string name="personal_cv_workexpirence_third">工作经历 3</string>
+    <string name="personal_cv_complete">简历填写不完整</string>
+    <string name="personal_cv_save_success">简历保存成功</string>
+    <string name="personal_cv_save_fail">简历保存失败</string>
+    <string name="personal_cv_send_success">简历投递成功</string>
+    <string name="personal_cv_sent_cv">抱歉，此offer已被删除</string>
+    <string name="personal_cv_send_fail">简历投递失败</string>
+    <string name="personal_cv_send_not_allowed_self">自己的Offer不能投递哦~</string>
+    <string name="personal_cv_send_not_allowed_incomplete">简历填写不完整哦~</string>
+    <string name="personal_cv_apply"> 应聘 </string>
+    <string name="personal_cv_age">岁</string>
+    <string name="personal_cv_post_info">添加您三段最出彩的经历</string>
+    
+    <string name="home_page_login">邮箱</string>
+    <string name="home_page_password">密码</string>
+    <string name="home_page_sign_in">登录</string>
+    <string name="home_page_create_account">注册</string>
+    <string name="home_page_weibo">微博登录</string>
+    <string name="home_page_guest">随便看看</string>
+    <string name="home_page_forget_password">忘记密码？</string>
+    
+    <string name="inscription_login">邮箱</string>
+    <string name="inscription_button">注册</string>
+    <string name="inscription_profile">头像</string>
+    <string name="inscription_firstname">名</string>
+    <string name="inscription_lastname">姓</string>
+    <string name="inscription_name">姓名</string>
+    <string name="inscription_age">年龄</string>
+    <string name="inscription_workyear">工作年限</string>
+    <string name="inscription_city">期望工作城市</string>
+    <string name="inscription_enterprise">目前公司</string>
+    <string name="inscription_post">目前职位</string>
+    <string name="inscription_mail">邮箱</string>
+    <string name="inscription_telephone">电话</string>
+    <string name="inscription_pwd">密码</string>
+    <string name="inscription_finish">完成</string>
+    <string name="inscription_reset">重置</string>
+    <string name="inscription_hint">必填项</string>
+    <string name="inscription_photo_lib">从图库获取头像</string>
+    <string name="inscription_photo_take">从相机拍摄头像</string>
+    <string name="inscription_aggreement1">注册表明同意</string>
+    <string name="inscription_aggreement2">服务条款</string>
+    <string name="inscription_complete_info">个人资料</string>
+    <string name="inscription_cancel">取消</string>
+        
+    <string name="loggedin_publish">发内推</string>
+    <string name="loggedin_demand">求内推</string>
+    <string name="loggedin_mail">站内信</string>
+    <string name="loggedin_info">我</string>
+    <string name="loggedin_success">登录成功</string>
+    <string name="loggedin_fail_network">抱歉，由于网络原因，暂时无法登录</string>
+    <string name="loggedin_fail_password">用户名密码错误</string>
+       
+    <string name="personal_setting_upload">更换头像</string>
+    <string name="personal_setting_firstname">名</string>
+    <string name="personal_setting_lastname">姓</string>
+    <string name="personal_setting_city">所在城市</string>
+    <string name="personal_setting_enterprise">所在公司</string>
+    <string name="personal_setting_mail">邮箱</string>
+    <string name="personal_setting_telephone">电话</string>
+    <string name="personal_setting_pwd">密码</string>
+    <string name="personal_setting_send_message">站内信</string>
+    <string name="personal_setting_save">保存更改</string>
+    <string name="personal_setting_change_pwd">更改密码</string>
+    <string name="personal_setting_change">更改</string>
+    <string name="personal_setting_publish">公开</string>
+    <string name="personal_setting_offer_detele">删除</string>
+    <string name="personal_setting_first_work">应届生</string>
+      
+    <string name="publisher_enterprise">公司</string>
+    <string name="publisher_city">地点</string>
+    <string name="publisher_domain">行业</string>
+    <string name="publisher_post">职位</string>
+    <string name="publisher_mailbox">接收邮箱</string>
+    <string name="publisher_salary">月薪</string>
+    <string name="publisher_content">职位详情</string>
+    <string name="publisher_salary_unit">元/月</string>
+    <string name="publisher_entreprise_hint">必填项</string>
+    <string name="publisher_city_hint">必填项</string>
+    <string name="publisher_post_hint">必填项</string>
+    <string name="publisher_content_hint">必填项</string>
+    <string name="publisher_domain_hint">公司所属行业</string>
+    <string name="publisher_mailbox_hint">邮箱</string>
+    <string name="publisher_salary_hint">不填为面议</string>
+    <string name="publisher_finish">发布</string>
+    <string name="publisher_reset">重置</string>
+    <string name="publisher_prompt">行业</string>
+    <string name="publisher_set_favorite">赞</string>
+    <string name="publisher_phone_call">呼叫</string>
+    <string name="publisher_phone_cancel">取消</string>
+    <string name="publisher_education">学历</string>
+    <string name="publisher_workyear">工作年限</string>
+    <string name="publisher_post_info">职位信息</string>
+    <string name="publisher_post_demand">职位要求</string>
+    <string name="publisher_post_description">职位描述</string>
+    <string name="publisher_mailbox_not_public">邮箱不公开哦~</string>
+    
+    <string name="ic_menu_search">搜索</string>
+    
+    <string name="demander_search_entreprise">公司或职位</string>
+    <string name="demander_search_region">地区</string>
+    <string name="demander_search">搜索</string>
+    
+    <string name="publisher_info_name">推荐人</string>
+    <string name="publisher_info_city">目前在</string>
+    <string name="publisher_info_entreprise">就职于</string>
+    <string name="publisher_info_contact_info">联系方式</string>
+    <string name="publisher_info_post_detail">发布的职位</string>
+    <string name="publisher_info_send_mail">发站内信</string>
+    <string name="publisher_offer_info_date">发布日期:</string>
+    <string name="publisher_offer_info_mail">联系邮箱:</string>
+    <string name="publisher_offer_info_name">联系人</string>
+    <string name="publisher_offer_info_salary">月薪</string>
+    <string name="publisher_offer_info_education">学历</string>
+    <string name="publisher_offer_info_workyear">工作年限</string>
+    <string name="publisher_offer_info_share">分享</string>
+    <string name="publisher_offer_info_sendmail">站内信</string>
+    <string name="publisher_offer_info_favorite">收藏</string>
+    <string name="publisher_offer_success">恭喜，职位发布成功</string>
+    <string name="publisher_offer_modify_success">恭喜，职位修改成功</string>
+    <string name="publisher_offer_fail">抱歉，职位发送失败</string>
+    <string name="publisher_offer_modify_fail">抱歉，职位修改失败</string>
+    <string name="publisher_offer_not_complete">抱歉，您的信息填写不全</string>
+    <string name="publisher_offer_mailformat_error">抱歉，您填写的邮箱有误</string>
+    <string name="publisher_offer_mail_not_public">邮箱不公开哦~</string>
+    
+    <string name="search_favorite_offer_success">恭喜，操作成功</string>
+    <string name="search_favorite_offer_fail">抱歉，操作失败</string>     
+    <string name="search_offer_no_more">没有更多结果了哦~</string>
+    
+    <string name="setting_new_message">新消息通知</string>
+    <string name="setting_new_message_accept">接受</string>
+    <string name="setting_version">版本</string>
+    <string name="setting_about_us">关于我们</string>
+    <string name="setting_recommand_friedns">推荐给朋友</string>
+    
+    <string name="setting_person_profile">头像</string>
+    <string name="setting_person_name">姓名</string>
+    <string name="setting_person_email">邮箱</string>
+    <string name="setting_person_phone">手机</string>
+    <string name="setting_person_city">目前城市</string>
+    <string name="setting_person_entreprise">目前公司</string>
+    <string name="setting_person_public">公开</string>
+    <string name="setting_person_private">隐藏</string>
+    <string name="setting_person_info">个人信息</string>
+    <string name="setting_person_workinfo">职业信息</string>
+    <string name="setting_person_favorite_offer">收藏的职位</string>
+    <string name="setting_person_applied_offer">应聘的职位</string>
+    <string name="setting_person_published_offer">发出的职位</string>
+       
+    <string name="chat_list_bar_title">站内信</string>
+    <string name="chat_list_bar_edit">编辑</string>
+    <string name="chat_list_system">系统消息</string>
+    <string name="chat_list_system_noMessage">没有系统消息</string>
+    <string name="chat_list_cv">我收到的简历</string>
+    <string name="chat_friend_name">姓名</string>
+    <string name="chat_list_last_message">没有新消息</string>
+    <string name="chat_list_last_message_time">时间</string>
+    <string name="chat_bar_title">未知</string>
+    <string name="chat_bar_return">返回</string>
+    <string name="chat_back">返回</string>
+    <string name="chat_send">发送</string>
+    <string name="char_fail">信息发送失败</string>
+    
+    <string name="forget_pwd_mail">注册的邮箱</string>
+    
+    <string name="aboutus_qq">官方吐槽QQ：3175007934</string>
+    <string name="aboutus_weixin">微信公众账号：OfferLink</string>
+    <string name="aboutus_service">服务条款</string>
+    
+    <string name="agreement"></string>
+</resources>

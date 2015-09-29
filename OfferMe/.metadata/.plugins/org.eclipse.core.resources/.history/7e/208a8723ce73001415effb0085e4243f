@@ -1,0 +1,58 @@
+package com.offerme.server.service;
+
+import java.lang.reflect.InvocationTargetException;
+
+import com.offerme.server.database.dao.OfferDao;
+import com.offerme.server.database.dao.OfferUserDao;
+import com.offerme.server.database.dao.proxy.DaoImplManage;
+import com.offerme.server.database.model.Offer;
+import com.offerme.server.database.model.OfferUser;
+import com.offerme.server.util.JSONUtil;
+
+public class DeleteOfferSrvc {
+	private OfferDao offerdao = DaoImplManage.getOfferDaoInstance();
+	private OfferUserDao offeruserdao = DaoImplManage.getOfferUserDaoInstance();
+
+	public String deleteOffer(String request) {
+		OfferDelete offer = JSONUtil.jsonToBean(request, OfferDelete.class);
+		Integer userID = new Integer(offer.getUserID());
+		try {
+			Integer userFromOfferID;
+			userFromOfferID = new Integer(getUserFromOffer(offer.getOfferID()));
+			if (userFromOfferID == userID) {
+				offerdao.deleteOffer(new Integer(offer.getOfferID()));
+			} else {
+				OfferUser favorite = new OfferUser();
+				favorite.setOfferId(new Integer(offer.getOfferID()));
+				favorite.setUserId(new Integer(userID));
+				offeruserdao.deleteOfferUser(favorite);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return new String("OK");
+	}
+
+	private class OfferDelete {
+		private String OfferID;
+		private String UserID;
+
+		public String getOfferID() {
+			return OfferID;
+		}
+
+		public String getUserID() {
+			return UserID;
+		}
+
+	}
+
+	private String getUserFromOffer(String offerID) throws Exception {
+		Offer offer = offerdao.getOffer(new Integer(offerID));
+		if (offer == null) {
+			return null;
+		}
+		return String.valueOf(offer.getUserId());
+	}
+}

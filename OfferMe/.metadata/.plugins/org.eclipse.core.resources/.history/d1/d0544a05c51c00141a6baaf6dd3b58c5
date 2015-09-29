@@ -1,0 +1,108 @@
+package com.offerme.client.activity;
+
+import com.offerme.R;
+import com.offerme.client.service.LoginSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.login.LoginRequest;
+
+import android.support.v7.app.ActionBarActivity;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class HomePageActivity extends ActionBarActivity {
+
+	/** Services used in this activity */
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private LoginSrvc loginSrvc = LoginSrvc.getInstance();
+
+	private EditText login;
+	private EditText password;
+
+	private int exitClick = 0;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_home_page);
+		initWidget();
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// getMenuInflater().inflate(R.menu.home_page, menu);
+		return true;
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (exitClick == 0) {
+			Toast toast = Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+			exitClick++;
+		} else {
+			exitClick = 0;
+			moveTaskToBack(true);
+			android.os.Process.killProcess(android.os.Process.myPid());
+			System.exit(1);
+		}
+		return;
+	}
+
+	private void initWidget() {
+		getSupportActionBar().hide();
+		this.login = (EditText) findViewById(R.id.home_page_login);
+		this.password = (EditText) findViewById(R.id.home_page_password);
+	}
+
+	/** Listener for event, each event name is defined in activity_home_page.xml */
+
+	/**
+	 * Button for signing in offerme app. If user has done inscription, goto
+	 * member page. If not, goto inscription page.
+	 * 
+	 * @param view
+	 */
+	public void signIn(View view) {
+		resetExitClick();
+		if (utilSrvc.isNetworkConnected(this)) {
+			// if it is the new user
+			LoginRequest loginRequest = new LoginRequest();
+			loginRequest.setLogin(login.getText().toString());
+			loginRequest.setPassword(password.getText().toString());
+			InputMethodManager inputmanager = (InputMethodManager) this
+					.getSystemService(Context.INPUT_METHOD_SERVICE);
+			inputmanager.hideSoftInputFromWindow(password.getWindowToken(),
+					InputMethodManager.HIDE_NOT_ALWAYS);
+			loginSrvc.submit(this, loginRequest);
+		} else {
+			utilSrvc.showConnectDialog(this);
+		}
+	}
+
+	/**
+	 * Button for creating account. Goto inscription page
+	 * 
+	 * @param view
+	 */
+	public void createAccount(View view) {
+		resetExitClick();
+		if (utilSrvc.isNetworkConnected(this)) {
+			utilSrvc.gotoInscriptionPage(this);
+		} else {
+			utilSrvc.showConnectDialog(this);
+		}
+	}
+
+	public void resetExitClick() {
+		exitClick = 0;
+	}
+
+}

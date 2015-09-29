@@ -1,0 +1,18 @@
+<SendConfig>
+	<Mail>
+	    <ENABLE>1</ENABLE>
+	    <JARNAME>Send.jar</JARNAME>
+		<CLASSNAME>com.offerme.send.mail.MailManage</CLASSNAME>
+		<METHODNAME>getSendMessage</METHODNAME>
+		<MOD>SINGLE</MOD>
+	</Mail>
+	<SMS>
+	    <ENABLE>0</ENABLE>
+	    <JARNAME>Send.jar</JARNAME>
+		<CLASSNAME>com.offerme.send.sms.SMSManage</CLASSNAME>
+		<METHODNAME>getSendMessage</METHODNAME>
+		<MOD>SINGLE</MOD>
+	</SMS>
+	<SLEEP>5</SLEEP>
+</SendConfig>
+

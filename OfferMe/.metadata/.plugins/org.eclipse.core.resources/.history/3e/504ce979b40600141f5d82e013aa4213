@@ -1,0 +1,7 @@
+package com.offerme.client.activity;
+
+import android.support.v7.app.ActionBarActivity;
+
+public class InscriptionDetailActivity extends ActionBarActivity {
+
+}

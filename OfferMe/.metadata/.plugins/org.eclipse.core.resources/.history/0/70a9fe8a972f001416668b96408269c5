@@ -1,0 +1,180 @@
+package com.offerme.server.service;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import com.offerme.server.database.dao.OfferDao;
+import com.offerme.server.database.dao.UserDao;
+import com.offerme.server.database.dao.proxy.DaoImplManage;
+import com.offerme.server.database.model.Offer;
+import com.offerme.server.database.model.User;
+import com.offerme.server.service.bean.OfferInfo;
+import com.offerme.server.service.bean.PublisherInfo;
+import com.offerme.server.service.bean.SearchKeyword;
+import com.offerme.server.service.bean.SearchResulat;
+import com.offerme.server.service.bean.SearchResulatItem;
+import com.offerme.server.util.JSONUtil;
+
+public class SearchSrvc {
+
+	private SearchResulat resualt = null;
+
+	public SearchResulat getSearchResulat(String request) throws Exception {
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		OfferDao offerDao = DaoImplManage.getOfferDaoInstance();
+		UserDao userDao = DaoImplManage.getUserDaoInstance();
+		SearchKeyword keyword = JSONUtil.jsonToBean(request,
+				SearchKeyword.class);
+		if ("全国".equals(keyword.getCity())) {
+			keyword.setCity("");
+		}
+		System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB: "+keyword.getCity()+" "+keyword.getEntreprise());
+		List<Offer> offerList = offerDao.getOfferByCompCity(keyword.getCity(),
+				keyword.getEntreprise());
+		System.out.println("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
+		List<Offer> favoriteOfferList = userDao
+				.getFavoriteOfferByUserId(keyword.getPersonID());
+		resualt = new SearchResulat();
+		for (int index = 0; index < offerList.size(); index++) {
+			// if (getPublisherInfo(offerList.get(index)).getUserID() == keyword
+			// .getPersonID()) {
+			// break;
+			// }//This part should not be deleted
+			SearchResulatItem item = new SearchResulatItem(
+					getOfferID(offerList.get(index)),
+					getTitle(offerList.get(index)));
+			item.setDate(this.getDate(offerList.get(index)));
+			item.setDescription(this.getDescription(offerList.get(index)));
+			item.setDomain(this.getDomain(offerList.get(index)));
+			item.setMailbox(this.getMailbox(offerList.get(index)));
+			item.setSalary(this.getSalary(offerList.get(index)));
+			item.setFavorite(this.isFavorite(offerList.get(index),
+					favoriteOfferList));
+			item.setName(this.getName(offerList.get(index)));
+			item.setEntreprise(this.getCompany(offerList.get(index)));
+			item.setCity(this.getCity(offerList.get(index)));
+			item.setOfferInfo(this.getOfferInfo(offerList.get(index)));
+			item.setPublisherInfo(this.getPublisherInfo(offerList.get(index)));
+			item.setFavoriteCount(this.getFavoriteCount(offerList.get(index)));
+			resualt.addItem(item);
+		}
+		System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS: "+resualt+" "+offerList.size());
+		return resualt;
+	}
+
+	private int getFavoriteCount(Offer offer) {
+		return offer.getFavoriteCount();
+	}
+
+	private boolean isFavorite(Offer offer, List<Offer> offerList) {
+		for (int count = 0; count < offerList.size(); count++) {
+			if (offer.getOfferId() == offerList.get(count).getOfferId()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private String getDomain(Offer offer) {
+		return offer.getTrade();
+	}
+
+	private String getDate(Offer offer) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		return dateFormat.format(offer.getDate());
+	}
+
+	private String getSalary(Offer offer) {
+		if (offer.getSalary() == null) {
+			return "面议";
+		}
+		return String.valueOf(offer.getSalary());
+	}
+
+	private String getMailbox(Offer offer) {
+		return offer.getOfferemail();
+	}
+
+	private String getDescription(Offer offer) {
+		return offer.getContent();
+	}
+
+	private String getName(Offer offer) {
+		String prenom = offer.getOfferUser().getName();
+		String nom = offer.getOfferUser().getNameFamily();
+		return nom + prenom;
+	}
+
+	private String getCompany(Offer offer) {
+		return offer.getCompany();
+	}
+
+	private String getCity(Offer offer) {
+		return offer.getCity();
+	}
+
+	private String getTitle(Offer offer) {
+		return offer.getTitle();
+	}
+
+	private String getOfferID(Offer offer) {
+		return String.valueOf(offer.getOfferId());
+	}
+
+	private OfferInfo[] getOfferInfo(Offer offer) {
+		OfferDao dao = DaoImplManage.getOfferDaoInstance();
+		OfferInfo[] info = null;
+		try {
+			List<Offer> infoList = dao.getOfferListByUserId(offer.getUserId());
+			info = new OfferInfo[infoList.size()];
+			// System.out
+			// .println("SearchSrvc->getOfferInfo->Show me the offerList length: "
+			// + infoList.size());
+			for (int index = 0; index < infoList.size(); index++) {
+				info[index] = new OfferInfo();
+				info[index].setCity(infoList.get(index).getCity());
+				info[index].setDate(infoList.get(index).getDate());
+				info[index].setDescription(infoList.get(index).getContent());
+				info[index].setEntreprise(infoList.get(index).getCompany());
+				info[index].setPost(infoList.get(index).getTitle());
+				info[index].setUserID(String.valueOf(infoList.get(index)
+						.getUserId()));
+				info[index].setDomain(String.valueOf(infoList.get(index)
+						.getTrade()));
+				info[index].setSalary(String.valueOf(infoList.get(index)
+						.getSalary()));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return info;
+	}
+
+	private PublisherInfo getPublisherInfo(Offer offer) {
+		PublisherInfo info = new PublisherInfo();
+		UserDao dao = DaoImplManage.getUserDaoInstance();
+		boolean isPublic = false;
+		User user;
+		try {
+			user = dao.getUser(offer.getUserId());
+			info.setEmail(user.getEmail());
+			info.setProfile(user.getPortrait());
+			info.setTelephone(user.getPhone());
+			info.setUserID(user.getUserId());
+			info.setCity(user.getCity());
+			info.setEntreprise(user.getCompany());
+			info.setName(user.getNameFamily() + user.getName());
+			if (user.getPhonePublic() == 1) {
+				isPublic = true;
+			} else {
+				isPublic = false;
+			}
+			info.setPhonePublished(isPublic);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return info;
+	}
+}

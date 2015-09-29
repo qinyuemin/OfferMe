@@ -1,0 +1,281 @@
+package com.offerme.client.activity;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalPersonInfo;
+import com.offerme.client.service.SearchSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.search.SearchKeyword;
+import com.offerme.client.service.search.SearchResulat;
+import com.offerme.client.service.search.SearchResulatItem;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView.OnEditorActionListener;
+
+public class SearchOfferActivity extends Fragment {
+
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private SearchSrvc searchSrvc = SearchSrvc.getInstance(utilSrvc);
+	private LocalPersonInfo personInfo = null;
+	private SearchKeyword keyword;
+	private EditText textEntreprise = null;
+	private Spinner textCity = null;
+	private Context context = null;
+	private ListView resultList = null;
+	private View searchView = null;
+	private SearchResulat resultData = new SearchResulat();
+	private BaseAdapter resualtAdapter = new searchResualtList();
+	private Dialog processDialog = null;
+	private Dialog cityDialog = null;
+	private int offerPerPage = 5;
+	private int lastItem = 0;
+	private int start = 0;
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.activity_search, container, false);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		context = this.getActivity();
+		keyword = utilSrvc.getKeyword();
+		personInfo = LocalPersonInfo.getInstance(this.getActivity());
+		textEntreprise = (EditText) getActivity().findViewById(
+				R.id.search_content);
+		textCity = (Spinner) getActivity().findViewById(R.id.search_region);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				this.getActivity(), R.array.city_list,
+				R.layout.spinner_type);
+		adapter.setDropDownViewResource(R.layout.spinner_dropdown_type);
+		textCity.setAdapter(adapter);
+		if (keyword != null) {
+			textCity.setSelection(keyword.getPosition());
+		}
+		textEntreprise.setOnEditorActionListener(new search());
+		resultList = (ListView) getActivity().findViewById(
+				R.id.search_resualt_list);
+		LayoutInflater layoutInflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		searchView = layoutInflater.inflate(
+				R.layout.activity_search_list_progress, null);
+		resultList.addFooterView(searchView);
+		if (utilSrvc.HasSearchResualt()) {
+			resultData = utilSrvc.getSearchResualt();
+		}
+		resultList.setAdapter(resualtAdapter);
+		resultList.setOnItemClickListener(new onItemClickListener());
+		resultList.setOnScrollListener(new scrollListener());
+		resultList.removeFooterView(searchView);
+	}
+
+	private void startSearch() {
+		if (utilSrvc.isNetworkConnected(context)) {
+			keyword = new SearchKeyword(Integer.valueOf(personInfo
+					.getValue(LocalPersonInfo.USERID)));
+			keyword.setEntreprise(String.valueOf(textEntreprise.getText()));
+			keyword.setCity(String.valueOf(textCity.getSelectedItem()));
+			keyword.setPosition(textCity.getSelectedItemPosition());
+			if (resultData.getSize() != 0) {
+				keyword.setLastOfferID(resultData.getItem(
+						resultData.getSize() - 1).getOfferID());
+			}
+			utilSrvc.setKeyword(keyword);
+			setProcessDialog();
+			searchSrvc.startSearch(context, processDialog, keyword,
+					resultList.getAdapter(), resultData, start, offerPerPage);
+		} else {
+			utilSrvc.showConnectDialog(context);
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	private void setProcessDialog() {
+		InputMethodManager inputmanager = (InputMethodManager) context
+				.getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputmanager.hideSoftInputFromWindow(textEntreprise.getWindowToken(),
+				InputMethodManager.HIDE_NOT_ALWAYS);
+		LayoutInflater factory = LayoutInflater.from(context);
+		View dialogView = factory.inflate(R.layout.dialog_process, null);
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		processDialog = builder.create();
+		((AlertDialog) processDialog).setView(dialogView, 0, 0, 0, 0);
+		Window window = processDialog.getWindow();
+		window.setGravity(Gravity.CENTER);
+		WindowManager.LayoutParams lp = window.getAttributes();
+		lp.alpha = 0.5f;
+		window.setAttributes(lp);
+		window.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
+				WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+	}
+	
+	private void setSelectCityDialog()
+	{
+		InputMethodManager inputmanager = (InputMethodManager) context
+				.getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputmanager.hideSoftInputFromWindow(textEntreprise.getWindowToken(),
+				InputMethodManager.HIDE_NOT_ALWAYS);
+		LayoutInflater factory = LayoutInflater.from(context);
+		View dialogView = factory.inflate(R.layout.dialog_select_city, null);
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		cityDialog = builder.create();
+		cityDialog.setTitle(R.string.dialog_select_city);
+		((AlertDialog) cityDialog).setView(dialogView, 0, 0, 0, 0);
+		Window window = cityDialog.getWindow();
+		window.setGravity(Gravity.CENTER);
+		//WindowManager.LayoutParams lp = window.getAttributes();
+		//lp.alpha = 0.5f;
+		//window.setAttributes(lp);
+		window.setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
+				WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+	}
+
+	private class search implements OnEditorActionListener {
+
+		@Override
+		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+			startSearch();
+			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+				return true;
+			}
+			return false;
+		}
+	}
+
+	private class onItemClickListener implements OnItemClickListener {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			Log.v("Debug", "Search->onItemClick->Show me the userID: "
+					+ resultData.getItem(position).getPublisherInfo()
+							.getUserID());
+			utilSrvc.gotoPublisherInfoPage(context,
+					resultData.getItem(position));
+		}
+	}
+
+	private class searchResualtList extends BaseAdapter {
+
+		@Override
+		public int getCount() {
+			return resultData.getSize();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return resultData.getItem(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			SearchResulatItem itemList = (SearchResulatItem) this
+					.getItem(position);
+			if (convertView == null) {
+				LayoutInflater layoutInflater = (LayoutInflater) context
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = layoutInflater.inflate(
+						R.layout.activity_search_item, null);
+			}
+			ImageView profile = (ImageView) convertView
+					.findViewById(R.id.resualt_profile);
+			TextView postName = (TextView) convertView
+					.findViewById(R.id.resualt_post);
+			TextView date = (TextView) convertView
+					.findViewById(R.id.resualt_date);
+			TextView enterpriseName = (TextView) convertView
+					.findViewById(R.id.resualt_enterpriser);
+			TextView salary = (TextView) convertView
+					.findViewById(R.id.resualt_salary);
+			TextView cityName = (TextView) convertView
+					.findViewById(R.id.resualt_city);
+			TextView domain = (TextView) convertView
+					.findViewById(R.id.resualt_domain);
+			if (itemList.getPublisherInfo().getProfile() != null) {
+				Bitmap imageBitmap = BitmapFactory.decodeByteArray(itemList
+						.getPublisherInfo().getProfile(), 0, itemList
+						.getPublisherInfo().getProfile().length);
+				imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 80, 80,
+						true);
+				profile.setImageBitmap(imageBitmap);
+			} else {
+				Bitmap imageBitmap = BitmapFactory.decodeResource(
+						context.getResources(), R.drawable.dafaultuser01);
+				imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 80, 80,
+						true);
+				profile.setImageBitmap(imageBitmap);
+			}
+			postName.setText(itemList.getTitle());
+			date.setText(itemList.getDate());
+			enterpriseName.setText(itemList.getEntreprise());
+			salary.setText(itemList.getSalary());
+			cityName.setText(itemList.getCity());
+			domain.setText(itemList.getDomain());
+			Log.v("Debug",
+					"Search->getView->Show me the position and offerID: "
+							+ position + " " + itemList.getOfferID());
+
+			return convertView;
+		}
+	}
+
+	private class scrollListener implements OnScrollListener {
+
+		@Override
+		public void onScroll(AbsListView view, int firstVisibleItem,
+				int visibleItemCount, int totalItemCount) {
+			lastItem = firstVisibleItem + visibleItemCount - 1;
+			Log.v("Debug", "Search->onSroll->Show me the lastItem: "
+					+ firstVisibleItem + " " + visibleItemCount + " "
+					+ totalItemCount);
+		}
+
+		@Override
+		public void onScrollStateChanged(AbsListView view, int scrollState) {
+			Log.v("Debug",
+					"Search->onScrollStateChanged->Show me the lastItem: "
+							+ lastItem + " " + offerPerPage + " "
+							+ utilSrvc.isEnd());
+			resultList.removeFooterView(searchView);
+			if (lastItem + 1 == offerPerPage && !utilSrvc.isEnd()) {
+				resultList.addFooterView(searchView);
+				startSearch();
+			}
+		}
+
+	}
+
+}

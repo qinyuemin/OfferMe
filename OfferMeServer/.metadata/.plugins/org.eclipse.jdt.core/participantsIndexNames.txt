@@ -1,0 +1,9 @@
+INDEX VERSION 1.127
+D:\E\etude\MYPROJET\Projet personel\OfferMeServer\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1160361959.index
+\OfferMeJeeServer\src\main\java
+D:\E\etude\MYPROJET\Projet personel\OfferMeServer\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1413502043.index
+\OfferMeJeeTestServer\src\main\java
+D:\E\etude\MYPROJET\Projet personel\OfferMeServer\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2866348628.index
+\OfferMeJeeServer\src\main\java
+D:\E\etude\MYPROJET\Projet personel\OfferMeServer\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2142848888.index
+\OfferMeJeeTestServer\src\main\java

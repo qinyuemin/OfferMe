@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;Constants.java&apos; to &apos;OfferMeClient/src/com.offerme.client.service.util&apos;&#x0D;&#x0A;- Original project: &apos;WeiboSDKDemo&apos;&#x0D;&#x0A;- Destination element: &apos;OfferMeClient/src/com.offerme.client.service.util&apos;&#x0D;&#x0A;- Original element: &apos;com.sina.weibo.sdk.demo.Constants.java&apos;" description="Copy compilation unit" destination="=OfferMeClient/src&lt;com.offerme.client.service.util" element1="/src&lt;com.sina.weibo.sdk.demo{Constants.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1407559430320" units="1" version="1.0"/>
+</session>

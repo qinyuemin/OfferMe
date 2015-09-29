@@ -1,0 +1,57 @@
+package com.offerme.server.database.model;
+
+import java.sql.Timestamp;
+
+public class ApplyInfo {
+
+	private String applyUserId;
+
+	private String offerId;
+
+	private String offerOwnerId;
+
+	private Timestamp applyDT;
+
+	private int status;
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String getApplyUserId() {
+		return applyUserId;
+	}
+
+	public void setApplyUserId(String applyUserId) {
+		this.applyUserId = applyUserId;
+	}
+
+	public String getOfferId() {
+		return offerId;
+	}
+
+	public void setOfferId(String offerId) {
+		this.offerId = offerId;
+	}
+
+	public String getOfferOwnerId() {
+		return offerOwnerId;
+	}
+
+	public void setOfferOwnerId(String offerOwnerId) {
+		this.offerOwnerId = offerOwnerId;
+	}
+
+	public Timestamp getApplyDT() {
+		return applyDT;
+	}
+
+	public void setApplyDT(Timestamp applyDT) {
+		this.applyDT = applyDT;
+	}
+
+}

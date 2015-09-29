@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="#FFFFFF" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bordersearch"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/fromPhotoLib"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="@string/inscription_photo_lib"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#c1c1c1" />
+
+        <TextView
+            android:id="@+id/fromCamera"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/inscription_photo_take"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

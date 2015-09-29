@@ -1,0 +1,239 @@
+package com.offerme.client.service;
+
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
+
+import com.offerme.client.service.chat.ChatFriend;
+import com.offerme.client.service.cv.PersonalCV;
+import com.offerme.client.service.cv.PersonalWorkInfo;
+import com.offerme.client.service.inscription.InscriptionInfo;
+import com.offerme.client.service.publishoffer.OfferInfo;
+import com.offerme.client.service.search.SearchKeyword;
+import com.offerme.client.service.search.SearchResulat;
+import com.offerme.client.service.search.SearchResulatItem;
+import com.offerme.client.service.util.ActivityJump;
+import com.offerme.client.service.util.ActivityManager;
+import com.offerme.client.service.util.GlobalValue;
+import com.offerme.client.service.util.MultiMedia;
+import com.offerme.client.service.util.NetworkMonitor;
+
+public class UtilSrvc {
+	private final static UtilSrvc instance = new UtilSrvc();
+	private ActivityManager activityManager = ActivityManager.getInstance();
+	private ActivityJump jumpSrvc;
+	private NetworkMonitor networkMonitor;
+	private GlobalValue globalValue;
+	private MultiMedia media;
+
+	private UtilSrvc() {
+		jumpSrvc = new ActivityJump();
+		networkMonitor = new NetworkMonitor();
+		media = new MultiMedia();
+		globalValue = new GlobalValue();
+	}
+
+	public static UtilSrvc getInstance() {
+		return instance;
+	}
+
+	public String getCurrentCity() {
+		return globalValue.getCurrentCity();
+	}
+
+	public void setCurrentCity(String currentCity) {
+		globalValue.setCurrentCity(currentCity);
+	}
+
+	public void addNewActivity(Activity activity) {
+		activityManager.addNewActivity(activity);
+	}
+
+	public void exit() {
+		activityManager.exit();
+	}
+
+	public boolean isHasOfferChanged() {
+		return globalValue.isHasOfferChanged();
+	}
+
+	public void setHasOfferChanged(boolean hasOfferChanged) {
+		globalValue.setHasOfferChanged(hasOfferChanged);
+	}
+
+	public boolean isEnd() {
+		return globalValue.isEnd();
+	}
+
+	public void setEnd(boolean isEnd) {
+		globalValue.setEnd(isEnd);
+	}
+
+	public SearchKeyword getKeyword() {
+		return globalValue.getKeyword();
+	}
+
+	public void setKeyword(SearchKeyword keyword) {
+		globalValue.setKeyword(keyword);
+	}
+
+	public void setSearchResualt(SearchResulat rlt) {
+		globalValue.setSearchResualt(rlt);
+	}
+
+	public boolean HasSearchResualt() {
+		if (globalValue.getSearchResualt().getSize() != 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public SearchResulat getSearchResualt() {
+		return globalValue.getSearchResualt();
+	}
+
+	public boolean gotoHomeInPage(Context ctx) {
+		return jumpSrvc.gotoHomeInPage(ctx);
+	}
+
+	public boolean gotoLoggedInPage(Context ctx) {
+		return jumpSrvc.gotoLoggedInPage(ctx);
+	}
+
+	public boolean gotoLoggedInFromUser(Context ctx) {
+		return jumpSrvc.gotoLoggedInFromUser(ctx);
+	}
+
+	public boolean gotoLoggedInFromChat(Context ctx, Integer friendID) {
+		return jumpSrvc.gotoLoggedInFromChat(ctx, friendID);
+	}
+
+	public boolean gotoLoggedInFromChat(Context ctx) {
+		return jumpSrvc.gotoLoggedInFromChat(ctx);
+	}
+
+	public boolean gotoLoggedInFromPublish(Context ctx) {
+		return jumpSrvc.gotoLoggedInFromPublish(ctx);
+	}
+
+	public boolean gotoInscriptionPage(Context ctx) {
+		return jumpSrvc.gotoInscriptionPage(ctx);
+	}
+
+	public boolean gotoInscriptionDetailPage(Context ctx, InscriptionInfo info) {
+		return jumpSrvc.gotoInscriptionDetailPage(ctx, info);
+	}
+
+	public boolean gotoPublishOfferPage(Context ctx) {
+		return jumpSrvc.gotoPublishOfferPage(ctx);
+	}
+
+	public boolean gotoPublishOfferFromList(Context ctx, OfferInfo offer) {
+		return jumpSrvc.gotoPublishOfferFromList(ctx, offer);
+	}
+
+	public boolean gotoSearchPage(Context ctx, SearchKeyword keyword) {
+		return jumpSrvc.gotoSearchPage(ctx, keyword);
+	}
+
+	public boolean gotoPersonalInfoPage(Context ctx) {
+		return jumpSrvc.gotoPersonalInfoPage(ctx);
+	}
+
+	public boolean gotoPersonalCVFromPerson(Context ctx) {
+		return jumpSrvc.gotoPersonalCVFromPerson(ctx);
+	}
+
+	public boolean gotoPersonalCVFromReceived(Context ctx, PersonalCV cv) {
+		return jumpSrvc.gotoPersonalCVFromReceived(ctx, cv);
+	}
+
+	public boolean gotoPersonalCVFromWorkInput(Context ctx,
+			PersonalWorkInfo workInfo) {
+		return jumpSrvc.gotoPersonalCVFromWorkInput(ctx, workInfo);
+	}
+
+	public boolean gotoPersonalWorkInput(Context ctx, PersonalWorkInfo workInfo) {
+		return jumpSrvc.gotoPersonalWorkInput(ctx, workInfo);
+	}
+
+	public boolean gotoPublisherInfoPage(Context ctx, SearchResulatItem item) {
+		return jumpSrvc.gotoPublisherInfoPage(ctx, item);
+	}
+
+	public boolean gotoPublisherFromPersonalFavorite(Context ctx,
+			SearchResulatItem item) {
+		return jumpSrvc.gotoPublisherFromPersonalFavorite(ctx, item);
+	}
+
+	public boolean gotoPublisherFromPersonalPublished(Context ctx,
+			SearchResulatItem item) {
+		return jumpSrvc.gotoPublisherFromPersonalPublished(ctx, item);
+	}
+
+	public boolean gotoChatPage(Context ctx) {
+		return jumpSrvc.gotoChatPage(ctx);
+	}
+
+	public boolean gotoChatPage(Context ctx, ChatFriend friend) {
+		return jumpSrvc.gotoChatPage(ctx, friend);
+	}
+
+	public boolean gotoChatPageFromPublisher(Context ctx, ChatFriend friend,
+			SearchResulatItem item) {
+		return jumpSrvc.gotoChatPageFromPublisher(ctx, friend, item);
+	}
+
+	public boolean gotoChatCVList(Context ctx) {
+		return jumpSrvc.gotoChatCVList(ctx);
+	}
+
+	public boolean gotoSettingPage(Context ctx) {
+		return jumpSrvc.gotoSettingPage(ctx);
+	}
+
+	public boolean gotoDetailInfoPage(Context ctx, SearchResulatItem item) {
+		return jumpSrvc.gotoDetailPage(ctx, item);
+	}
+
+	public boolean isNetworkConnected(Context ctx) {
+		return networkMonitor.isNetworkConnected(ctx);
+	}
+
+	public void showConnectDialog(Context ctx) {
+		networkMonitor.showConnectDialog(ctx);
+	}
+
+	public Uri getUriFromBitMap(Bitmap imageBitmap, Context ctx) {
+		return media.getUriFromBitMap(imageBitmap, ctx);
+	}
+
+	public byte[] getImageByte(Bitmap imageBitmap) {
+		return media.getImageByte(imageBitmap);
+	}
+
+	public String getWeiboAPPKey() {
+		return GlobalValue.APP_KEY;
+	}
+
+	public String getWeiboRedirectURL() {
+		return GlobalValue.REDIRECT_URL;
+	}
+
+	public String getWeiboScope() {
+		return GlobalValue.SCOPE;
+	}
+
+	public boolean isWeiboAccount() {
+		return globalValue.isWeiboAccount();
+	}
+
+	public void setWeiboAccount(boolean isWeibo) {
+		globalValue.setWeiboAccount(isWeiboAccount());
+	}
+
+	public String findProvinceById(int id) {
+		return globalValue.findProvincByID(id);
+	}
+}

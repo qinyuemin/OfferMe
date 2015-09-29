@@ -1,0 +1,282 @@
+package com.offerme.server.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
+import com.offerme.server.model.business.OfferBusinessBean;
+import com.offerme.server.model.business.login.LoginResponse;
+import com.offerme.server.model.business.offer.OfferInfo;
+import com.offerme.server.model.business.offer.PublisherInfo;
+import com.offerme.server.model.business.personinfo.PersonalCV;
+import com.offerme.server.model.business.personinfo.PersonalWorkInfo;
+import com.offerme.server.model.db.Cv;
+import com.offerme.server.model.db.User;
+import com.offerme.server.service.CvSrvc;
+import com.offerme.server.service.LoginSrvc;
+import com.offerme.server.service.OfferSrvc;
+import com.offerme.server.service.UserSrvc;
+import com.offerme.server.util.EncoderUtil;
+
+@Service("loginSrvc")
+@Transactional
+public class LoginSrvcImpl implements LoginSrvc {
+
+	@Autowired
+	private UserSrvc userSrvc;
+
+	@Autowired
+	private CvSrvc cvSrvc;
+
+	@Autowired
+	private OfferSrvc offerSrvc;
+
+	@Override
+	public LoginResponse login(String email, String password) {
+
+		LoginResponse res = new LoginResponse();
+		try {
+			// User user = userSrvc.getUserByEmailAndPassword(email, password);
+			System.out.println("0000000000000000000000000000: "+password);
+			User user = userSrvc.getUserByEmailAndPassword(email,
+					EncoderUtil.encrypt(password));
+			System.out.println("1111111111111111111111111111: "+EncoderUtil.encrypt(password));
+			if (user != null && user.getUserId() > 0) {
+				Integer userId = user.getUserId();
+				System.out.println("222222222222222222222222222");
+				setUserInfo(user, res);
+
+				Cv cv = cvSrvc.getCvByUserId(userId);
+				res.setCv(getPersonalCvFromCv(cv, user));
+
+				// published offers / favorite offers / applied offers
+				List<OfferBusinessBean> publishOffers = offerSrvc
+						.getOffersByUserId(userId);
+				List<OfferBusinessBean> favoriteOffers = offerSrvc
+						.getFavoriteOffersByUserId(userId);
+				List<OfferBusinessBean> appliedOffers = offerSrvc
+						.getAppliedOffersByUserId(userId);
+
+				res.setPublishOffer(getPublishOffers(publishOffers));
+				res.setFavoriteOffer(getFavoriteOffers(favoriteOffers,
+						appliedOffers));
+				res.setApplyOffer(getAppliedOffers(appliedOffers,
+						favoriteOffers));
+				System.out.println("4444444444444444444444444444");
+				// success
+				res.setResponseCode(0);
+			} else {
+				System.out.println("3333333333333333333333333333: "+user);
+				res.setResponseCode(-2);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return res;
+	}
+
+	private void setUserInfo(User user, LoginResponse res) {
+		res.setUserId(user.getUserId());
+		res.setName(user.getName());
+		res.setAge(String.valueOf(user.getAge()));
+		res.setCity(user.getCity());
+		res.setEnterprise(user.getCompany());
+		res.setEmail(user.getEmail());
+		res.setPhoneNumber(user.getPhone());
+		res.setProfile(user.getPortrait());
+		res.setPost(user.getPost());
+		res.setWorkyear(String.valueOf(user.getWorkyear()));
+		res.setMailPublic(isPublic(user.getEmailPublic()));
+		res.setPhonePublic(isPublic(user.getPhonePublic()));
+		res.setResponseCode(0);
+	}
+
+	private PersonalCV getPersonalCvFromCv(Cv cv, User user) {
+
+		PersonalCV personalCv = new PersonalCV();
+
+		if (cv == null) {
+			cv = new Cv();
+			cv.setCurrentCompany(user.getCompany());
+			cv.setCurrentPost(user.getPost());
+		}
+
+		personalCv.setColleage(cv.getSchool());
+		personalCv.setEducation(cv.getDiploma());
+		personalCv.setEntreprise(cv.getCurrentCompany());
+		personalCv.setName(user.getName());
+		personalCv.setPost(cv.getCurrentPost());
+		personalCv.setAge(String.valueOf(user.getAge()));
+		personalCv.setUserID(String.valueOf(user.getUserId()));
+		personalCv.setWorkyear(String.valueOf(user.getWorkyear()));
+		personalCv.setWorkInfo(getWorkInfo(cv));
+
+		return personalCv;
+	}
+
+	private PersonalWorkInfo getWorkInfo(Cv cv) {
+
+		PersonalWorkInfo workinfo = new PersonalWorkInfo();
+
+		ArrayList<String> worklist = new ArrayList<String>();
+		if (cv.getJobCompany01() != null) {
+			worklist.add(cv.getJobCompany01());
+			worklist.add(cv.getJobYear01());
+			worklist.add(cv.getJobPost01());
+		}
+		if (cv.getJobCompany02() != null) {
+			worklist.add(cv.getJobCompany02());
+			worklist.add(cv.getJobYear02());
+			worklist.add(cv.getJobPost02());
+		}
+		if (cv.getJobCompany03() != null) {
+			worklist.add(cv.getJobCompany03());
+			worklist.add(cv.getJobYear03());
+			worklist.add(cv.getJobPost03());
+		}
+		workinfo.setWorks(worklist);
+
+		return workinfo;
+	}
+
+	private boolean isPublic(Integer value) {
+		if (value != null && value.intValue() == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private ArrayList<OfferInfo> getPublishOffers(
+			List<OfferBusinessBean> publishOffers) {
+
+		ArrayList<OfferInfo> offerInfos = new ArrayList<OfferInfo>();
+
+		if (!CollectionUtils.isEmpty(publishOffers)) {
+			for (OfferBusinessBean publishOffer : publishOffers) {
+				OfferInfo offer = new OfferInfo();
+				offer.setCity(publishOffer.getCity());
+				offer.setDate(publishOffer.getCreDt());
+				offer.setEntreprise(publishOffer.getCompany());
+				offer.setPost(publishOffer.getTitle());
+				offer.setSalary(publishOffer.getSalary());
+				offer.setMailbox(publishOffer.getOfferMail());
+				offer.setDescription(publishOffer.getContent());
+				offer.setDomain(publishOffer.getTrade());
+				offer.setFavorite(false);
+				offer.setApplied(false);
+				offer.setWorkyear(publishOffer.getWorkyear());
+				offer.setEducation(publishOffer.getEducation());
+				offer.setOfferID(String.valueOf(publishOffer.getOfferId()));
+				offer.setOfferOwnerID(String.valueOf(publishOffer.getUserId()));
+				offer.setUserID(String.valueOf(publishOffer.getUserId()));
+
+				offerInfos.add(offer);
+			}
+		}
+
+		return offerInfos;
+	}
+
+	private ArrayList<OfferInfo> getFavoriteOffers(
+			List<OfferBusinessBean> favoriteOffers,
+			List<OfferBusinessBean> appliedOffers) {
+
+		ArrayList<OfferInfo> offerInfos = new ArrayList<OfferInfo>();
+
+		if (!CollectionUtils.isEmpty(favoriteOffers)) {
+			for (OfferBusinessBean favoriteOffer : favoriteOffers) {
+				OfferInfo offerInfo = new OfferInfo();
+				offerInfo.setCity(favoriteOffer.getCity());
+				offerInfo.setDate(favoriteOffer.getCreDt());
+				offerInfo.setEntreprise(favoriteOffer.getCompany());
+				offerInfo.setPost(favoriteOffer.getTitle());
+				offerInfo.setSalary(favoriteOffer.getSalary());
+				offerInfo.setMailbox(favoriteOffer.getOfferMail());
+				offerInfo.setDescription(favoriteOffer.getContent());
+				offerInfo.setDomain(favoriteOffer.getTrade());
+				offerInfo
+						.setOfferID(String.valueOf(favoriteOffer.getOfferId()));
+				offerInfo.setUserID(String.valueOf(favoriteOffer.getUserId()));
+				offerInfo.setOfferOwnerID(String.valueOf(favoriteOffer
+						.getUserId()));
+				offerInfo.setPublisherInfo(getPublisherInfo(favoriteOffer));
+				offerInfo.setFavorite(true);
+				offerInfo.setWorkyear(favoriteOffer.getWorkyear());
+				offerInfo.setEducation(favoriteOffer.getEducation());
+				offerInfo.setApplied(isAppliedOrFavorite(
+						favoriteOffer.getOfferId(), appliedOffers));
+
+				offerInfos.add(offerInfo);
+			}
+		}
+
+		return offerInfos;
+	}
+
+	private PublisherInfo getPublisherInfo(OfferBusinessBean offer) {
+		PublisherInfo info = new PublisherInfo();
+		User user = offer.getOfferOwner();
+		info.setPost(user.getPost());
+		info.setEmail(user.getEmail());
+		info.setProfile(user.getPortrait());
+		info.setTelephone(user.getPhone());
+		info.setUserID(user.getUserId());
+		info.setCity(user.getCity());
+		info.setEntreprise(user.getCompany());
+		info.setName(user.getName());
+		info.setProfile(user.getPortrait());
+		info.setPhonePublished(isPublic(user.getPhonePublic()));
+		return info;
+	}
+
+	private ArrayList<OfferInfo> getAppliedOffers(
+			List<OfferBusinessBean> appliedOffers,
+			List<OfferBusinessBean> favoriteOffers) {
+
+		ArrayList<OfferInfo> offerInfos = new ArrayList<OfferInfo>();
+
+		if (!CollectionUtils.isEmpty(appliedOffers)) {
+			for (OfferBusinessBean appliedOffer : appliedOffers) {
+				OfferInfo offer = new OfferInfo();
+				offer.setCity(appliedOffer.getCity());
+				offer.setDate(appliedOffer.getCreDt());
+				offer.setEntreprise(appliedOffer.getCompany());
+				offer.setPost(appliedOffer.getTitle());
+				offer.setSalary(appliedOffer.getSalary());
+				offer.setDescription(appliedOffer.getContent());
+				offer.setDomain(appliedOffer.getTrade());
+				offer.setUserID(String.valueOf(appliedOffer.getUserId()));
+				offer.setPublisherInfo(getPublisherInfo(appliedOffer));
+				offer.setApplied(true);
+				offer.setFavorite(isAppliedOrFavorite(
+						appliedOffer.getOfferId(), favoriteOffers));
+				offer.setOfferOwnerID(String.valueOf(appliedOffer.getUserId()));
+				offer.setOfferID(String.valueOf(appliedOffer.getOfferId()));
+				offer.setWorkyear(appliedOffer.getWorkyear());
+				offer.setEducation(appliedOffer.getEducation());
+				offerInfos.add(offer);
+			}
+		}
+
+		return offerInfos;
+	}
+
+	private boolean isAppliedOrFavorite(Integer offerId,
+			List<OfferBusinessBean> offers) {
+		if (!CollectionUtils.isEmpty(offers)) {
+			for (OfferBusinessBean offer : offers) {
+				if (offerId.intValue() == offer.getOfferId().intValue()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+}

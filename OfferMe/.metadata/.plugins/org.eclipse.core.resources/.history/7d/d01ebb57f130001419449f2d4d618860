@@ -1,0 +1,200 @@
+package com.offerme.client.socket;
+
+import java.net.Socket;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.offerme.client.socket.util.JSONUtil;
+
+public class Request {
+
+	private static Request request=null;
+	private static Socket socket = null;
+	private static String m_strHostName = "";
+	private static int m_iSendPort = 0;
+	private static int m_iSendTimeout = 0;
+	static long startMilleSecond=0;
+	static long endMilleSecond=0;
+
+	public static Request getInstance() {
+		if (request == null) {
+			request = new Request();
+			init();
+		}
+		return request;
+	}
+
+	public static class KeyWords {
+		// 请求号
+		public static String requestType = "type";
+		// 分页开始行数
+		public static String start = "start";
+		// 分页大小
+		public static String size = "size";
+		// 排序
+		public static String order = "order";
+		// 过滤
+		public static String where = "where";
+	}
+
+	
+
+	private Request() {
+
+	}
+
+	private static void init() {
+		//m_strHostName = "42.159.198.168";
+		m_strHostName = "192.168.1.3";
+		m_iSendPort = 9999;
+		m_iSendTimeout = 20000;
+	}
+
+	/**
+	 * @param requestType
+	 * @param start
+	 *            分页开始行数 如不需要传 -1
+	 * @param size
+	 *            分页大小 如不需要传 -1
+	 * @param order
+	 *            排序 如不需要传 ""或者null
+	 * @param where
+	 *            过滤 如不需要传 ""或者null
+	 * @param strReply
+	 * @param params
+	 * @return
+	 */
+	public String sendRequestGetReply(int requestType, int start, int size,
+			String order, String where, String[] strReply, Object... params) {
+		startMilleSecond=System.currentTimeMillis();
+		String strRequest = "";
+		JsonObject jsonObject = new JsonObject();
+		JsonParser jsonParser = new JsonParser();
+		JsonElement jsonElement = jsonParser.parse(String.valueOf(requestType));
+		jsonObject.add(KeyWords.requestType, jsonElement);
+		if (start != -1) {
+			jsonObject.addProperty(KeyWords.start, start);
+		}
+		if (size != -1) {
+			jsonObject.addProperty(KeyWords.size, size);
+		}
+		if (order != null && !"".equals(order)) {
+			jsonObject.addProperty(KeyWords.order, order);
+		}
+		if (where != null && !"".equals(where)) {
+			jsonObject.addProperty(KeyWords.where, where);
+		}
+		int i = 0;
+		for (Object param : params) {
+			jsonElement = JSONUtil.beanToJsonElement(param);
+			jsonObject.add(String.valueOf(i), jsonElement);
+			i++;
+		}
+		strRequest = jsonObject.toString();
+		return sendRequestGetReply(strRequest, strReply);
+	}
+
+	public String sendRequestGetReply(int requestType, String[] strReply,
+			Object... params) {
+		startMilleSecond=System.currentTimeMillis();
+		String strRequest = "";
+		JsonObject jsonObject = new JsonObject();
+		JsonParser jsonParser = new JsonParser();
+		JsonElement jsonElement = jsonParser.parse(String.valueOf(requestType));
+		jsonObject.add(KeyWords.requestType, jsonElement);
+		int i = 0;
+		for (Object param : params) {
+			jsonElement = JSONUtil.beanToJsonElement(param);
+			jsonObject.add(String.valueOf(i), jsonElement);
+			i++;
+		}
+		strRequest = jsonObject.toString();
+		return sendRequestGetReply(strRequest, strReply);
+	}
+
+	public String sendRequestGetReply(String strRequest, String[] strReply) {
+		
+		try {
+			socket = new Socket(m_strHostName, m_iSendPort);
+			// 超时设置
+			if (m_iSendTimeout > 0) {
+				socket.setSoTimeout(m_iSendTimeout);
+			}
+
+			SocketReadWrite.SocketWrite(socket, strRequest);
+			strReply[0] = SocketReadWrite.SocketRead(socket);
+		} catch (Exception e) {
+			e.getLocalizedMessage();
+		} finally {
+			try {
+				if (socket != null) {
+					socket.close();
+				}
+			} catch (Exception e) {
+				// strError = e.getLocalizedMessage();
+			}
+		}
+		return strReply[0];
+	}
+
+	public <T> T sendRequestGetReplyObject(int requestType,
+			Class<T> replyClass, Object request) {
+		String jsonReply = sendRequestGetReply(requestType,
+				new String[] { "" }, request);
+		if (jsonReply == null || "".equals(jsonReply)) {
+			return null;
+		}
+		T reply = getObjectFromJson(jsonReply, replyClass);
+		return reply;
+	}
+
+	public String sendRequestGetReplyString(int requestType, Object request) {
+		String jsonReply = sendRequestGetReply(requestType,
+				new String[] { "" }, request);
+		if (jsonReply == null) {
+			return null;
+		}
+		String reply = getResualtFromJson(jsonReply);
+		return reply;
+	}
+
+	public String getResualtFromJson(String jsonString) {
+		endMilleSecond=System.currentTimeMillis();
+		System.out.println("Show me the time passed in client request: "+(endMilleSecond-startMilleSecond));
+		String resualt = null;
+		JsonParser parser = new JsonParser();
+		JsonElement jsonEl = parser.parse(jsonString);
+		if (jsonEl == null) {
+			return null;
+		} else if (jsonEl.getAsJsonObject() == null) {
+			return null;
+		} else if (jsonEl.getAsJsonObject().get("RESPONSE") == null
+				|| jsonEl.getAsJsonObject().get("Error") != null) {
+			return null;
+		}
+		resualt = jsonEl.getAsJsonObject().get("RESPONSE").toString();
+		return resualt;
+	}
+
+	public <T> T getObjectFromJson(String jsonString, Class<T> cla) {
+		endMilleSecond=System.currentTimeMillis();
+		System.out.println("Show me the time passed in client request: "+(endMilleSecond-startMilleSecond));
+		String jsonResponse;
+		JsonParser parser = new JsonParser();
+		JsonElement jsonEl = parser.parse(jsonString);
+		if (jsonEl == null) {
+			return null;
+		} else if (jsonEl.getAsJsonObject() == null) {
+			return null;
+		} else if (jsonEl.getAsJsonObject().get("RESPONSE") == null
+				|| jsonEl.getAsJsonObject().get("Error") != null) {
+			return null;
+		} else {
+			jsonResponse = jsonEl.getAsJsonObject().get("RESPONSE").toString();
+		}
+		T reply = JSONUtil.jsonToBean(jsonResponse, cla);
+		return reply;
+	}
+
+}

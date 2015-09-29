@@ -1,0 +1,88 @@
+package com.offerme.server.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.offerme.server.database.dao.OfferDao;
+import com.offerme.server.database.dao.OfferUserDao;
+import com.offerme.server.database.dao.UserDao;
+import com.offerme.server.database.dao.proxy.DaoImplManage;
+import com.offerme.server.database.model.Offer;
+import com.offerme.server.database.model.User;
+import com.offerme.server.service.bean.LoginResponse;
+import com.offerme.server.service.bean.OfferInfo;
+
+public class LoginSrvc {
+
+	public LoginResponse login(String email, String password) throws Exception {
+
+		UserDao userdao = DaoImplManage.getUserDaoInstance();
+		OfferDao offerdao = DaoImplManage.getOfferDaoInstance();
+		OfferUserDao favoritedao = DaoImplManage.getOfferUserDaoInstance();
+		LoginResponse res = new LoginResponse();
+
+		User user = userdao.getUserByEmailAndPassword(email, password);
+		if (user != null && user.getUserId() > 0) {
+			convertUserToLoginResponse(user, res);
+			List<Offer> publish = offerdao.getPublishOfferListByUserId(user
+					.getUserId());
+			List<Offer> favorite = offerdao.getOfferListByUserId(user
+					.getUserId());
+			ArrayList<OfferInfo> userPublish = res.getPublishOffer();
+			ArrayList<OfferInfo> userFavorite = res.getFavoriteOffer();
+			for (int count = 0; count < publish.size(); count++) {
+				OfferInfo offer = new OfferInfo();
+				offer.setDate(publish.get(count).getDate());
+				offer.setPost(publish.get(count).getTitle());
+				offer.setUserName(getUserName(userdao,publish.get(count).getUserId()));
+				offer.setOfferID(String
+						.valueOf(publish.get(count).getOfferId()));
+				offer.setUserID(String.valueOf(publish.get(count).getUserId()));
+				userPublish.add(offer);
+			}
+			for (int count = 0; count < favorite.size(); count++) {
+				//should be changed here
+				if (favoritedao.checkFavorite(favorite.get(count).getOfferId(),
+						favorite.get(count).getUserId())) {
+					OfferInfo offer = new OfferInfo();
+					offer.setCity(favorite.get(count).getCity());
+					offer.setDate(favorite.get(count).getDate());
+					offer.setEntreprise(favorite.get(count).getCompany());
+					offer.setPost(favorite.get(count).getTitle());
+					offer.setSalary(favorite.get(count).getSalary());
+					offer.setUserName(getUserName(userdao,favorite.get(count).getUserId()));
+					offer.setOfferID(String.valueOf(favorite.get(count)
+							.getOfferId()));
+					offer.setUserID(String.valueOf(favorite.get(count)
+							.getUserId()));
+					offer.setFavorite(true);
+					userFavorite.add(offer);
+				}
+			}
+			res.setFavoriteOffer(userFavorite);
+			res.setPublishOffer(userPublish);
+		} else {
+			res.setResponseCode(-2);
+		}
+
+		return res;
+	}
+
+	private void convertUserToLoginResponse(User user, LoginResponse res) {
+		res.setUserId(user.getUserId());
+		res.setFirstName(user.getName());
+		res.setLastName(user.getNameFamily());
+		res.setCity(user.getCity());
+		res.setEnterprise(user.getCompany());
+		res.setEmail(user.getEmail());
+		res.setPhoneNumber(user.getPhone());
+		res.setProfile(user.getPortrait());
+		res.setResponseCode(0);
+	}
+	
+	private String getUserName(UserDao user,int userID) throws Exception
+	{
+		return user.getUser(userID).getName();
+	}
+
+}

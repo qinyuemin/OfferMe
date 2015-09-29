@@ -1,0 +1,70 @@
+package com.offerme.client.activity;
+
+import com.offerme.R;
+import com.offerme.client.service.PersonalSettingSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.personalsetting.PersonalSetting;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+public class PersonalInfoActivity extends ActionBarActivity {
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private PersonalSettingSrvc personalSettingSrvc = PersonalSettingSrvc
+			.getInstance();
+	private PersonalSetting data;
+	private EditText name;
+	private EditText mail;
+	private EditText phone;
+	private EditText city;
+	private CheckBox mailCheck;
+	private CheckBox phoneCheck;
+	private ImageView profile;
+
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_personal_setting_info);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(
+				R.layout.activity_personal_setting_info_actionbar);
+		// context = this;
+		initialize();
+		// loadData();
+	}
+
+	private void initialize() {
+		data = personalSettingSrvc.loadLocalPersonalSetting(this);
+		name = (EditText) findViewById(R.id.personal_name);
+		mail = (EditText) findViewById(R.id.personal_email);
+		phone = (EditText) findViewById(R.id.personal_phone);
+		city = (EditText) findViewById(R.id.personal_city);
+		mailCheck = (CheckBox) findViewById(R.id.personal_email_checkbox);
+		phoneCheck = (CheckBox) findViewById(R.id.personal_phone_checkbox);
+		profile=(ImageView) findViewById(R.id.personal_profile);
+		name.setHint(data.getName());
+		mail.setHint(data.getEmail());
+		phone.setHint(data.getPhoneNumber());
+		city.setHint(data.getCity());
+	}
+
+	private void loadData() {
+
+	}
+
+	@Override
+	public void onBackPressed() {
+		utilSrvc.gotoLoggedInFromUser(this);
+		return;
+	}
+
+	public void backToPersonalSetting(View view) {
+		utilSrvc.gotoLoggedInFromUser(this);
+		return;
+	}
+}

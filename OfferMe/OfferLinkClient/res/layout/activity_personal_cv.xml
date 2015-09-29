@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#f6f6f6" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/personal_cv_mail_layout"
+        android:fillViewport="true" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/TextView08"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="#e5e5e5"
+                android:textColor="#b1b1b1" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp" >
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <ImageView
+                            android:id="@+id/personal_cv_profile"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:padding="5dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/dafaultuser" />
+
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:background="@drawable/borderprofile" />
+
+                    </FrameLayout>
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp" >
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:orientation="vertical" >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" >
+
+                                <TextView
+                                    android:id="@+id/personal_cv_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:textColor="#808080"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/personal_cv_age"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical"
+                                    android:textColor="#808080"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/textView6"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:text="@string/personal_cv_age"
+                                    android:textColor="#808080"
+                                    android:textSize="16sp" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/personal_cv_post"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:textColor="#808080"
+                                android:textSize="16sp" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    android:id="@+id/personal_cv_city"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:textColor="#808080"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:id="@+id/personal_cv_seperate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:text=" | "
+                                    android:textColor="#808080" />
+
+                                <TextView
+                                    android:id="@+id/personal_cv_enterprise"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:textColor="#808080"
+                                    android:textSize="16sp" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/TextView07"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#e5e5e5"
+                android:textColor="#b1b1b1" />
+
+            <TextView
+                android:id="@+id/TextView01"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="#e5e5e5"
+                android:textColor="#b1b1b1" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp" >
+
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="@string/personal_cv_workyear"
+                        android:textColor="#808080"
+                        android:textSize="16sp" />
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginLeft="10dp" >
+
+                        <TextView
+                            android:id="@+id/personal_cv_workyear"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="right|center_vertical"
+                            android:layout_toLeftOf="@+id/personal_cv_workyear_text"
+                            android:gravity="right|center_vertical"
+                            android:textColor="#808080"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@id/personal_cv_workyear_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="right|center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/personal_cv_year"
+                            android:textColor="#808080"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/TextView05"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#e5e5e5"
+                android:textColor="#b1b1b1" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp" >
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="@string/personal_cv_education"
+                        android:textColor="#808080"
+                        android:textSize="16sp" />
+
+                    <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp" >
+
+                        <TextView
+                            android:id="@+id/personal_cv_education_text"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="right|center_vertical"
+                            android:gravity="right|center_vertical"
+                            android:paddingRight="25dp"
+                            android:textColor="#808080"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/personal_cv_education_spinner"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="right|center_vertical"
+                            android:gravity="right|center_vertical"
+                            android:hint="@string/inscription_hint"
+                            android:paddingRight="25dp"
+                            android:textColor="#808080"
+                            android:textColorHint="#d3d3d3"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:id="@+id/personal_cv_detail_arrow_education"
+                            android:layout_width="10dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="right|center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/datailarrow" />
+
+                    </FrameLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/TextView06"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#e5e5e5"
+                android:textColor="#b1b1b1" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp" >
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="@string/personal_cv_school"
+                        android:textColor="#808080"
+                        android:textSize="16sp" />
+
+                    <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp" >
+
+                        <EditText
+                            android:id="@+id/personal_cv_colleage_edit"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:background="@null"
+                            android:ems="10"
+                            android:gravity="right|center_vertical"
+                            android:hint="@string/inscription_hint"
+                            android:imeOptions="actionDone"
+                            android:paddingRight="25dp"
+                            android:singleLine="true"
+                            android:textColor="#808080"
+                            android:textColorHint="#d3d3d3"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/personal_cv_colleage_text"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="right|center_vertical"
+                            android:gravity="right|center_vertical"
+                            android:hint="@string/inscription_hint"
+                            android:paddingRight="25dp"
+                            android:textColor="#808080"
+                            android:textColorHint="#d3d3d3"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:id="@+id/personal_cv_detail_arrow_colleage"
+                            android:layout_width="10dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="right|center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/datailarrow" />
+
+                    </FrameLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/TextView03"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#e5e5e5"
+                android:textColor="#b1b1b1" />
+
+            <RelativeLayout
+                android:id="@+id/personal_cv_workinput_layout"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="15dp"
+                android:background="#FFFFFF" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/TextView02"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="#e5e5e5"
+                        android:textColor="#b1b1b1" />
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="@string/personal_cv_workexpirence"
+                        android:textColor="#808080"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="25dp"
+                        android:orientation="vertical" >
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="50dp"
+                            android:layout_weight="1" >
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:orientation="vertical" >
+
+                                <LinearLayout
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="25dp"
+                                    android:layout_weight="1" >
+
+                                    <TextView
+                                        android:id="@+id/personal_cv_first_work"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_gravity="left|center_vertical"
+                                        android:gravity="left|center_vertical"
+                                        android:textColor="#808080"
+                                        android:textSize="20sp" />
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_gravity="center_vertical" >
+
+                                        <TextView
+                                            android:id="@+id/personal_cv_first_work_year"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="fill_parent"
+                                            android:layout_centerVertical="true"
+                                            android:layout_toLeftOf="@+id/personal_cv_first_text"
+                                            android:gravity="right|center_vertical"
+                                            android:textColor="#808080"
+                                            android:textSize="15sp" />
+
+                                        <TextView
+                                            android:id="@id/personal_cv_first_text"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="fill_parent"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginLeft="10dp"
+                                            android:gravity="center_vertical"
+                                            android:text="@string/personal_cv_year"
+                                            android:textColor="#808080"
+                                            android:textSize="15sp" />
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/personal_cv_first_work_post"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="25dp"
+                                    android:layout_weight="1"
+                                    android:gravity="left|center_vertical"
+                                    android:textColor="#808080"
+                                    android:textSize="15sp" />
+
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/personal_cv_first_work_seperator"
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:background="#e5e5e5"
+                            android:textColor="#b1b1b1" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp" >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="fill_parent"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:orientation="vertical" >
+
+                                <LinearLayout
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="25dp"
+                                    android:layout_weight="1" >
+
+                                    <TextView
+                                        android:id="@+id/personal_cv_second_work"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_gravity="left|center_vertical"
+                                        android:gravity="left|center_vertical"
+                                        android:textColor="#808080"
+                                        android:textSize="20sp" />
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_gravity="center_vertical" >
+
+                                        <TextView
+                                            android:id="@+id/personal_cv_second_work_year"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="fill_parent"
+                                            android:layout_centerVertical="true"
+                                            android:layout_toLeftOf="@+id/personal_cv_second_text"
+                                            android:gravity="right|center_vertical"
+                                            android:textColor="#808080"
+                                            android:textSize="15sp" />
+
+                                        <TextView
+                                            android:id="@id/personal_cv_second_text"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="fill_parent"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginLeft="10dp"
+                                            android:gravity="center_vertical"
+                                            android:text="@string/personal_cv_year"
+                                            android:textColor="#808080"
+                                            android:textSize="15sp" />
+
+                                    </RelativeLayout>
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/personal_cv_second_work_post"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="25dp"
+                                    android:layout_weight="1"
+                                    android:gravity="left|center_vertical"
+                                    android:textColor="#808080"
+                                    android:textSize="15sp" />
+
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/personal_cv_second_work_seperator"
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:background="#e5e5e5"
+                            android:textColor="#b1b1b1" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp" >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="fill_parent"
+                                android:orientation="vertical" >
+
+                                <LinearLayout
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="25dp"
+                                    android:layout_weight="1" >
+
+                                    <TextView
+                                        android:id="@+id/personal_cv_third_work"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_gravity="left|center_vertical"
+                                        android:gravity="left|center_vertical"
+                                        android:textColor="#808080"
+                                        android:textSize="20sp" />
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_gravity="center_vertical" >
+
+                                        <TextView
+                                            android:id="@+id/personal_cv_third_work_year"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="fill_parent"
+                                            android:layout_centerVertical="true"
+                                            android:layout_toLeftOf="@+id/personal_cv_third_text"
+                                            android:gravity="right|center_vertical"
+                                            android:textColor="#808080"
+                                            android:textSize="15sp" />
+
+                                        <TextView
+                                            android:id="@id/personal_cv_third_text"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="fill_parent"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginLeft="10dp"
+                                            android:gravity="center_vertical"
+                                            android:text="@string/personal_cv_year"
+                                            android:textColor="#808080"
+                                            android:textSize="15sp" />
+
+                                    </RelativeLayout>
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/personal_cv_third_work_post"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="25dp"
+                                    android:layout_weight="1"
+                                    android:gravity="left|center_vertical"
+                                    android:textColor="#808080"
+                                    android:textSize="15sp" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/TextView09"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#e5e5e5"
+                    android:textColor="#b1b1b1" />
+
+                <ImageView
+                    android:id="@+id/personal_cv_detail_arrow"
+                    android:layout_width="10dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/datailarrow" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <FrameLayout
+        android:id="@id/personal_cv_mail_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <TextView
+            android:id="@+id/TextView04"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#e3e3e3" />
+
+        <ImageView
+            android:id="@+id/personal_cv_mail_send"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/letterbluebtn" />
+
+    </FrameLayout>
+
+</RelativeLayout>

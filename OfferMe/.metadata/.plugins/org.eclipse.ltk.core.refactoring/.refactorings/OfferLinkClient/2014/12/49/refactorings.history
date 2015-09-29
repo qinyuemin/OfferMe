@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;OfferMeClient/res/layout/activity_search_list_progress.xml&apos; to &apos;activity_search_progress_view.xml&apos;" description="Rename resource &apos;activity_search_list_progress.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="res/layout/activity_search_list_progress.xml" name="activity_search_progress_view.xml" stamp="1417511403263" updateReferences="true"/>
+</session>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="workyear_list">
+        <item></item>
+        <item>应届生</item>
+        <item>1~3年</item>
+        <item>3~5年</item>
+        <item>5~10年</item>
+        <item>10年以上</item>
+    </string-array>
+
+</resources>

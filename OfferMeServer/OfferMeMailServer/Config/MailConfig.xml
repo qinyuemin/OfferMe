@@ -1,0 +1,26 @@
+<MailConfig>
+	<Mail>
+		<Style>SMTP</Style>
+		<SleepTime>20</SleepTime>
+	</Mail>
+	<SMTP>
+		<SMTPServer>localhost</SMTPServer>
+		<FromMailAddress>noreply@offerme.com</FromMailAddress>
+		<FromMailPassword>noreply</FromMailPassword>
+		<Username>noreply</Username>
+		<Password>noreply</Password>
+		<Nick>noreply</Nick>
+		<Title>offerme验证码</Title>
+		<Port>25</Port>
+	</SMTP>
+	<Notes>
+		<HttpMailOrNot>1</HttpMailOrNot>
+		<ServerName>192.168.1.50</ServerName>
+		<ServerAddress>192.168.1.50</ServerAddress>
+		<Port>63148</Port>
+		<NsfPath>mail/admin.nsf</NsfPath>
+		<IORPath>diiop_ior.txt</IORPath>
+		<Username>admin</Username>
+		<Password>123456</Password>
+	</Notes>
+</MailConfig>

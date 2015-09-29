@@ -1,0 +1,242 @@
+package com.offerme.client.service;
+
+import java.util.ArrayList;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.offerme.R;
+import com.offerme.client.http.HttpRequest;
+import com.offerme.client.http.HttpServiceType;
+import com.offerme.client.localdata.LocalDataBase;
+import com.offerme.client.localdata.LocalPersonInfo;
+import com.offerme.client.service.cv.ApplyOfferMessage;
+import com.offerme.client.service.publishoffer.OfferInfo;
+import com.offerme.client.service.search.SearchResulat;
+import com.offerme.client.service.search.SearchResulatItem;
+import com.offerme.client.service.socket.SocketCommunication;
+
+public class ApplyOfferSrvc implements SocketSrvc {
+
+	private static ApplyOfferSrvc srvc = null;
+	private LocalPersonInfo personInfo = null;
+	private LocalDataBase dataBase = null;
+	private ApplyOfferMessage cvMessage;
+	private OfferInfo offerInfo = new OfferInfo();
+	private SearchResulatItem offerApplied;
+	private SocketCommunication socket;
+	private Context context;
+	private Dialog processDialog;
+	private ImageView sendCV;
+	private ImageView CVSent;
+	private Toast toast;
+	private String resualt;
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private SearchSrvc searchSrvc = SearchSrvc.getInstance(utilSrvc);
+	private PersonalSettingSrvc personalSettingSrvc = PersonalSettingSrvc
+			.getInstance();
+
+	private ApplyOfferSrvc() {
+
+	}
+
+	public static ApplyOfferSrvc getInstance() {
+		if (srvc == null) {
+			srvc = new ApplyOfferSrvc();
+		}
+		return srvc;
+	}
+
+	public boolean isAppliedOffer(Context ctx, String offerID) {
+		if (dataBase == null) {
+			dataBase = LocalDataBase.getInstance(context);
+		}
+		return dataBase.isOfferApplied(offerID);
+	}
+
+	private void resetSearchResualt() {
+		SearchResulat resualts = utilSrvc.getSearchResualt();
+		for (int count = 0; count < resualts.getSize(); count++) {
+			if (resualts.getItem(count).getOfferID()
+					.equalsIgnoreCase(offerApplied.getOfferID())) {
+				resualts.getItem(count).setApplied(true);
+			}
+		}
+	}
+
+	public void sendCV(Context ctx, SearchResulatItem offer, ImageView send,
+			ImageView sent) {
+		context = ctx;
+		personInfo = LocalPersonInfo.getInstance(context);
+		dataBase = LocalDataBase.getInstance(context);
+		offerApplied = offer;
+		sendCV = send;
+		CVSent = sent;
+		setCVMessage();
+		convertToOffer();
+		setProcessDialog();
+		if (canBeApplied()) {
+			socket = new SocketCommunication(this);
+			socket.execute();
+		}
+	}
+
+	private void showText(String text) {
+		toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.show();
+	}
+
+	private void setCVMessage() {
+		String offerID = offerApplied.getOfferID();
+		String recieverID = String.valueOf(offerApplied.getPublisherInfo()
+				.getUserID());
+		cvMessage = new ApplyOfferMessage(offerID,
+				personInfo.getValue(LocalPersonInfo.USERID), recieverID);
+	}
+
+	private boolean isCVComplete() {
+		boolean resualt = true;
+		ArrayList<String> infos = new ArrayList<String>();
+		String age = personInfo.getValue(LocalPersonInfo.AGE);
+		String name = personInfo.getValue(LocalPersonInfo.NAME);
+		String post = personInfo.getValue(LocalPersonInfo.POST);
+		String education = personInfo.getValue(LocalPersonInfo.EDUCATION);
+		String colleage = personInfo.getValue(LocalPersonInfo.COLLEAGE);
+		String workyear = personInfo.getValue(LocalPersonInfo.WORKYEAR);
+		String firstwork = personInfo.getValue(LocalPersonInfo.FIRSTWORK);
+		String entreprise = personInfo.getValue(LocalPersonInfo.ENTREPRISE);
+		String city = personInfo.getValue(LocalPersonInfo.CITY);
+		infos.add(age);
+		infos.add(name);
+		infos.add(post);
+		infos.add(education);
+		infos.add(colleage);
+		infos.add(workyear);
+		infos.add(firstwork);
+		infos.add(entreprise);
+		infos.add(city);
+		if (!isInfoComplete(infos)) {
+			resualt = false;
+		}
+		return resualt;
+	}
+
+	private boolean isInfoComplete(ArrayList<String> infos) {
+		boolean resualt = true;
+		for (int count = 0; count < infos.size(); count++) {
+			if (infos.get(count) == null || infos.get(count).length() == 0) {
+				resualt = false;
+				break;
+			}
+		}
+		return resualt;
+	}
+
+	private boolean canBeApplied() {
+		boolean resualt = true;
+		if (!isCVComplete()) {
+			showText(context.getResources().getString(
+					R.string.personal_cv_send_not_allowed_incomplete));
+			return false;
+		}
+		return resualt;
+	}
+
+	private void convertToOffer() {
+		if (offerApplied.getPublisherInfo().getUserID() != Integer
+				.parseInt(personInfo.getValue(LocalPersonInfo.USERID))) {
+			offerInfo.setCity(offerApplied.getCity());
+			offerInfo.setDate(offerApplied.getDate());
+			offerInfo.setEntreprise(offerApplied.getEntreprise());
+			offerInfo.setPost(offerApplied.getTitle());
+			offerInfo.setSalary(offerApplied.getSalary());
+			offerInfo.setOfferID(offerApplied.getOfferID());
+			offerInfo.setDomain(offerApplied.getDomain());
+			offerInfo.setDescription(offerApplied.getDescription());
+			offerInfo.setPublisherInfo(offerApplied.getPublisherInfo());
+			offerInfo.setFavorite(offerApplied.isFavorite());
+			offerInfo.setApplied(true);
+			offerInfo.setUserID(personInfo.getValue(LocalPersonInfo.USERID));
+			offerInfo.setOfferOwnerID(String.valueOf(offerApplied
+					.getPublisherInfo().getUserID()));
+
+		}
+	}
+
+	private void setProcessDialog() {
+		LayoutInflater factory = LayoutInflater.from(context);
+		View dialogView = factory.inflate(R.layout.dialog_process, null);
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		processDialog = builder.create();
+		((AlertDialog) processDialog).setView(dialogView, 0, 0, 0, 0);
+	}
+
+	@Override
+	public void onPreExecute() {
+		processDialog.show();
+		Window window = processDialog.getWindow();
+		window.setGravity(Gravity.CENTER);
+		WindowManager.LayoutParams lp = window.getAttributes();
+		lp.alpha = 0.5f;
+		lp.width = 200;
+		lp.height = 300;
+		window.setAttributes(lp);
+	}
+
+	@Override
+	public Boolean doInBackground(String... params) {
+		resualt = HttpRequest.getHttpResponseStr(HttpServiceType.APPLY_OFFER,
+				cvMessage);
+		System.out
+				.println("ApplyOffer->doInBackground: Show me the reply got: "
+						+ resualt);
+		if (resualt != null && !resualt.contains("NOTOK")) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void onProgressUpdate(Integer... values) {
+
+	}
+
+	@Override
+	public void onPostExecute(Boolean success) {
+		processDialog.dismiss();
+		if (success) {
+			if (resualt.contains("KO")) {
+				showText(context.getResources().getString(
+						R.string.personal_cv_sent_cv));
+			} else {
+				dataBase.insertOffer(offerInfo);
+				offerApplied.setApplied(true);
+				CVSent.setVisibility(View.VISIBLE);
+				sendCV.setVisibility(View.GONE);
+				resetSearchResualt();
+				searchSrvc.refreshList();
+				personalSettingSrvc.refreshApplied();
+				showText(context.getResources().getString(
+						R.string.personal_cv_send_success));
+			}
+
+		} else {
+			showText(context.getResources().getString(
+					R.string.personal_cv_send_fail));
+		}
+	}
+
+	@Override
+	public void onCancelled() {
+		socket.cancel(true);
+	}
+}

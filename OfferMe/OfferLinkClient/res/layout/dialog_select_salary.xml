@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/offer_salary_0"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:text="面议"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#b1b1b1" />
+
+        <Button
+            android:id="@+id/offer_salary_5"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:text="5000 ~ 10000"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#b1b1b1" />
+
+        <Button
+            android:id="@+id/offer_salary_10"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:text="10000 ~ 15000"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/TextView02"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#b1b1b1" />
+
+        <Button
+            android:id="@+id/offer_salary_15"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:text="15000 ~ 20000"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/TextView03"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#b1b1b1" />
+
+        <Button
+            android:id="@+id/offer_salary_20"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:text="20000 ~ 25000"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/TextView04"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#b1b1b1" />
+
+        <Button
+            android:id="@+id/offer_salary_25"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:text="25000 ~ 30000"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/TextView05"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#b1b1b1" />
+
+        <Button
+            android:id="@+id/offer_salary_30"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:text="30000 ~ 35000"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/TextView06"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#b1b1b1" />
+
+        <Button
+            android:id="@+id/offer_salary_35"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:text="35000 ~ 40000"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/TextView07"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#b1b1b1" />
+
+        <Button
+            android:id="@+id/offer_salary_40"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:text="40000 ~ 45000"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/TextView08"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#b1b1b1" />
+
+        <Button
+            android:id="@+id/offer_salary_45"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:text="45000 ~ 50000"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/TextView09"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#b1b1b1" />
+
+        <Button
+            android:id="@+id/offer_salary_50"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:text="50000以上"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</ScrollView>

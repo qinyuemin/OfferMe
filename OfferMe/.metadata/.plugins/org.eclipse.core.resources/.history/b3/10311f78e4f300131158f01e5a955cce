@@ -1,0 +1,85 @@
+package com.offerme.client.activity;
+
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+import com.offerme.R;
+import com.offerme.client.service.UtilSrvc;
+
+public class LoggedInActivity extends ActionBarActivity {
+
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_logged_in);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.logged_in, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		//System.exit(0);
+		//this.finish();
+		this.setConfrimDialogListener(new DialogInterface.OnClickListener() {     
+	           // 确定 按钮单击事件     
+	           @Override    
+	           public void onClick(DialogInterface dialog, int which) {     
+	                removeDialog(BaseView.DIALOG_YES_NO_MESSAGE);     
+	                // back键默认执行方法     
+	                // BaseView.this.finish();     
+	                // 结束当前的进程（我们的程序）===>真正意义上的退出     
+	                android.os.Process.killProcess(android.os.Process.myPid());     
+	            }     
+	        });     
+	        this.setConfrimDialogText(R.string.alert_dialog_exit_confirm);     
+	        this.showDialog(BaseView.DIALOG_YES_NO_MESSAGE);  
+	}
+
+	public void publishOffer(View view) {
+		if (utilSrvc.isNetworkConnected(this)) {
+			utilSrvc.gotoPublishOfferPage(LoggedInActivity.this);
+		} else {
+			utilSrvc.showConnectDialog(this);
+		}
+	}
+
+	public void demandOffer(View view) {
+		if (utilSrvc.isNetworkConnected(this)) {
+			utilSrvc.gotoDemandOfferPage(LoggedInActivity.this);
+		} else {
+			utilSrvc.showConnectDialog(this);
+		}
+	}
+
+	public void personalSetting(View vies) {
+		if (utilSrvc.isNetworkConnected(this)) {
+			utilSrvc.gotoPersonalSettingPage(LoggedInActivity.this);
+		} else {
+			utilSrvc.showConnectDialog(this);
+		}
+	}
+
+}

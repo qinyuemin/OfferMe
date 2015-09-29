@@ -1,0 +1,74 @@
+package com.offerme.client.activity;
+
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+import com.offerme.R;
+import com.offerme.client.service.UtilSrvc;
+
+public class LoggedInActivity extends ActionBarActivity {
+
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_logged_in);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.logged_in, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		//System.exit(0);
+		this.finish();
+		//android.os.process.killProcess(android.os.process.myPid());
+		return;
+	}
+
+	public void publishOffer(View view) {
+		if (utilSrvc.isNetworkConnected(this)) {
+			utilSrvc.gotoPublishOfferPage(LoggedInActivity.this);
+		} else {
+			utilSrvc.showConnectDialog(this);
+		}
+	}
+
+	public void demandOffer(View view) {
+		if (utilSrvc.isNetworkConnected(this)) {
+			utilSrvc.gotoDemandOfferPage(LoggedInActivity.this);
+		} else {
+			utilSrvc.showConnectDialog(this);
+		}
+	}
+
+	public void personalSetting(View vies) {
+		if (utilSrvc.isNetworkConnected(this)) {
+			utilSrvc.gotoPersonalSettingPage(LoggedInActivity.this);
+		} else {
+			utilSrvc.showConnectDialog(this);
+		}
+	}
+
+}

@@ -1,0 +1,120 @@
+package com.offerme.client.activity;
+
+import com.offerme.R;
+import com.offerme.client.service.LoginSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.VisitorSrvc;
+import com.offerme.client.service.login.LoginRequest;
+
+import android.support.v7.app.ActionBarActivity;
+import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+
+public class HomePageActivity extends ActionBarActivity {
+
+	/** Services used in this activity */
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private VisitorSrvc visitorSrvc = VisitorSrvc.getInstance(utilSrvc);
+	private LoginSrvc loginSrvc = LoginSrvc.getInstance();
+	
+	private EditText login;
+	private EditText password;
+	
+	private void initWidget() {
+		this.login = (EditText) findViewById(R.id.home_page_login);
+		this.password = (EditText) findViewById(R.id.home_page_password);
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// if the user is logged in once, show logged in page directly
+		if(loginSrvc.isLoggedInOnce(this)) {
+			utilSrvc.gotoLoggedInPage(this);
+		} 
+		else
+		{super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_home_page);
+		initWidget();}
+		
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.home_page, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		//System.exit(0);
+		//this.finish();
+		android.os.Process.killProcess(android.os.Process.myPid());    
+		super.onBackPressed();
+	}
+
+	/** Listener for event, each event name is defined in activity_home_page.xml */
+
+	/**
+	 * Button for signing in offerme app. If user has done inscription, goto
+	 * member page. If not, goto inscription page.
+	 * 
+	 * @param view
+	 */
+	public void signIn(View view) {
+		if (utilSrvc.isNetworkConnected(this)) {
+			// if it is the new user
+			LoginRequest loginRequest = new LoginRequest();
+			loginRequest.setLogin(login.getText().toString());
+			loginRequest.setPassword(password.getText().toString());
+			loginSrvc.submit(this, new ProgressDialog(this), loginRequest);
+		} else {
+			utilSrvc.showConnectDialog(this);
+		}
+	}
+
+	/**
+	 * Button for creating account. Goto inscription page
+	 * 
+	 * @param view
+	 */
+	public void createAccount(View view) {
+		if (utilSrvc.isNetworkConnected(this)) {
+			utilSrvc.gotoInscriptionPage(this);
+		} else {
+			utilSrvc.showConnectDialog(this);
+		}
+	}
+
+	/**
+	 * Button for visiting as guest. Goto offer list page (guest version).
+	 * 
+	 * @param view
+	 */
+	public void guestVisit(View view) {
+		if (utilSrvc.isNetworkConnected(this)) {
+			ProgressDialog processDialog = new ProgressDialog(this);
+			visitorSrvc.submit(this, processDialog);
+		} else {
+			utilSrvc.showConnectDialog(this);
+		}
+	}
+
+}

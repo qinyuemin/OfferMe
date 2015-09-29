@@ -1,0 +1,320 @@
+package com.offerme.client.activity;
+
+import java.util.ArrayList;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalPersonInfo;
+import com.offerme.client.service.SaveCVSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.cv.PersonalCV;
+import com.offerme.client.service.cv.PersonalWorkInfo;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+public class PersonalCVActivity extends ActionBarActivity {
+	public final static String FROM_PERSONALCV = "From_personalCV";
+	public final static String FROM_CVRECEIVED = "From_cvreceived";
+	public final static String WORK_INFO_CV = "WorkInfoCV";
+	private Intent intent;
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private LocalPersonInfo personInfo = LocalPersonInfo.getInstance(this);
+	private SaveCVSrvc saveSrvc = SaveCVSrvc.getInstance(utilSrvc);
+	private PersonalWorkInfo works = new PersonalWorkInfo();
+	private PersonalCV cv = new PersonalCV();
+	private TextView title;
+	private ImageView saveCV;
+	private ImageView profile;
+	private TextView name;
+	private TextView age;
+	private TextView post;
+	private TextView city;
+	private TextView entreprise;
+	private TextView workyear;
+	private TextView educationText;
+	private Spinner educationSpinner;
+	private TextView colleageText;
+	private EditText colleageEdit;
+	private TextView firstWork;
+	private TextView firstWorkyear;
+	private TextView secondWork;
+	private TextView secondWorkyear;
+	private TextView thirdWork;
+	private TextView thirdWorkyear;
+	private TextView firstAnneeText;
+	private TextView secondAnneeText;
+	private TextView thirdAnneeText;
+
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		utilSrvc.addNewActivity(this);
+		setContentView(R.layout.activity_personal_cv);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(
+				R.layout.activity_personal_cv_actionbar);
+		getSupportActionBar().setBackgroundDrawable(
+				new ColorDrawable(Color.parseColor("#1e90d2")));
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		initWidget();
+		loadData();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		finish();
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		this.setIntent(intent);
+	}
+
+	@Override
+	public void onBackPressed() {
+		utilSrvc.gotoLoggedInFromUser(this);
+		return;
+	}
+
+	private void initWidget() {
+		intent = this.getIntent();
+		title = (TextView) findViewById(R.id.personal_cv_bar_center);
+		saveCV = (ImageView) findViewById(R.id.personal_cv_bar_right);
+		profile = (ImageView) findViewById(R.id.personal_cv_profile);
+		name = (TextView) findViewById(R.id.personal_cv_name);
+		age = (TextView) findViewById(R.id.personal_cv_age);
+		post = (TextView) findViewById(R.id.personal_cv_post);
+		city = (TextView) findViewById(R.id.personal_cv_city);
+		entreprise = (TextView) findViewById(R.id.personal_cv_enterprise);
+		workyear = (TextView) findViewById(R.id.personal_cv_workyear);
+		educationText = (TextView) findViewById(R.id.personal_cv_education_text);
+		educationSpinner = (Spinner) findViewById(R.id.personal_cv_education_spinner);
+		colleageText = (TextView) findViewById(R.id.personal_cv_colleage_text);
+		colleageEdit = (EditText) findViewById(R.id.personal_cv_colleage_edit);
+		firstWork = (TextView) findViewById(R.id.personal_cv_first_work);
+		firstWorkyear = (TextView) findViewById(R.id.personal_cv_first_work_year);
+		secondWork = (TextView) findViewById(R.id.personal_cv_second_work);
+		secondWorkyear = (TextView) findViewById(R.id.personal_cv_second_work_year);
+		thirdWork = (TextView) findViewById(R.id.personal_cv_third_work);
+		thirdWorkyear = (TextView) findViewById(R.id.personal_cv_third_work_year);
+		firstAnneeText = (TextView) findViewById(R.id.personal_cv_first_text);
+		secondAnneeText = (TextView) findViewById(R.id.personal_cv_second_text);
+		thirdAnneeText = (TextView) findViewById(R.id.personal_cv_third_text);
+	}
+
+	private void loadData() {
+		initActionBar();
+		initPersonInfo();
+		initWorkYear();
+		initEducation();
+		initColleage();
+		initWork();
+	}
+
+	private void initActionBar() {
+		if (intent.getBooleanExtra(FROM_PERSONALCV, false)) {
+			title.setText(this.getResources()
+					.getText(R.string.personal_cv_mine));
+			saveCV.setVisibility(View.VISIBLE);
+		} else {
+			title.setText(this.getResources().getText(
+					R.string.personal_cv_received));
+			saveCV.setVisibility(View.GONE);
+		}
+	}
+
+	private void initPersonInfo() {
+		PersonalCV cv=(PersonalCV) intent.getSerializableExtra(FROM_CVRECEIVED);
+		if (intent.getBooleanExtra(FROM_PERSONALCV, false)) {
+			name.setText(personInfo.getValue(LocalPersonInfo.NAME));
+			age.setText(personInfo.getValue(LocalPersonInfo.AGE));
+			post.setText(personInfo.getValue(LocalPersonInfo.POST));
+			city.setText(personInfo.getValue(LocalPersonInfo.CITY));
+			entreprise.setText(personInfo.getValue(LocalPersonInfo.ENTREPRISE));
+			String img = personInfo.getValue(LocalPersonInfo.PROFILE);
+			if (img != null) {
+				byte[] imgArray = Base64.decode(img, Base64.DEFAULT);
+				Bitmap imgBitmap = BitmapFactory.decodeByteArray(imgArray, 0,
+						imgArray.length);
+				imgBitmap = Bitmap.createScaledBitmap(imgBitmap, 80, 80, true);
+				profile.setImageBitmap(imgBitmap);
+			}
+		} else if(cv!=null){
+			name.setText(cv.getName());
+			age.setText(cv.getAge());
+			post.setText(cv.getPost());
+			city.setText(cv.getCity());
+			entreprise.setText(cv.getEntreprise());
+			byte[] img;
+		}
+	}
+
+	private void initWorkYear() {
+		if (intent.getBooleanExtra(FROM_PERSONALCV, false)) {
+			String year = personInfo.getValue(LocalPersonInfo.WORKYEAR);
+			workyear.setText(year);
+		} else {
+		}
+	}
+
+	private void initEducation() {
+		if (intent.getBooleanExtra(FROM_PERSONALCV, false)) {
+			educationText.setVisibility(View.GONE);
+			educationSpinner.setVisibility(View.VISIBLE);
+			ArrayAdapter<CharSequence> educationAdapter = ArrayAdapter
+					.createFromResource(this, R.array.etude_list,
+							R.layout.spinner_type_cv);
+			educationAdapter
+					.setDropDownViewResource(R.layout.spinner_dropdown_type);
+			educationSpinner.setAdapter(educationAdapter);
+			String education = personInfo.getValue(LocalPersonInfo.EDUCATION);
+			System.out.println("Show me the education in cv: " + education);
+			if (education != null) {
+				educationSpinner.setSelection(getEducationPostion(education));
+			}
+		} else {
+			educationSpinner.setVisibility(View.GONE);
+			educationText.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private void initColleage() {
+		if (intent.getBooleanExtra(FROM_PERSONALCV, false)) {
+			colleageText.setVisibility(View.GONE);
+			colleageEdit.setVisibility(View.VISIBLE);
+			String colleage = personInfo.getValue(LocalPersonInfo.COLLEAGE);
+			if (colleage != null) {
+				colleageEdit.setText(colleage);
+			}
+		} else {
+			colleageEdit.setVisibility(View.GONE);
+			colleageText.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private void initWork() {
+		firstAnneeText.setVisibility(View.GONE);
+		secondAnneeText.setVisibility(View.GONE);
+		thirdAnneeText.setVisibility(View.GONE);
+		if (intent.getBooleanExtra(FROM_PERSONALCV, false)) {
+			PersonalWorkInfo workInfo = (PersonalWorkInfo) intent
+					.getSerializableExtra(WORK_INFO_CV);
+			ArrayList<String> worklist = new ArrayList<String>();
+			if (workInfo != null) {
+				ArrayList<String> worksfrominput = workInfo.getWorks();
+				worklist = setWorkExperience(worksfrominput);
+				workInfo.setWorks(worklist);
+				works.setWorks(worklist);
+			} else {
+				worklist = setWorkExperience(personInfo.getWorkList());
+				works.setWorks(worklist);
+			}
+		} else {
+			// TODO:get info from user info
+		}
+	}
+
+	private ArrayList<String> setWorkExperience(ArrayList<String> initData) {
+		ArrayList<String> worklist = new ArrayList<String>();
+		firstAnneeText.setVisibility(View.GONE);
+		secondAnneeText.setVisibility(View.GONE);
+		thirdAnneeText.setVisibility(View.GONE);
+		for (int count = 0; count < initData.size();) {
+			if (count < 2) {
+				firstWork.setText(initData.get(count));
+				firstWorkyear.setText(initData.get(count + 1));
+				firstAnneeText.setVisibility(View.VISIBLE);
+			} else if (count < 4) {
+				secondWork.setText(initData.get(count));
+				secondWorkyear.setText(initData.get(count + 1));
+				secondAnneeText.setVisibility(View.VISIBLE);
+			} else if (count < 6) {
+				thirdWork.setText(initData.get(count));
+				thirdWorkyear.setText(initData.get(count + 1));
+				thirdAnneeText.setVisibility(View.VISIBLE);
+			}
+			worklist.add(initData.get(count));
+			worklist.add(initData.get(count + 1));
+			count = count + 2;
+		}
+		return worklist;
+	}
+
+	public void SaveCV(View view) {
+		if (utilSrvc.isNetworkConnected(this)) {
+			cv.setUserID(personInfo.getValue(LocalPersonInfo.USERID));
+			cv.setName(String.valueOf(name.getText()));
+			cv.setAge(String.valueOf(age.getText()));
+			cv.setPost(String.valueOf(post.getText()));
+			cv.setEntreprise(String.valueOf(entreprise.getText()));
+			cv.setWorkyear(String.valueOf(workyear.getText()));
+			cv.setEducation(getEducation());
+			cv.setColleage(getColleage());
+			cv.setWorkInfo(works);
+			System.out.println("Show me the info: " + cv.getWorkyear());
+			if (saveSrvc.checkInputInfo(this, cv)) {
+				saveSrvc.save();
+			}
+		} else {
+			utilSrvc.showConnectDialog(this);
+		}
+	}
+
+	private String getEducation() {
+		if (intent.getBooleanExtra(FROM_PERSONALCV, false)) {
+			return String.valueOf(educationSpinner.getSelectedItem());
+		} else {
+			return String.valueOf(educationText.getText());
+		}
+	}
+
+	private String getColleage() {
+		if (intent.getBooleanExtra(FROM_PERSONALCV, false)) {
+			return String.valueOf(colleageEdit.getText());
+		} else {
+			return String.valueOf(colleageText.getText());
+		}
+	}
+
+	private int getEducationPostion(String education) {
+		for (int count = 0; count < educationSpinner.getCount(); count++) {
+			if (String.valueOf(educationSpinner.getItemAtPosition(count))
+					.contains(education)) {
+				return count;
+			}
+		}
+		return 0;
+	}
+
+	public void backClick(View view) {
+		if (intent.getBooleanExtra(FROM_PERSONALCV, false)) {
+			utilSrvc.gotoLoggedInFromUser(this);
+		} else {
+			// TODO:go back to friendlist
+		}
+	}
+
+	public void gotoWorkInput(View view) {
+		if (intent.getBooleanExtra(FROM_PERSONALCV, false)) {
+			utilSrvc.gotoPersonalWorkInput(this, works);
+		}
+	}
+}

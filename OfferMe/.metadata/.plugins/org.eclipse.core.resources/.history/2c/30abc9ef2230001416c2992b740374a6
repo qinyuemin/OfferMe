@@ -1,0 +1,134 @@
+package com.offerme.client.service;
+
+import android.content.Context;
+import android.view.Gravity;
+import android.widget.CheckBox;
+import android.widget.Toast;
+
+import com.offerme.client.localdata.LocalDataBase;
+import com.offerme.client.localdata.LocalPersonInfo;
+import com.offerme.client.service.personalsetting.FavoriteOffer;
+import com.offerme.client.service.publishoffer.OfferInfo;
+import com.offerme.client.service.search.SearchResulatItem;
+import com.offerme.client.service.socket.SocketCommunication;
+import com.offerme.client.socket.Request;
+import com.offerme.client.socket.RequestType;
+
+public class SetFavoriteOfferSrvc implements SocketSrvc {
+
+	private static SetFavoriteOfferSrvc favoriteSrvc;
+	private LocalPersonInfo info = null;
+	private SocketCommunication socket;
+	private SearchResulatItem offerResulat;
+	private Context context;
+	private FavoriteOffer favoriteOffer;
+	private CheckBox favoriteBox;
+	private OfferInfo offerInfo = new OfferInfo();
+	private LocalDataBase dataBase = null;
+
+	private SetFavoriteOfferSrvc() {
+	}
+
+	public final static SetFavoriteOfferSrvc getInstance() {
+		if (favoriteSrvc == null) {
+			favoriteSrvc = new SetFavoriteOfferSrvc();
+		}
+		return favoriteSrvc;
+	}
+
+	public boolean isOfferFavorite(Context context, String offerID) {
+		if (dataBase == null) {
+			dataBase = LocalDataBase.getInstance(context);
+		}
+		return dataBase.isOfferFavorite(offerID);
+	}
+
+	public void setFavoriteOffer(Context ctx, SearchResulatItem offer,
+			boolean isAdded, CheckBox box) {
+		context = ctx;
+		favoriteBox = box;
+		info = LocalPersonInfo.getInstance(context);
+		dataBase = LocalDataBase.getInstance(context);
+		String userID = info.getValue(LocalPersonInfo.USERID);
+		offerInfo.setCity(offer.getCity());
+		offerInfo.setDate(offer.getDate());
+		offerInfo.setEntreprise(offer.getEntreprise());
+		offerInfo.setPost(offer.getTitle());
+		offerInfo.setSalary(offer.getSalary());
+		offerInfo.setOfferID(offer.getOfferID());
+		offerInfo.setUserID(String
+				.valueOf(offer.getPublisherInfo().getUserID()));
+		offerInfo.setFavorite(isAdded);
+		offerInfo.setPublisherInfo(offer.getPublisherInfo());
+		offerResulat = offer;
+		System.out.println("Show me the publiser id and user id: "+(offerInfo.getPublisherInfo().getUserID()+" "+userID);
+		if (String.valueOf(offerInfo.getPublisherInfo().getUserID()) == userID) {
+			String comment = "自己的Offer不用收藏哦~";
+			Toast toast = Toast.makeText(context, comment, Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+		} else {
+			favoriteOffer = new FavoriteOffer(userID, offer.getOfferID(),
+					isAdded);
+			socket = new SocketCommunication(this);
+			socket.execute();
+		}
+
+	}
+
+	@Override
+	public void onPreExecute() {
+	}
+
+	@Override
+	public Boolean doInBackground(String... params) {
+
+		Request request = Request.getInstance();
+		String[] strReply = new String[] { "" };
+		String resualt = request.getResualtFromJson(request
+				.sendRequestGetReply(RequestType.FAVORITE, strReply,
+						favoriteOffer));
+		if (resualt != null) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void onProgressUpdate(Integer... values) {
+		socket.cancel(true);
+	}
+
+	@Override
+	public void onPostExecute(Boolean success) {
+		if (success) {
+			String comment = null;
+			if (favoriteOffer.isAdd()) {
+				comment = "恭喜，收藏成功";
+				dataBase.insertOffer(offerInfo);
+				dataBase.visiterAllData(LocalDataBase.OFFERTABLENAME);
+				offerResulat.setFavoriteCount(Integer.valueOf(offerResulat
+						.getFavoriteCount()) + 1);
+			} else {
+				comment = "恭喜，取消收藏成功";
+				dataBase.deleteOffer(offerInfo);
+				dataBase.visiterAllData(LocalDataBase.OFFERTABLENAME);
+			}
+			Toast toast = Toast.makeText(context, comment, Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+			favoriteBox.setChecked(favoriteOffer.isAdd());
+		} else {
+			Toast toast = Toast
+					.makeText(context, "抱歉，收藏失败", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+			favoriteBox.setChecked(!favoriteOffer.isAdd());
+		}
+	}
+
+	@Override
+	public void onCancelled() {
+	}
+
+}

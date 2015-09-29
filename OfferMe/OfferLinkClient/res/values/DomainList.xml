@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="domain_list">
+        <item>互联网</item>
+        <item>计算机/IT</item>
+        <item>银行/证券</item>
+    </string-array>
+
+</resources>

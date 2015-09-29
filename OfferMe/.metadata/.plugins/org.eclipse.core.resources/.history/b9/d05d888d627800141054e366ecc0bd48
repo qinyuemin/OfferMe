@@ -1,0 +1,104 @@
+package com.offerme.client.activity;
+
+import com.offerme.R;
+import com.offerme.client.service.LoginSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.login.LoginRequest;
+import com.umeng.analytics.MobclickAgent;
+
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class HomePageActivity extends ActionBarActivity {
+
+	/** Services used in this activity */
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private LoginSrvc loginSrvc = LoginSrvc.getInstance();
+	private String mPageName = "HomePageActivity";
+	private EditText login;
+	private EditText password;
+	private TextView forgetPwd;
+	private int exitClick = 0;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		utilSrvc.addNewActivity(this);
+		setContentView(R.layout.activity_home_page);
+		initWidget();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd(mPageName);
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart(mPageName);
+		MobclickAgent.onResume(this);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// getMenuInflater().inflate(R.menu.home_page, menu);
+		return true;
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		finish();
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (exitClick == 0) {
+			Toast toast = Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+			exitClick++;
+		} else {
+			exitClick = 0;
+			utilSrvc.exit();
+		}
+		return;
+	}
+
+	public void resetExitClick() {
+		exitClick = 0;
+	}
+
+	private void initWidget() {
+		getSupportActionBar().hide();
+		login = (EditText) findViewById(R.id.home_page_login);
+		password = (EditText) findViewById(R.id.home_page_password);
+		forgetPwd=(TextView) findViewById(R.id.home_page_forget_pwd);
+	}
+
+	public void signIn(View view) {
+		resetExitClick();
+		if (utilSrvc.isNetworkConnected(this)) {
+			LoginRequest loginRequest = new LoginRequest();
+			loginRequest.setLogin(login.getText().toString());
+			loginRequest.setPassword(password.getText().toString());
+			loginSrvc.submit(this, loginRequest);
+		} else {
+			utilSrvc.showConnectDialog(this);
+		}
+	}
+
+	public void createAccount(View view) {
+		resetExitClick();
+		utilSrvc.gotoInscriptionPage(this);
+	}
+}

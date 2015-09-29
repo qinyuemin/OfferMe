@@ -1,0 +1,250 @@
+package com.offerme.client.activity;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalPersonInfo;
+import com.offerme.client.service.PersonalSettingSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.personalsetting.PersonalSetting;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
+public class PersonalInfoActivity extends ActionBarActivity {
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private PersonalSettingSrvc personalSettingSrvc = PersonalSettingSrvc
+			.getInstance();
+	private final int TAKE_PICTURE = 2;
+	private final int GET_GALLERY = 1;
+	private byte[] imageByte = null;
+	private Uri imaginePath = null;
+	private PersonalSetting data = new PersonalSetting();
+	private EditText name;
+	private EditText mail;
+	private EditText phone;
+	private EditText city;
+	private EditText entreprise;
+	// private CheckBox mailCheck;
+	private CheckBox phoneCheck;
+	private ImageView profile;
+	private LocalPersonInfo personInfo;
+
+	protected void onCreate(Bundle savedInstanceState) {
+		Log.v("Debug", "11111111111111111111111111");
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_personal_setting_info);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(
+				R.layout.activity_personal_setting_info_actionbar);
+		initialize();
+	}
+
+	protected void onStart() {
+		Log.v("Debug", "22222222222222222222222222");
+		super.onStart();
+	}
+
+	protected void onResume() {
+		Log.v("Debug", "33333333333333333333333333");
+		super.onResume();
+	}
+
+	protected void onPause() {
+		Log.v("Debug", "44444444444444444444444444");
+		super.onPause();
+		;
+	}
+
+	protected void onRestart() {
+		Log.v("Debug", "55555555555555555555555555");
+		super.onRestart();
+	}
+
+	protected void onWindowFocusChanged(boolean hasFocus) {
+		Log.v("Debug", "666666666666666666666666666");
+		super.onWindowFocusChanged(hasFocus);
+	}
+
+	@Override
+	public void onBackPressed() {
+		utilSrvc.gotoLoggedInFromUser(this);
+		return;
+	}
+
+	public void backToPersonalSetting(View view) {
+		utilSrvc.gotoLoggedInFromUser(this);
+		return;
+	}
+
+	private void initialize() {
+		personInfo = LocalPersonInfo.getInstance(this);
+		name = (EditText) findViewById(R.id.personal_name);
+		mail = (EditText) findViewById(R.id.personal_email);
+		phone = (EditText) findViewById(R.id.personal_phone);
+		city = (EditText) findViewById(R.id.personal_city);
+		entreprise = (EditText) findViewById(R.id.personal_entreprise);
+		// mailCheck = (CheckBox) findViewById(R.id.personal_email_checkbox);
+		phoneCheck = (CheckBox) findViewById(R.id.personal_phone_checkbox);
+		profile = (ImageView) findViewById(R.id.personal_profile);
+		name.setHint(personInfo.getValue(LocalPersonInfo.NAME));
+		mail.setHint(personInfo.getValue(LocalPersonInfo.EMAIL));
+		phone.setHint(personInfo.getValue(LocalPersonInfo.TELEPHONE));
+		city.setHint(personInfo.getValue(LocalPersonInfo.CITY));
+		entreprise.setHint(personInfo.getValue(LocalPersonInfo.ENTREPRISE));
+		phoneCheck.setChecked(personInfo
+				.getBoolean(LocalPersonInfo.IS_PHONE_PUBLISHED));
+		imageByte = Base64.decode(personInfo.getValue(LocalPersonInfo.PROFILE),
+				Base64.DEFAULT);
+		// mailCheck.setChecked(data.isEmailPublished());
+		if (imageByte != null) {
+			Bitmap imageBitmap = BitmapFactory.decodeByteArray(imageByte, 0,
+					imageByte.length);
+			imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 80, 80, true);
+			profile.setImageBitmap(imageBitmap);
+			Log.v("Debug", "XXXXXXXXXXXXXXXXXXXXXX: " + imageByte.length);
+		}
+	}
+
+	private void updateData() {
+		data.setName(getTextInfo(name,
+				personInfo.getValue(LocalPersonInfo.NAME)));
+		data.setCity(getTextInfo(city,
+				personInfo.getValue(LocalPersonInfo.CITY)));
+		data.setEnterprise(getTextInfo(entreprise,
+				personInfo.getValue(LocalPersonInfo.ENTREPRISE)));
+		data.setEmail(getTextInfo(mail,
+				personInfo.getValue(LocalPersonInfo.EMAIL)));
+		data.setPhoneNumber(getTextInfo(phone,
+				personInfo.getValue(LocalPersonInfo.TELEPHONE)));
+		// data.setEmailPublished(mailCheck.isChecked());
+		data.setPhonePublished(phoneCheck.isChecked());
+		if (imageByte != null) {
+			data.setProfile(imageByte);
+		} else {
+			data.setProfile(Base64.decode(
+					personInfo.getValue(LocalPersonInfo.PROFILE),
+					Base64.DEFAULT));
+		}
+	}
+
+	public void saveData(View view) {
+		if (utilSrvc.isNetworkConnected(this)) {
+			updateData();
+			personalSettingSrvc.savePersonalSetting(this, data);
+		} else {
+			utilSrvc.showConnectDialog(this);
+		}
+	}
+
+	private String getTextInfo(EditText text, String defaultValue) {
+		String resualt;
+		if (text.getText().toString().length() != 0) {
+			resualt = text.getText().toString();
+		} else {
+			resualt = text.getHint().toString();
+			text.setHint(defaultValue);
+		}
+		return resualt;
+	}
+
+	public void UploadPhoto(View view) {
+		LayoutInflater factory = (LayoutInflater) PersonalInfoActivity.this
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View myView = factory
+				.inflate(R.layout.activity_inscription_photo, null);
+		AlertDialog.Builder builder = new AlertDialog.Builder(
+				PersonalInfoActivity.this);
+		builder.setIcon(android.R.drawable.ic_menu_gallery);
+		builder.setTitle("选择图片");
+		builder.setView(myView);
+		builder.setNegativeButton("取消", new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		}).setCancelable(true);
+		final AlertDialog dialog = builder.create();
+		dialog.show();
+
+		RadioGroup radioGroup = (RadioGroup) myView
+				.findViewById(R.id.radioGroup);
+		final RadioButton radioLib = (RadioButton) myView
+				.findViewById(R.id.fromPhotoLib);
+		final RadioButton radioCamera = (RadioButton) myView
+				.findViewById(R.id.fromCamera);
+		radioGroup
+				.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(RadioGroup group, int checkedId) {
+						boolean returnValue = false;
+						if (checkedId == radioLib.getId()) {
+							returnValue = personalSettingSrvc.uploadPhoto(
+									PersonalInfoActivity.this, "FromLib");
+						} else if (checkedId == radioCamera.getId()) {
+							returnValue = personalSettingSrvc.uploadPhoto(
+									PersonalInfoActivity.this, "FromCamera");
+						}
+						if (returnValue) {
+							dialog.dismiss();
+						}
+					}
+				});
+	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK && null != data) {
+			switch (requestCode) {
+			case GET_GALLERY:
+				imaginePath = data.getData();
+				try {
+					Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(
+							this.getContentResolver(), imaginePath);
+					imageByte = utilSrvc.getImageByte(imageBitmap);
+					imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 80,
+							80, true);
+					profile.setImageBitmap(imageBitmap);
+
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			case TAKE_PICTURE:
+				Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+				imageByte = utilSrvc.getImageByte(imageBitmap);
+				imaginePath = utilSrvc.getUriFromBitMap(imageBitmap, this);
+				imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 80, 80,
+						true);
+				profile.setImageBitmap(imageBitmap);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+}

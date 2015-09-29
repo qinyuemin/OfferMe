@@ -1,0 +1,255 @@
+package com.offerme.client.service.search;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalPersonInfo;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.socket.SocketCommunication;
+import com.offerme.client.socket.Request;
+import com.offerme.client.socket.RequestType;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class Search {
+	private ProgressDialog processDialog;
+	private LocalPersonInfo personInfo;
+	private Context context;
+	private SearchResulat resultData;
+	private SearchKeyword searchKey;
+	private UtilSrvc utilSrvc;
+	private int currentPage = 1;
+	private int allRecoders = 0;
+	private int line = 8;
+	private int pageSize = 1;
+	private int lastItem = 0;
+
+	public Search() {
+		processDialog = null;
+		context = null;
+		personInfo = null;
+		searchKey = null;
+	}
+
+	public boolean startSearch(Context ctx, SearchKeyword keyword) {
+		context = ctx;
+		personInfo = LocalPersonInfo.getInstance(context);
+		return this.doInBackground(keyword);
+	}
+
+	public void onPreExecute(ProgressDialog dialog,
+			final SocketCommunication socketTask) {
+		processDialog = dialog;
+		processDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		processDialog.setMessage("请稍后 :-)");
+		processDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						socketTask.cancel(true);
+						dialog.dismiss();
+					}
+				});
+		processDialog.setIndeterminate(false);
+		processDialog.setCancelable(true);
+		processDialog.show();
+	}
+
+	public Boolean doInBackground(SearchKeyword keyword) {
+		Request request = Request.getInstance();
+		String[] strReply = new String[] { "" };
+		resultData = request.getObjectFromJson(request.sendRequestGetReply(
+				RequestType.SEARCH, strReply, keyword), SearchResulat.class);
+		if (resultData != null) {
+			searchKey = keyword;
+			return true;
+		}
+		return false;
+	}
+
+	public void onProgressUpdate(Integer... values) {
+
+	}
+
+	public void onPostExecute(Boolean success, UtilSrvc utilSrvc) {
+		processDialog.dismiss();
+		// 成功信息目前为调试所用，之后可以删除
+		Toast toast = null;
+		if (success) {
+			if (resultData.getSize() == 0) {
+				toast = Toast.makeText(context, "抱歉，没有搜索到结果",
+						Toast.LENGTH_SHORT);
+				toast.setGravity(Gravity.CENTER, 0, 0);
+				toast.show();
+			}
+			this.utilSrvc = utilSrvc;
+			LayoutInflater layoutInflater = (LayoutInflater) context
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View view = layoutInflater.inflate(
+					R.layout.activity_search_list_progress, null);
+			ListView resultList = (ListView) ((Activity) context)
+					.findViewById(R.id.search_resualt_list);
+			resultList.addFooterView(view);
+			resultList.setAdapter(new searchResualtList());
+			resultList.removeFooterView(view);
+			resultList.setOnItemClickListener(new onItemClickListener());
+			resultList.setOnScrollListener(new scrollListener(resultList));
+			resultList.removeFooterView(view);
+			utilSrvc.setSearchResualt(resultData);
+		} else {
+			toast = Toast.makeText(context, "搜索失败", Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+		}
+	}
+
+	public void onCancelled(SocketCommunication socketTask) {
+		socketTask.cancel(true);
+	}
+
+	private class onItemClickListener implements OnItemClickListener {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			if (utilSrvc.isNetworkConnected(context)) {
+				Log.v("Debug", "Search->onItemClick->Show me the userID: "
+						+ resultData.getItem(position).getPublisherInfo()
+								.getUserID());
+				utilSrvc.gotoPublisherInfoPage(context,
+						resultData.getItem(position));
+			} else {
+				utilSrvc.showConnectDialog(context);
+			}
+		}
+	}
+
+	private class searchResualtList extends BaseAdapter {
+
+		public String getSenderID() {
+			return personInfo.getValue(LocalPersonInfo.USERID);
+		}
+
+		@Override
+		public int getCount() {
+			return resultData.getSize();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return resultData.getItem(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			SearchResulatItem itemList = (SearchResulatItem) this
+					.getItem(position);
+			if (convertView == null) {
+				LayoutInflater layoutInflater = (LayoutInflater) context
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = layoutInflater.inflate(
+						R.layout.activity_search_item, null);
+			}
+			ImageView profile = (ImageView) convertView
+					.findViewById(R.id.resualt_profile);
+			TextView postName = (TextView) convertView
+					.findViewById(R.id.resualt_post);
+			TextView date = (TextView) convertView
+					.findViewById(R.id.resualt_date);
+			TextView enterpriseName = (TextView) convertView
+					.findViewById(R.id.resualt_enterpriser);
+			TextView salary = (TextView) convertView
+					.findViewById(R.id.resualt_salary);
+			TextView cityName = (TextView) convertView
+					.findViewById(R.id.resualt_city);
+			TextView domain = (TextView) convertView
+					.findViewById(R.id.resualt_domain);
+			if (itemList.getPublisherInfo().getProfile() != null) {
+				Bitmap imageBitmap = BitmapFactory.decodeByteArray(itemList
+						.getPublisherInfo().getProfile(), 0, itemList
+						.getPublisherInfo().getProfile().length);
+				imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 80, 80,
+						true);
+				profile.setImageBitmap(imageBitmap);
+			}
+			postName.setText(itemList.getTitle());
+			date.setText(itemList.getDate());
+			enterpriseName.setText(itemList.getEntreprise());
+			salary.setText(itemList.getSalary());
+			cityName.setText(itemList.getCity());
+			domain.setText(itemList.getDomain());
+			Log.v("Debug",
+					"Search->getView->Show me the sender and isFavorite: "
+							+ getSenderID() + " " + itemList.isFavorite());
+
+			return convertView;
+		}
+	}
+
+	private class scrollListener implements OnScrollListener {
+
+		private ListView listview;
+		private boolean isLastRow;
+
+		public scrollListener(ListView list) {
+			listview = list;
+			isLastRow = false;
+		}
+
+		@Override
+		public void onScroll(AbsListView view, int firstVisibleItem,
+				int visibleItemCount, int totalItemCount) {
+			if (firstVisibleItem + visibleItemCount == totalItemCount
+					&& totalItemCount > 0) {
+				isLastRow = true;
+			}
+			//lastItem = firstVisibleItem + visibleItemCount - 1;
+			//Log.v("Debug", "Search->onSroll->Show me the lastItem: " + lastItem);
+		}
+
+		@Override
+		public void onScrollStateChanged(AbsListView view, int scrollState) {
+			//if (lastItem == resultData.getSize() && currentPage < pageSize
+			//		&& scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+			//	currentPage++;
+			//	listview.setSelection(lastItem);
+				// searchKey.setPage(currentPage);
+				// getMoreData();
+			//}
+			if(isLastRow&& scrollState == OnScrollListener.SCROLL_STATE_IDLE)
+			{}
+
+		}
+
+		private SearchResulat getMoreData() {
+			Request request = Request.getInstance();
+			String[] strReply = new String[] { "" };
+			return request.getObjectFromJson(request.sendRequestGetReply(
+					RequestType.SEARCH, strReply, searchKey),
+					SearchResulat.class);
+		}
+
+	}
+}

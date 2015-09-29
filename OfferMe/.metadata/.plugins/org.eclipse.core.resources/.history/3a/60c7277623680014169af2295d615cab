@@ -1,0 +1,384 @@
+package com.offerme.client.activity;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
+
+import com.offerme.R;
+import com.offerme.client.localdata.LocalDataBase;
+import com.offerme.client.localdata.LocalPersonInfo;
+import com.offerme.client.service.PollingSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.chat.ChatFriend;
+import com.offerme.client.service.chat.ChatMessage;
+import com.offerme.client.service.chat.ChatMessageList;
+import com.offerme.client.service.cv.CVList;
+import com.offerme.client.service.cv.PersonalCV;
+import com.offerme.client.service.cv.PollingMessageList;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UmengNotificationClickHandler;
+import com.umeng.message.UmengRegistrar;
+import com.umeng.message.entity.UMessage;
+
+import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Binder;
+import android.os.IBinder;
+import android.os.Vibrator;
+
+public class PollingService extends Service {
+
+	public static final String ACTION = "com.offerme.client.service.PollingSrvc";
+
+	private IBinder mBinder = new ChatBinder();
+	private String CHAT = "Chat";
+	private String CV = "CV";
+	private PollingSrvc pollingSrvc = PollingSrvc.getInstance();
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private LocalDataBase localData;
+	private LocalPersonInfo personInfo;
+	private ActivityManager aManager;
+	private Notification mNotification;
+	private Intent intent;
+	private PendingIntent pendingIntent;
+	private NotificationManager mManager;
+	private PushAgent mPushAgent;
+
+	@Override
+	public IBinder onBind(Intent intent) {
+		return mBinder;
+	}
+
+	@Override
+	public void onCreate() {
+		mPushAgent = PushAgent.getInstance(this);
+		personInfo = LocalPersonInfo.getInstance(this);
+		mPushAgent.onAppStart();
+		if (personInfo.getBoolean(LocalPersonInfo.ACCEPT_MESSAGE)) {
+			System.out.println("0000000000000000000000000000");
+			mPushAgent.enable();
+			UmengRegistrar.getRegistrationId(this);
+			mPushAgent.setNotificationClickHandler(new UNotificationHandler(
+					this));
+		} else if (mPushAgent.isEnabled()) {
+			System.out.println("1111111111111111111111111111");
+			mPushAgent.disable();
+		}
+		initNotifiManager();
+		localData = LocalDataBase.getInstance(this);
+	}
+
+	@Override
+	public void onStart(Intent intent, int startId) {
+		new PollingThread(this).start();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+	}
+
+	public class ChatBinder extends Binder {
+		public PollingService getService() {
+			return PollingService.this;
+		}
+	}
+
+	private void initNotifiManager() {
+		aManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+		mManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		mNotification = new Notification();
+		mNotification.icon = R.drawable.logoicon;
+		mNotification.tickerText = "New Message";
+		mNotification.defaults |= Notification.DEFAULT_SOUND;
+		mNotification.flags = Notification.FLAG_AUTO_CANCEL;
+	}
+
+	@SuppressWarnings("deprecation")
+	private void showFriendsNotification(List<ChatFriend> friends) {
+		mNotification.when = System.currentTimeMillis();
+		setNewFriend(friends);
+		pendingIntent = PendingIntent.getActivity(this, 0, intent,
+				Intent.FLAG_ACTIVITY_NEW_TASK);
+		mNotification.setLatestEventInfo(this,
+				getResources().getString(R.string.app_name),
+				"New message from offerlink!", pendingIntent);
+		mManager.notify(0, mNotification);
+	}
+
+	@SuppressWarnings("deprecation")
+	private void showCVsNotification(List<PersonalCV> cv) {
+		mNotification.when = System.currentTimeMillis();
+		setNewCV(cv);
+		pendingIntent = PendingIntent.getActivity(this, 0, intent,
+				Intent.FLAG_ACTIVITY_NEW_TASK);
+		mNotification.setLatestEventInfo(this,
+				getResources().getString(R.string.app_name),
+				"New CV from offerlink!", pendingIntent);
+		mManager.notify(0, mNotification);
+	}
+
+	private void doVibre() {
+		Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+		v.vibrate(500);
+	}
+
+	private void setNewFriend(List<ChatFriend> friends) {
+		intent = new Intent();
+		if (friends != null && !friends.isEmpty()) {
+			intent.setClass(this, LoggedInActivity.class);
+			intent.putExtra(LoggedInActivity.FROM_CHAT, true);
+			intent.putExtra(ChatFriendListActivity.FRIENDLIST,
+					(Serializable) friends);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		}
+	}
+
+	private void setNewCV(List<PersonalCV> cvs) {
+		intent = new Intent();
+		if (cvs != null && !cvs.isEmpty()) {
+			intent.setClass(this, LoggedInActivity.class);
+			intent.putExtra(LoggedInActivity.FROM_CHAT, true);
+			intent.putExtra(ChatFriendListActivity.CVLIST, (Serializable) cvs);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		}
+	}
+
+	private boolean haveNewMessages(ChatMessageList chatMsgList) {
+		if (chatMsgList == null || chatMsgList.getResponseCode() == -1
+				|| chatMsgList.getChatMessageList().isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean haveNewCV(CVList cvList) {
+		if (cvList == null || cvList.getResponseCode() == -1
+				|| cvList.getCVList().isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	private void saveNewChatMessages(List<ChatMessage> chatMessages) {
+		for (int count = chatMessages.size() - 1; count >= 0; count--) {
+			Integer userid = chatMessages.get(count).getUserId();
+			if (!acceptMessage(userid)) {
+				chatMessages.remove(count);
+			}
+		}
+		localData.insertChatMessages(chatMessages);
+	}
+
+	private boolean acceptMessage(Integer userID) {
+		if (userID == 0
+				&& !personInfo.getBoolean(LocalPersonInfo.ACCEPT_MESSAGE)) {
+			return false;
+		}
+		return true;
+	}
+
+	private void saveNewCV(List<PersonalCV> cvs) {
+		localData.insertCV(cvs);
+	}
+
+	private List<ChatFriend> saveNewFriends(List<ChatMessage> chatMessages) {
+
+		List<ChatFriend> friends = new ArrayList<ChatFriend>();
+		for (ChatMessage chatMessage : chatMessages) {
+			ChatFriend friend = new ChatFriend();
+			friend.setFriendId(chatMessage.getUserId());
+			friend.setName(chatMessage.getName());
+			friend.setLastMessageId(chatMessage.getMessageId());
+			friend.setPortraitVersion(chatMessage.getProfileVersion());
+			if (chatMessage.getProfile() != null) {
+				friend.setPortrait(chatMessage.getProfile());
+			}
+			friends.add(friend);
+		}
+
+		localData.insertOrUpdateFriends(friends);
+		return friends;
+	}
+
+	private class PollingThread extends Thread {
+
+		private Context ctx;
+		private ArrayList<String> listType;
+		private ChatMessageList chatMsgList;
+		private CVList cvList;
+
+		public PollingThread(Context ctx) {
+			this.ctx = ctx;
+		}
+
+		private ArrayList<String> getCommingInfo() {
+			ArrayList<String> resualt = new ArrayList<String>();
+			PollingMessageList infoList = pollingSrvc.getComingMessages(ctx);
+			try {
+				if (infoList != null && infoList.hasMessageList()) {
+					chatMsgList = infoList.getChatMessageList();
+					resualt.add(CHAT);
+				}
+				if (infoList != null && infoList.hasCVList()) {
+					cvList = infoList.getCvList();
+					resualt.add(CV);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			return resualt;
+		}
+
+		private void newMessageInfo() {
+			if (chatMsgList != null && haveNewMessages(chatMsgList)) {
+				saveNewChatMessages(chatMsgList.getChatMessageList());
+				List<ChatFriend> friends = saveNewFriends(chatMsgList
+						.getChatMessageList());
+				if (!aManager.getRunningTasks(1).get(0).topActivity
+						.getPackageName().equals(ctx.getPackageName())) {
+					doVibre();
+					showFriendsNotification(friends);
+				} else if (!aManager.getRunningTasks(1).get(0).topActivity
+						.getClassName().contains("LoggedIn")
+						&& !aManager.getRunningTasks(1).get(0).topActivity
+								.getClassName().contains("ChatActivity")) {
+					doVibre();
+				}
+			}
+		}
+
+		private void newCVInfo() {
+			if (cvList != null && haveNewCV(cvList)) {
+				saveNewCV(cvList.getCVList());
+				if (!aManager.getRunningTasks(1).get(0).topActivity
+						.getPackageName().equals(ctx.getPackageName())) {
+					showCVsNotification(cvList.getCVList());
+				} else if (!aManager.getRunningTasks(1).get(0).topActivity
+						.getClassName().contains("LoggedIn")
+						&& !aManager.getRunningTasks(1).get(0).topActivity
+								.getClassName().contains("ChatActivity")) {
+					doVibre();
+				}
+			}
+		}
+
+		private void newSystemMessageSwitch() {
+			if (personInfo.getBoolean(LocalPersonInfo.ACCEPT_MESSAGE)) {
+				mPushAgent.enable();
+				UmengRegistrar.getRegistrationId(ctx);
+				mPushAgent
+						.setNotificationClickHandler(new UNotificationHandler(
+								ctx));
+			} else if (mPushAgent.isEnabled()) {
+				mPushAgent.disable();
+			}
+		}
+
+		@Override
+		public void run() {
+			newSystemMessageSwitch();
+			listType = getCommingInfo();
+			for (int count = 0; count < listType.size(); count++) {
+				if (listType != null
+						&& listType.get(count).equalsIgnoreCase("CHAT")) {
+					newMessageInfo();
+				}
+				if (listType != null
+						&& listType.get(count).equalsIgnoreCase("CV")) {
+					newCVInfo();
+				}
+			}
+
+		}
+	}
+
+	private class UNotificationHandler extends UmengNotificationClickHandler {
+
+		private List<ChatMessage> messages = new ArrayList<ChatMessage>();
+		private List<ChatFriend> friends = new ArrayList<ChatFriend>();
+		private Context ctx;
+
+		public UNotificationHandler(Context context) {
+			ctx = context;
+		}
+
+		@Override
+		public void dealWithCustomAction(Context context, UMessage msg) {
+			String date = getDate(msg);
+			String id = msg.msg_id;
+			insertUMengMessage(msg.text, date, id);
+			notification();
+		}
+
+		@Override
+		public void openActivity(Context context, UMessage msg) {
+			String date = getDate(msg);
+			String id = msg.msg_id;
+			insertUMengMessage(msg.text, date, id);
+			notification();
+		}
+
+		@Override
+		public void launchApp(Context context, UMessage msg) {
+			String date = getDate(msg);
+			String id = msg.msg_id;
+			//insertUMengMessage(msg.text, date, id);
+			//notification();
+			doVibre();
+		}
+
+		private String getDate(UMessage msg) {
+			String key = null;
+			String value = null;
+			for (Entry<String, String> entry : msg.extra.entrySet()) {
+				key = entry.getKey();
+				value = entry.getValue();
+				System.out.println("Show me the key value: " + key + " "
+						+ value);
+			}
+			return value;
+		}
+
+		private void insertUMengMessage(String text, String date,
+				String messageID) {
+			messages.clear();
+			friends.clear();
+			saveSystemMessage(text, date, messageID);
+			saveSystemFriend();
+		}
+
+		private void notification() {
+			if (!aManager.getRunningTasks(1).get(0).topActivity
+					.getPackageName().equals(ctx.getPackageName())) {
+				setNewFriend(friends);
+				ctx.startActivity(intent);
+			}
+		}
+
+		private void saveSystemMessage(String text, String date,
+				String messageID) {
+			ChatMessage message = new ChatMessage();
+			message.setComMsg(true);
+			message.setMessageId(messageID);
+			message.setDate(date);
+			message.setText(text);
+			message.setUserId(utilSrvc.getSystemID());
+			message.setName(getResources().getString(
+					R.string.action_system_message));
+			messages.add(message);
+			localData.insertChatMessages(messages);
+		}
+
+		private void saveSystemFriend() {
+			friends = saveNewFriends(messages);
+		}
+	}
+}

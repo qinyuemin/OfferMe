@@ -1,0 +1,369 @@
+package com.offerme.client.activity;
+
+import com.offerme.R;
+import com.offerme.client.service.SetFavoriteOfferSrvc;
+import com.offerme.client.service.UtilSrvc;
+import com.offerme.client.service.chat.ChatFriend;
+import com.offerme.client.service.publishoffer.PublisherInfo;
+import com.offerme.client.service.search.SearchResulatItem;
+import com.offerme.client.service.util.GlobalValue;
+import com.umeng.socialize.controller.UMServiceFactory;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.media.GooglePlusShareContent;
+import com.umeng.socialize.media.MailShareContent;
+import com.umeng.socialize.media.QZoneShareContent;
+import com.umeng.socialize.media.RenrenShareContent;
+import com.umeng.socialize.media.SinaShareContent;
+import com.umeng.socialize.media.SmsShareContent;
+import com.umeng.socialize.media.TencentWbShareContent;
+import com.umeng.socialize.media.TwitterShareContent;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMVideo;
+import com.umeng.socialize.media.UMusic;
+import com.umeng.socialize.sso.EmailHandler;
+import com.umeng.socialize.sso.QZoneSsoHandler;
+import com.umeng.socialize.sso.RenrenSsoHandler;
+import com.umeng.socialize.sso.SinaSsoHandler;
+import com.umeng.socialize.sso.SmsHandler;
+import com.umeng.socialize.sso.TencentWBSsoHandler;
+import com.umeng.socialize.weixin.media.CircleShareContent;
+import com.umeng.socialize.weixin.media.WeiXinShareContent;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class PublisherInfoActivity extends ActionBarActivity {
+
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private SetFavoriteOfferSrvc favoriteSrvc;
+	private SearchResulatItem searchResualt;
+	private TextView publisher;
+	private TextView mail;
+	private TextView date;
+	private TextView post;
+	private TextView city;
+	private TextView domain;
+	private TextView entreprise;
+	private TextView description;
+	private TextView favoriteCount;
+	private ImageView profile;
+	// private Button message;
+	private CheckBox isFavorite;
+	private boolean isFromPersonalFavorite = false;
+	private boolean isFromPersonalPublished = false;
+	private Intent intent = null;
+	private Dialog dialog;
+	private UMSocialService mController = UMServiceFactory
+			.getUMSocialService(GlobalValue.SHAREDESCRIPTION);
+
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		utilSrvc.addNewActivity(this);
+		setContentView(R.layout.activity_publisher_offerinfo);
+		getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setCustomView(
+				R.layout.activity_publisher_offerinfo_actionbar);
+		getSupportActionBar().setBackgroundDrawable(
+				new ColorDrawable(Color.parseColor("#1e90d2")));
+		favoriteSrvc = SetFavoriteOfferSrvc.getInstance();
+		utilSrvc = UtilSrvc.getInstance();
+		intent = this.getIntent();
+		initialize();
+		loadData();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		finish();
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (!isFromPersonalFavorite && !isFromPersonalPublished) {
+			utilSrvc.gotoLoggedInPage(this);
+		} else {
+			utilSrvc.gotoLoggedInFromUser(this);
+		}
+		return;
+	}
+
+	public void backToLoggedIn(View view) {
+		if (!isFromPersonalFavorite && !isFromPersonalPublished) {
+			utilSrvc.gotoLoggedInPage(this);
+		} else {
+			utilSrvc.gotoLoggedInFromUser(this);
+		}
+		return;
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		this.setIntent(intent);
+		this.intent = intent;
+		loadData();
+	}
+
+	private void initialize() {
+		publisher = (TextView) findViewById(R.id.publisher_offer_info_name);
+		mail = (TextView) findViewById(R.id.publisher_offer_info_mail);
+		date = (TextView) findViewById(R.id.publisher_offer_info_date);
+		post = (TextView) findViewById(R.id.publisher_offer_info_post);
+		city = (TextView) findViewById(R.id.publisher_offer_info_city);
+		domain = (TextView) findViewById(R.id.publisher_offer_info_domain);
+		favoriteCount = (TextView) findViewById(R.id.publisher_offer_info_favorite_num);
+		entreprise = (TextView) findViewById(R.id.publisher_offer_info_entrerprise);
+		profile = (ImageView) findViewById(R.id.publisher_offer_info_profile);
+		description = (TextView) findViewById(R.id.publisher_offer_info_description);
+		isFavorite = (CheckBox) findViewById(R.id.publisher_offer_info_favorite);
+	}
+
+	private void loadData() {
+		if (intent.getBooleanExtra("IsFromPersonalFavorite", false)) {
+			searchResualt = (SearchResulatItem) intent
+					.getSerializableExtra("PublisherFromPersonalFavorite");
+			isFromPersonalFavorite = true;
+		} else if (intent.getBooleanExtra("IsFromPersonalPublished", false)) {
+			searchResualt = (SearchResulatItem) intent
+					.getSerializableExtra("PublisherFromPersonalPublished");
+			isFromPersonalPublished = true;
+		} else {
+			searchResualt = (SearchResulatItem) intent
+					.getSerializableExtra("Publisher");
+			isFromPersonalFavorite = false;
+			isFromPersonalPublished = false;
+		}
+		publisher.setText(searchResualt.getName());
+		mail.setText(searchResualt.getMailbox());
+		date.setText(searchResualt.getDate());
+		post.setText(searchResualt.getTitle());
+		city.setText(searchResualt.getCity());
+		domain.setText(searchResualt.getDomain());
+		entreprise.setText(searchResualt.getEntreprise());
+		description.setText(searchResualt.getDescription());
+		favoriteCount.setText(searchResualt.getFavoriteCount());
+		if (searchResualt.getPublisherInfo().getProfile() != null) {
+			Bitmap imageBitmap = BitmapFactory.decodeByteArray(searchResualt
+					.getPublisherInfo().getProfile(), 0, searchResualt
+					.getPublisherInfo().getProfile().length);
+			imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 80, 80, true);
+			profile.setImageBitmap(imageBitmap);
+		} else {
+			Bitmap imageBitmap = BitmapFactory.decodeResource(
+					this.getResources(), R.drawable.dafaultuser01);
+			imageBitmap = Bitmap.createScaledBitmap(imageBitmap, 80, 80, true);
+			profile.setImageBitmap(imageBitmap);
+		}
+		isFavorite.setChecked(favoriteSrvc.isOfferFavorite(this,
+				searchResualt.getOfferID()));
+		isFavorite.setOnClickListener(new onClickListener(this));
+	}
+
+	private class onClickListener implements OnClickListener {
+		private Context context;
+
+		public onClickListener(Context ctx) {
+			context = ctx;
+		}
+
+		@Override
+		public void onClick(View buttonView) {
+			if (utilSrvc.isNetworkConnected(context)) {
+				favoriteSrvc.setFavoriteOffer(context, searchResualt,
+						isFavorite.isChecked(), isFavorite);
+			} else {
+				utilSrvc.showConnectDialog(context);
+			}
+		}
+	}
+
+	public void sendMailFromOffer(View view) {
+		PublisherInfo publisherInfo = searchResualt.getPublisherInfo();
+		if (publisherInfo != null) {
+			ChatFriend friend = new ChatFriend();
+			friend.setFriendId(publisherInfo.getUserID());
+			friend.setName(publisherInfo.getName());
+			friend.setPortrait(publisherInfo.getProfile());
+			friend.setPortraitVersion(-1);
+			utilSrvc.gotoChatPageFromPublisher(this, friend, searchResualt);
+		}
+	}
+
+	public void dialogCall(View view) {
+		Uri uri = Uri.parse("tel:"
+				+ searchResualt.getPublisherInfo().getTelephone());
+		Intent it = new Intent();
+		it.setAction(Intent.ACTION_CALL);
+		it.setData(uri);
+		this.startActivity(it);
+	}
+
+	public void dialogCancel(View view) {
+		if (dialog.isShowing()) {
+			dialog.dismiss();
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	public void callPublisher(View view) {
+		if (searchResualt.getPublisherInfo().isPhonePublished()) {
+			LayoutInflater factory = (LayoutInflater) this
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View myView = factory.inflate(R.layout.dialog_phone, null);
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			dialog = builder.create();
+			((AlertDialog) dialog).setView(myView, 0, 0, 0, 0);
+			dialog.getWindow().setFlags(
+					WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
+					WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+			dialog.show();
+			TextView phonenumber = (TextView) dialog
+					.findViewById(R.id.dialog_phone_number);
+			phonenumber
+					.setText(searchResualt.getPublisherInfo().getTelephone());
+
+		} else {
+			Toast toast = Toast.makeText(this, "抱歉，对方未公开手机号",
+					Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+		}
+	}
+
+	public void detailInfo(View view) {
+		if (!isFromPersonalFavorite && !isFromPersonalPublished) {
+			utilSrvc.gotoDetailInfoPage(this, searchResualt);
+		} else {
+			utilSrvc.gotoLoggedInFromUser(this);
+		}
+		return;
+	}
+
+	public void ShareJob(View view) {
+		configSso();
+	}
+	
+	   private void configSso() {
+
+	        // 配置SSO
+	        mController.getConfig().setSsoHandler(new SinaSsoHandler());
+	        mController.getConfig().setSsoHandler(new TencentWBSsoHandler());
+
+	        QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler(getActivity(),
+	                "100424468", "c7394704798a158208a74ab60104f0ba");
+	        qZoneSsoHandler.addToSocialSDK();
+	        mController.setShareContent("友盟社会化组件（SDK）让移动应用快速整合社交分享功能");
+
+	        // APP ID：201874, API
+	        // * KEY：28401c0964f04a72a14c812d6132fcef, Secret
+	        // * Key：3bf66e42db1e4fa9829b955cc300b737.
+	        RenrenSsoHandler renrenSsoHandler = new RenrenSsoHandler(getActivity(),
+	                "201874", "28401c0964f04a72a14c812d6132fcef",
+	                "3bf66e42db1e4fa9829b955cc300b737");
+	        mController.getConfig().setSsoHandler(renrenSsoHandler);
+
+	        // 添加短信
+	        SmsHandler smsHandler = new SmsHandler();
+	        smsHandler.addToSocialSDK();
+
+	        // 添加email
+	        EmailHandler emailHandler = new EmailHandler();
+	        emailHandler.addToSocialSDK();
+
+	        // 设置微信分享内容
+	        // UMImage mUMImgBitmap = new UMImage(getActivity(),
+	        // "http://www.umeng.com/images/pic/banner_module_social.png");
+	        // UMImage mUMImgBitmap = new UMImage(getActivity(),
+	        // "/mnt/sdcard/test.jpg");
+
+	        // UMImage mUMImgBitmap = new UMImage(getActivity(),
+	        // R.drawable.bigimage);
+
+	        // UMImage mUMImgBitmap = new UMImage(getActivity(),
+	        // new File("/mnt/sdcard/testjpg.jpg"));
+
+	        UMImage localImage = new UMImage(getActivity(), R.drawable.device);
+	        UMImage urlImage = new UMImage(getActivity(),
+	                "http://www.umeng.com/images/pic/home/social/img-1.png");
+	        // UMImage resImage = new UMImage(getActivity(), R.drawable.icon);
+
+	        // 视频分享
+	        UMVideo video = new UMVideo(
+	                "http://v.youku.com/v_show/id_XNTc0ODM4OTM2.html");
+	        // vedio.setThumb("http://www.umeng.com/images/pic/banner_module_social.png");
+	        video.setTitle("友盟社会化组件视频");
+	        video.setThumb(urlImage);
+
+	        UMusic uMusic = new UMusic(
+	                "http://music.huoxing.com/upload/20130330/1364651263157_1085.mp3");
+	        uMusic.setAuthor("umeng");
+	        uMusic.setTitle("天籁之音");
+	        uMusic.setThumb(urlImage);
+	        // uMusic.setThumb("http://www.umeng.com/images/pic/social/chart_1.png");
+
+	        WeiXinShareContent weixinContent = new WeiXinShareContent();
+	        weixinContent.setShareContent("来自友盟社会化组件（SDK）让移动应用快速整合社交分享功能，微信");
+	        weixinContent.setTitle("友盟社会化分享组件-微信");
+	        weixinContent.setTargetUrl("http://www.umeng.com");
+	        weixinContent.setShareMedia(urlImage);
+	        mController.setShareMedia(weixinContent);
+
+	        // 设置朋友圈分享的内容
+	        CircleShareContent circleMedia = new CircleShareContent();
+	        circleMedia.setShareContent("来自友盟社会化组件（SDK）让移动应用快速整合社交分享功能，朋友圈");
+	        circleMedia.setTitle("友盟社会化分享组件-朋友圈");
+	        circleMedia.setShareImage(urlImage);
+//	         circleMedia.setShareMedia(uMusic);
+	        // circleMedia.setShareMedia(video);
+	        circleMedia.setTargetUrl("http://www.umeng.com");
+	        mController.setShareMedia(circleMedia);
+
+	        // 设置新浪分享内容
+	        // mController.setShareMedia(new SinaShareContent(new UMImage(
+	        // getActivity(),
+	        // "http://www.umeng.com/images/pic/social/integrated_3.png")));
+
+	        video.setThumb(new UMImage(getActivity(), BitmapFactory.decodeResource(
+	                getResources(), R.drawable.device)));
+
+
+	        // 视频分享
+	        UMVideo umVideo = new UMVideo(
+	                "http://v.youku.com/v_show/id_XNTc0ODM4OTM2.html");
+	        umVideo.setThumb("http://www.umeng.com/images/pic/banner_module_social.png");
+	        umVideo.setTitle("友盟社会化组件视频");
+
+	        TencentWbShareContent tencent = new TencentWbShareContent();
+	        tencent.setShareContent("来自友盟社会化组件（SDK）让移动应用快速整合社交分享功能，腾讯微博");
+	        // 设置tencent分享内容
+	        mController.setShareMedia(tencent);
+
+
+	        SinaShareContent sinaContent = new SinaShareContent(urlImage);
+	        sinaContent.setShareContent("来自友盟社会化组件（SDK）让移动应用快速整合社交分享功能，新浪微博");
+	        mController.setShareMedia(sinaContent);
+
+
+	    }
+}

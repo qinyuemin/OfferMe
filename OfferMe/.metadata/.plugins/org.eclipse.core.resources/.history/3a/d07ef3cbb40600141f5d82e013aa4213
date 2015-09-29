@@ -1,0 +1,18 @@
+package com.offerme.client.activity;
+
+import com.offerme.R;
+import com.offerme.client.service.UtilSrvc;
+
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+
+public class InscriptionDetailActivity extends ActionBarActivity {
+	private UtilSrvc utilSrvc = UtilSrvc.getInstance();
+	private EditText mail;
+	private EditText
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_inscription);
+	}
+}

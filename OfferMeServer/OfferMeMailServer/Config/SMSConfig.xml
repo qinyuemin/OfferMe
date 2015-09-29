@@ -1,0 +1,7 @@
+<SMSConfig>
+	<WebServiceAddress>http://192.168.2.201:8080/axis/SmgService2.jws?wsdl</WebServiceAddress>
+	<OperationName>sendMessage</OperationName>
+	<UserName></UserName>
+	<Password></Password>
+</SMSConfig>
+
